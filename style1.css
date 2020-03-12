@@ -351,15 +351,21 @@ ul ul a {
 {
     color:#E35723;
     font-family: Futura;
-    width:90%;
-    padding-left: 8%;
+    width:70%;
     padding-top: 3%;
+}
+
+#editEmployeeForm .row
+{
+    margin: 3vh auto;
+    width: 80%;
 }
 
 #editEmployeeForm label
 {
-    width: 12%;
+    width: 15%;
     font-weight: bold;
+    text-align: left;
 }
 
 #editEmployeeForm input[type="text"]
@@ -371,7 +377,12 @@ ul ul a {
     width: 200%;
 }
 
-#editEmployeeButton button
+#editEmployeeButton
+{
+    text-align: center;
+}
+
+#editEmployeeButton input[type="submit"]
 {
     color: white;
     background-color: #E35723;
@@ -379,8 +390,19 @@ ul ul a {
     border:none;
     border-radius: 10px;
     padding:1vh 3vw;
-    margin-left: 30%;
     margin-top: 3%;
+}
+
+#editSuccessMessage h5,h6
+{
+    color:green;
+    text-align: center;
+
+}
+
+#editSuccessMessage h5
+{
+    margin-top: 4%;
 }
 
 

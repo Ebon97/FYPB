@@ -77,40 +77,10 @@
                 </li>
             </ul>
 
-           <!--  <ul class="list-unstyled CTAs">
-                <li>
-                    <a href="https://bootstrapious.com/tutorial/files/sidebar.zip" class="download">Download source</a>
-                </li>
-                <li>
-                    <a href="https://bootstrapious.com/p/bootstrap-sidebar" class="article">Back to article</a>
-                </li>
-            </ul> -->
         </nav>
 
         <!-- Page Content Holder -->
         <div id="content">
-
-            <!-- <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                <div class="container-fluid">
-
-                    <button type="button" id="sidebarCollapse" class="navbar-btn">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                    </button>
-                    <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                        <i class="fas fa-align-justify"></i>
-                    </button>
-
-                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul class="nav navbar-nav ml-auto">
-                            <li class="nav-item active">
-                                <a class="nav-link" href="#">Hi, John Wick</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </nav> -->
 
             <div class="row title">
                 <div class="col-6 pageTitle">
@@ -120,7 +90,9 @@
 
         	<form id="editEmployeeForm" action="employeeEdit.php" method="POST">
         		<?php
-					$connect =  mysqli_connect("localhost", "root", "", "shellsbt") or die ("Failed"); 
+					$connect =  mysqli_connect("localhost", "root", "", "shellsbt") or die ("Failed");
+					$message = "";
+					$link = ""; 
 
 					if(isset($_GET['EnNo']))
 					{
@@ -183,28 +155,23 @@
 				?>
 					
 				<div id="editEmployeeButton">
-					<input type="submit" name="update" value="Update">
-					<?php 
-						include('employeeUpdate.php');
-					?>
+					<?php include('employeeUpdate.php')?>
+					<input type="submit" name="update" value="Update" id="updateButton>
+				</div>
+
+				<div id="editSuccessMessage">
+					<h5><?php echo $message; ?></h5>
 				</div>
         	</form>
 
        
 
-           <!--  <div id="myModal" class="modal">
-                <div class="modal-content">
-                    <span class="close" onclick="hideModal()">&times;</span>
-
-                    <form>
-                        <input value="" id="empNo">
-                        <?php 
-                            
-                        ?>
-
-                    </form>
-                </div>
-            </div> -->
+			<div id="myModal" class="modal">
+				<div class="modal-content">
+					<span class="close" onclick="hideModal()">&times;</span>
+					<span class="auth_title">Authentication</span>
+				</div>
+			</div>
 
         </div>
     </div>
@@ -249,23 +216,14 @@
             }
         }
 
-        // var modal = document.getElementById("myModal");
+       var modal = document.getElementById("myModal");
 
-        // function showModal(no)
-        // {
-        //     document.getElementById("empNo").value = no;
+		function showAlertMessage()
+		{
+			alert("HI");
+		}
 
-        //     modal.style.display = "block";
-        // }
-
-        // function hideModal()
-        // {
-        //     modal.style.display = "none";
-        // }
-
-
-
-        
+		
 
     </script>
 </body>

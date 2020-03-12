@@ -22,7 +22,7 @@
             <td>".$startDate."</td>
             <td>
                <a href='employeeEdit.php?EnNo=".$row['EnNo']."'><img src=image/edit_icon.png alt=Edit ></a>
-               <a href='#'><img src=image/delete_icon.png alt=Delete></a>
+               <a href='employeeDelete.php?EnNo=".$row['EnNo']."'><img src=image/delete_icon.png alt=Delete></a>
             </td>
          </tr>";
    }
