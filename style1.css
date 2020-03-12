@@ -246,14 +246,15 @@ ul ul a {
 
 .search
 {
-    text-align: center;
+    text-align: right;
     margin-bottom:3vh;
     margin-top:5vh;
+    margin-right: 5vw;
 }
 
 .search input
 {
-    width: 90%;
+    width: 60%;
     border-radius: 5px;
     font-size: 1.1em;
     font-family: Futura;
@@ -261,62 +262,129 @@ ul ul a {
     outline: none;
     color: #E35723;
     border:1px solid #E35723;
+
+
 }
 
 ::placeholder
 {
     font-family: Futura;
     color: #E35723;
+
 }
 
+.title
+{
+    margin-left: 5%;
+
+}
+
+.pageTitle h2
+{
+    color: #E35723;
+    width: 90%;
+    font-family: Futura;
+    font-weight: bold;
+    padding-top: 6%;
+}
 
 #employeeList
 {
     margin:0 auto;
-    width:90%;
+    width: 90%;
     text-align: center;
     font-family: Futura;
     color: #E35723;
-    font-size: 1.1em;
+    font-size: 1em;
 }
 
-#employeeList thead
-{
-    color:white;
-}
-
-#employeeList thead tr th
+#employeeList tr th
 {
     background-color: #E35723;
     padding:1vh 0;
+    color:white;
 }
 
-#employeeList thead tr th:first-child
+#employeeList tr th:first-child
 {
     border-top-left-radius: 10px;
 }
 
-#employeeList thead tr th:last-child
+#employeeList tr th:nth-last-child(2)
 {
     border-top-right-radius: 10px;
 }
 
-#employeeList tbody tr
+#employeeList tr th:last-child
+{
+    background-color: white;
+    border-bottom: 1px solid white;
+}
+
+#employeeList tr
 {
     border-bottom: 1px solid #E35723;
 }
 
-#employeeList tbody tr td
+#employeeList tr td
 {
     padding:1vh 0;
 }
 
-#employeeList tbody tr:hover
+#employeeList tr td:last-child
 {
-    background-color: #E8E7E7;
-    /*opacity:0.7;
-    color:white; */
+    border-bottom: 1px solid white;
 }
+
+#employeeList tr td img
+{
+    width: 27px;
+}
+
+#employeeList tr td img:hover
+{
+    opacity:0.5;
+    cursor:pointer;
+}
+
+#editEmployeeForm
+{
+    color:#E35723;
+    font-family: Futura;
+    width:90%;
+    padding-left: 8%;
+    padding-top: 3%;
+}
+
+#editEmployeeForm label
+{
+    width: 12%;
+    font-weight: bold;
+}
+
+#editEmployeeForm input[type="text"]
+{
+    outline:none;
+    border: 1px solid #E35723;
+    border-radius: 10px;
+    color: #E35723;
+    width: 200%;
+}
+
+#editEmployeeButton button
+{
+    color: white;
+    background-color: #E35723;
+    outline: none;
+    border:none;
+    border-radius: 10px;
+    padding:1vh 3vw;
+    margin-left: 30%;
+    margin-top: 3%;
+}
+
+
+
 #salaryForm
 {
     /*border:1px solid black;*/

@@ -116,26 +116,81 @@
                 <div class="col-6 pageTitle">
                     <h2>Employee List</h2>
                 </div>
-                <div class="col-4 search">
-                    <input type="text" id="searchInput" onkeyup="searchFunction()" placeholder="Search Names" title="Type in a name">
-                </div>
             </div>
 
-            <table id="employeeList">
-                <tr>
-                    <th>No.</th>
-                    <th>Employee Name</th>
-                    <th>Position</th>
-                    <th>Salary</th>
-                    <th>Joined Since</th>
-                    <th>Action</th>
-                </tr>
+        	<form id="editEmployeeForm" action="employeeEdit.php" method="POST">
+        		<?php
+					$connect =  mysqli_connect("localhost", "root", "", "shellsbt") or die ("Failed"); 
 
-                <?php 
-                    include('employeeList.php'); 
-                ?>
+					if(isset($_GET['EnNo']))
+					{
+						$no = $_GET['EnNo'];
 
-            </table>
+						$query = "SELECT * FROM `employee` WHERE EnNo = ".$no." group by EnNo";
+
+						$result = mysqli_query($connect, $query);
+						$row  = mysqli_num_rows($result);
+
+						 while($row = mysqli_fetch_assoc($result))
+						 {
+						 	$no = $row['EnNo'];
+					   		$emp_name = $row['Name'];
+					        $position = $row['position'];
+					        $salary = $row['salary'];
+					        $startDate = $row['startDate'];
+
+				?>
+						<input type="hidden" value="<?php echo $no; ?>" name="empNo">
+						<div class='form-group row'>
+							<label class="">Name</label>
+							<label>:</label>
+							<div>
+								<input type='text' class='form-control' value="<?php echo $emp_name; ?>" name="empName">
+							</div>
+						</div>
+						
+						<div class='form-group row'>
+							<label>Position</label>
+							<label>:</label>
+							<div>
+								<input type='text' class='form-control' value="<?php echo $position; ?>" name="empPosition">
+							</div>
+						</div>
+						
+						<div class='form-group row'>
+							<label>Salary</label>
+							<label>:</label>
+							<div>
+								<input type='text' class='form-control' value="<?php echo $salary; ?>" name="empSalary">
+							</div>
+						</div>
+						
+						<div class='form-group row'>
+							<label>Joined Since</label>
+							<label>:</label>
+							<div>
+								<input type='text' class='form-control' value="<?php echo $startDate; ?>" name="empSDate">
+							</div>
+						</div>
+
+				<?php
+						 }
+					}
+					else
+					{
+						// echo "FAILED";
+					}
+				?>
+					
+				<div id="editEmployeeButton">
+					<input type="submit" name="update" value="Update">
+					<?php 
+						include('employeeUpdate.php');
+					?>
+				</div>
+        	</form>
+
+       
 
            <!--  <div id="myModal" class="modal">
                 <div class="modal-content">
@@ -144,7 +199,7 @@
                     <form>
                         <input value="" id="empNo">
                         <?php 
-
+                            
                         ?>
 
                     </form>

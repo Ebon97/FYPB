@@ -9,7 +9,24 @@
    {
    		$no = $row['EnNo'];
    		$emp_name = $row['Name'];
-   		echo "<tr><td>".$no."</td><td>".$emp_name."</td></tr>";
+         $position = $row['position'];
+         $salary = $row['salary'];
+         $startDate = $row['startDate'];
+
+   		echo 
+         "<tr>
+            <td>".$no."</td>
+            <td>".$emp_name."</td>
+            <td>".$position."</td>
+            <td>RM ".$salary."</td>
+            <td>".$startDate."</td>
+            <td>
+               <a href='employeeEdit.php?EnNo=".$row['EnNo']."'><img src=image/edit_icon.png alt=Edit ></a>
+               <a href='#'><img src=image/delete_icon.png alt=Delete></a>
+            </td>
+         </tr>";
    }
+
+   // <a href='editEmployeeList.php?EnNo=".$row['EnNo']."'><img src=image/edit_icon.png alt=Edit onclick='showModal()'></a>
 
 ?>
