@@ -1,3 +1,4 @@
+<?php session_start()?>
 <!DOCTYPE html>
 <html>
 
@@ -6,13 +7,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Salary</title>
+    <title>Employee List</title>
 
     <!-- Bootstrap CSS CDN -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+
+
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+
     <!-- Our Custom CSS -->
     <link rel="stylesheet" href="style1.css">
+
 
 </head>
 
@@ -65,7 +71,7 @@
                     <a href="#">Performance</a>
                 </li>
                 <li>
-                    <a href="salary.php">Salary</a>
+                    <a href="#">Salary</a>
                 </li>
                 <li>
                     <a href="#">Others</a>
@@ -85,7 +91,7 @@
         <!-- Page Content Holder -->
         <div id="content">
 
-            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <!-- <nav class="navbar navbar-expand-lg navbar-light bg-light">
                 <div class="container-fluid">
 
                     <button type="button" id="sidebarCollapse" class="navbar-btn">
@@ -105,37 +111,59 @@
                         </ul>
                     </div>
                 </div>
-            </nav>
+            </nav> -->
 
-            <form id="salaryForm" action="salaryGenerate.php" method="post">
-                <div>
-                    <p>Name
-                        <input class="form-control" type="text" name="employee_name">
-                    </p>
+            <div class="row title">
+                <div class="col-6 pageTitle">
+                    <h2>Salary Generator</h2>
                 </div>
-                <div>
-                    <p>Month
-                        <select class="form-control" name="month">
-                            <option value="9">September</option>
-                            <option value="10">October</option>
-                            <option value="11">November</option>
-                            <option value="12">December</option> 
+            </div>
+
+            <div id="salary_generator_content">
+                <div class="form-group" id="select_category">
+                    <select class="form-control"  name="category" onchange="checkCategory(this.value)">
+                        <option value="monthly">Monthly</option>
+                        <option value="individual">Individual</option>
+                    </select>
+                </div>
+
+                 <div id="month_form1" style="display:block">
+                    <form id="monthly_form">
+                        <select class="form-control" name="category">
+                            <option value="jan">January</option>
+                            <option value="feb">February</option>
+                            <option value="mar">March</option>
                         </select>
-                    </p>
+
+                        <button type="submit" value="monthly_generator">GENERATE</button>
+                    </form>
                 </div>
 
-                <input type="submit" name="submit_employee" value="Generate">
-                <a href="showAll.php">Show All</a>
-            </form>
+                <div id="indi_form2" style="display:none">
+                    <form id="individual_form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Name">
+                        </div>
 
+                        <select class="form-control"  name="category">
+                            <option value="all">All</option>
+                            <option value="jan">January</option>
+                            <option value="feb">February</option>
+                            <option value="mar">March</option>
+                        </select>
+
+                        <button type="submit" value="individual_generator">GENERATE</button>
+                    </form>
+                </div>
+            </div>
+
+          
+        </div>
     </div>
 
-    <!-- jQuery CDN - Slim version (=without AJAX) -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <!-- Popper.JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
-    <!-- Bootstrap JS -->
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 
     <script type="text/javascript">
         $(document).ready(function () {
@@ -144,6 +172,67 @@
                 $(this).toggleClass('active');
             });
         });
+
+        function checkCategory(cat)
+        {
+            if(cat == "monthly")
+            {
+                document.getElementById("month_form1").style.display = "block";
+                document.getElementById("indi_form2").style.display = "none";  
+            }
+            else if (cat == "individual")
+            {
+            
+                document.getElementById("month_form1").style.display = "none";
+                document.getElementById("indi_form2").style.display = "block";  
+            }
+        }
+
+        // function searchFunction() 
+        // {
+        //     var input, filter, table, tr, td, i, txtValue;
+
+        //     input = document.getElementById("searchInput");
+        //     filter = input.value.toUpperCase();
+        //     table = document.getElementById("employeeList");
+        //     tr = table.getElementsByTagName("tr");
+
+        //     for (i = 0; i < tr.length; i++) 
+        //     {
+        //         td = tr[i].getElementsByTagName("td")[1];
+
+        //         if (td) 
+        //         {
+        //             txtValue = td.textContent || td.innerText;
+        //             if (txtValue.toUpperCase().indexOf(filter) > -1) 
+        //             {
+        //                 tr[i].style.display = "";
+        //             } 
+        //             else 
+        //             {
+        //                 tr[i].style.display = "none";
+        //             }
+        //         }       
+        //     }
+        // }
+
+        // var modal = document.getElementById("myModal");
+
+        // function showModal(no)
+        // {
+        //     document.getElementById("empNo").value = no;
+
+        //     modal.style.display = "block";
+        // }
+
+        // function hideModal()
+        // {
+        //     modal.style.display = "none";
+        // }
+
+
+
+        
 
     </script>
 </body>
