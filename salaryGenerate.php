@@ -1,193 +1,6 @@
 <?php
-	session_start();
-	$connect =  mysqli_connect("localhost", "root", "", "shellsbt"); 
-	
-	$initial_salary = 1200;
-
-	$total_bonus = 0;
-	$total_late_pen = 0;
-	$total_shift_pen = 0;
-	$total_working_minutes = 0;
-
-	$penalties_per_minutes = 4.86 / 60;
-    $per_shift_minutes = 480;
-
-    $punctual_count = 0;
-    $not_punctual_count = 0;
-
-    $display_bonus = "";
-    $display_late_pen = "";
-    $display_pen_shift = "";
-    $display_total_bonus = "";
-
-    $total_final_penalties = 0;
-    $display_final_penalties="";
-
-    $morning_shift_late = strtotime('6:40:00');
-    $afternoon_shift_late = strtotime('13:40:00');
-    $night_shift_late = strtotime('21:40:00');
-
-    if(isset($_POST['submit_employee']))
-    {
-        $name = $_POST['employee_name'];
-        $month = $_POST['month'];
-        $next_month = $month + 1;
-
-        // echo $name." ".$month;
-    }
-
-    $query = "Select clock_in.No, clock_in.EnNo as 'ID', clock_in.Name, date(clock_in.DateTime), time(clock_in.DateTime),time(clock_out.DateTime) 
-                    From clock_in Inner Join clock_out On clock_in.No = clock_out.No
-                    where clock_in.Name='$name'and month(clock_in.DateTime) = '$month'";
-
-    $result_name_in = mysqli_query($connect, $query);
-
-    $row_result = mysqli_num_rows($result_name_in);
-
-    //echo $row_result;
-
-    while($row = mysqli_fetch_assoc($result_name_in))
-    {
-        $name = $row['Name'];
-        $date = $row['date(clock_in.DateTime)'];
-        $in = $row['time(clock_in.DateTime)'];
-        $out = $row['time(clock_out.DateTime)'];
-
-        $time_in = strtotime($in);
-        $time_out = strtotime($out);
-
-        if($time_out > $time_in)
-        {
-            $interval = $time_out - $time_in;
-        }
-        else
-        {
-            $interval = $time_in - $time_out;
-        }
-
-        $minutes = floor($interval/60);
-        $total_working_minutes = $total_working_minutes + $minutes;
-
-        $hours = floor($interval/3600);
-        $_remainder = $minutes % 60;
-
-        //STATUS
-        if($hours >= 8 && $hours < 12)
-        {
-            $onshift_status = "<strong style='color:green'>O</strong>";
-        }
-        else if ($hours >= 12)
-        {
-            $onshift_status = "<strong style='color:orange'>O</strong>";
-        }
-        else
-        {
-            $onshift_status = "<strong style='color:red'>X</strong>";
-        }
-
-        //BONUS
-        if($hours > 8)
-        {
-            if($hours >= 12)
-            {
-                $bonus = 4 * 4.86;
-                $display_bonus = "<strong style='color:orange'>".$bonus."</strong>";
-            }
-            else
-            {
-                $overtime_hours = $hours - 8;
-                $bonus = $overtime_hours * 4.86;
-                $display_bonus = "<strong style='color:green'>".$bonus."</strong>";
-            }
-
-            $total_bonus = $total_bonus + $bonus;
-            $display_total_bonus = "<span style='color:green'>".$total_bonus."</span>";
-
-        }
-        else
-        {
-            $display_bonus =" ";
-        }
-
-         //SHIFT PENALTIES
-        if($minutes < 480)
-        {
-            //$notonshift = "X";
-            $shift_min = 480 - $minutes;
-
-            $pen_shift = round($shift_min * $penalties_per_minutes,2);
-            $total_shift_pen = $total_shift_pen + $pen_shift;
-
-            $display_pen_shift = "<strong style='color:red'>".$pen_shift."</strong>";
-        }
-        else
-        {
-            //$notonshift = "";
-            $display_pen_shift=" ";
-        }
-        
-
-        if($time_in > $morning_shift_late || $time_in > $afternoon_shift_late || $time_in > $night_shift_late)
-        {
-            if($time_in < strtotime('09:30:00'))
-            {
-                $pen_sec = $time_in - $morning_shift_late;
-                $punctual_count ++;
-                $num = 1;
-
-            }
-            else if ($time_in < strtotime('15:30:00'))
-            {
-                $pen_sec = $time_in - $afternoon_shift_late;
-                $punctual_count ++;
-            }
-            else if ($time_in < strtotime('23:30:00'))
-            {
-                $pen_sec = $time_in - $night_shift_late;
-                $punctual_count ++;
-            }
-
-            $pen_min = round($pen_sec / 60,2);
-
-            if($pen_min < 1)
-            {
-                $late_pen = " ";
-                $display_late_pen = " ";
-            }
-            else
-            {
-                $late_pen = round($pen_min * $penalties_per_minutes,2);
-                $total_late_pen = $total_late_pen + $late_pen;
-                $display_late_pen = "<strong style='color:red'>".$late_pen."</strong>";
-            }
-        }
-        else
-        {
-            $not_punctual_count ++;
-            $display_late_pen="";
-        }
-
-             // echo "<tr>
-             //         <td>".$name."</td>
-             //         <td>".$date."</td>
-             //         <td>".$in."</td>
-             //         <td>".$out."</td>
-             //         <td>".$hours." H ".$_remainder." M</td>
-             //         <td>".$display_bonus."</td>
-             //         <td>".$display_late_pen."</td>
-             //         <td>".$display_pen_shift."</td>
-            //  </tr>";
-
-        $total_final_penalties = $total_shift_pen + $total_late_pen;
-        $display_final_penalties = "<span style='color:red'>".$total_final_penalties."</span>";
-
-        $final_salary = $initial_salary - $total_final_penalties + $total_bonus;
-        $display_final_salary = "<span style='color:blue'>".$final_salary."</span>";
-
-    }
-
+    $connect =  mysqli_connect("localhost", "root", "", "shellsbt") or die ("Connection Failed: ". mysqli_connect_error()); 
 ?>
-
 <!DOCTYPE html>
 <html>
 
@@ -203,6 +16,20 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
     <!-- Our Custom CSS -->
     <link rel="stylesheet" href="style1.css">
+
+    <style>
+        table,td,th,td
+        {
+            border:1px solid black;
+            padding:0.2vh 2vw;
+        }
+
+        table
+        {
+            border-collapse: collapse;
+        }
+
+    </style>
 
 </head>
 
@@ -274,61 +101,98 @@
 
         <!-- Page Content Holder -->
         <div id="content">
+            <?php
 
-            <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                <div class="container-fluid">
 
-                    <button type="button" id="sidebarCollapse" class="navbar-btn">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                    </button>
-                    <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                        <i class="fas fa-align-justify"></i>
-                    </button>
-
-                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul class="nav navbar-nav ml-auto">
-                            <li class="nav-item active">
-                                <a class="nav-link" href="#">Hi, John Wick</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </nav>
-
-            <table id="salaryDisplayTable">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Month</th>
-                        <th>Total Late Penalties</th>
-                        <th>Total Shift Penalties</th>
-                        <th>Total Bonus</th>
-                        <th>Salary</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    <!-- <tr>
-                        <td>A</td>
-                        <td>A</td>
-                        <td>A</td>
-                        <td>A</td>
-                        <td>A</td>
-                        <td>A</td>
-                    </tr> -->
+            ?>
+            <div class="row title">
+                <div class="col-6 pageTitle">
                     <?php
-                        echo "<tr>
-                                <td>".$name."</td>
-                                <td>".$month."</td>
-                                <td style='color:red'>".$total_late_pen."</td>
-                                <td style='color:red'>".$total_shift_pen."</td>
-                                <td style='color:green'>".$total_bonus."</td>
-                                <td>".$display_final_salary."</td>
-                            </tr>";
+                    $monthy_array = array("NULL","January","February","March","April","May","June","July","August","September","October","November","December");
+
+                        if(isset($_GET['monthly_generator']))
+                        {
+                            $month = $_GET['month'];
+
+
+                            if($month == "all")
+                            {
+                                
+                            }
+                            else 
+                            {
+                                echo "<h2>".$monthy_array[$month]." Salary Payroll</h2>";
                     ?>
-                </tbody>
+                </div>
+            </div>
+                <table>
+                    <?php
+                            
+
+                            $query_in = "SELECT employee.No, clock_in.Name, employee.shift, date(clock_in.DateTime), time(clock_in.DateTime)
+                                        from clock_in join employee on employee.Name = clock_in.Name
+                                        where date(clock_in.DateTime) between '2019-10-01' and '2019-10-31'
+                                        ORDER BY employee.No,date(clock_in.DateTime)";
+
+                            $query_out = "SELECT employee.No, clock_out.Name, employee.shift, date(clock_out.DateTime), time(clock_out.DateTime)
+                                            from clock_out join employee on employee.Name = clock_out.Name
+                                            where date(clock_out.DateTime) between '2019-10-01' and '2019-11-01'
+                                            ORDER BY employee.No,date(clock_out.DateTime)";
+
+                            
+                            
+                            $result_in = mysqli_query($connect, $query_in);
+                            $result_out = mysqli_query($connect, $query_out);
+
+                            $row_in = mysqli_num_rows($result_in);
+                            $row_out = mysqli_num_rows($result_out);
+
+                            //mysqli_fetch_assoc($result)
+                            //while(($row = $result->fetch_assoc()) && ($row2 = $result2->fetch_assoc()))
+
+                            while(($row_in = mysqli_fetch_assoc($result_in)) && ($row_out = mysqli_fetch_assoc($result_out)))
+                            {
+                                $name_in = $row_in['Name'];
+                                $shift_in = $row_in['shift'];
+                                $date_in = $row_in['date(clock_in.DateTime)'];
+                                $time_in = $row_in['time(clock_in.DateTime)'];
+
+                                $name_out = $row_out['Name'];
+                                $shift_out = $row_out['shift'];
+                                $date_out = $row_out['date(clock_out.DateTime)'];
+                                $time_out = $row_out['time(clock_out.DateTime)'];
+
+                                echo "<tr>
+                                    <td>".$name_in."</td>
+                                    <td>".$shift_in."</td>
+                                    <th>".$date_in."</th>
+                                    <td>".$time_in."</td>
+                                    <td>".$shift_out."</td>
+                                    <th>".$date_out."</th>
+                                    <td>".$time_out."</td>
+                                </tr>";
+                            }
+
+                        }
+                        
+
+                        
+                    }
+                    else if (isset($_GET['individual_generator']))
+                    {
+                        echo "individual<br>";
+                        $name = $_GET['name'];
+                        $month = $_GET['indi_month'];
+
+                        echo $name." ".$month."<br>";
+
+
+                    }
+                    else
+                    {
+                        echo "nothing";
+                    }
+               ?>
             </table>
 
     </div>

@@ -128,31 +128,35 @@
                 </div>
 
                  <div id="month_form1" style="display:block">
-                    <form id="monthly_form">
-                        <select class="form-control" name="category">
-                            <option value="jan">January</option>
-                            <option value="feb">February</option>
-                            <option value="mar">March</option>
+                    <form id="monthly_form" action="salaryGenerate.php" method="GET">
+
+                        <input type="number" class="form-control" name="year" value="2019">
+
+                        <select class="form-control" name="month">
+                            <option value="10">October</option>
+                            <option value="11">November</option>
+                            <option value="12">December</option>
                         </select>
 
-                        <button type="submit" value="monthly_generator">GENERATE</button>
+                        <button type="submit" name="monthly_generator">GENERATE</button>
+        
                     </form>
                 </div>
 
                 <div id="indi_form2" style="display:none">
-                    <form id="individual_form">
+                    <form id="individual_form" action="salaryGenerate.php" method="GET">
                         <div class="form-group">
-                            <input type="text" class="form-control" placeholder="Name">
+                            <input type="text" class="form-control" placeholder="Name" name="name">
                         </div>
 
-                        <select class="form-control"  name="category">
+                        <select class="form-control"  name="indi_month">
                             <option value="all">All</option>
-                            <option value="jan">January</option>
-                            <option value="feb">February</option>
-                            <option value="mar">March</option>
+                            <option value="10">October</option>
+                            <option value="11">November</option>
+                            <option value="12">December</option>
                         </select>
 
-                        <button type="submit" value="individual_generator">GENERATE</button>
+                        <button type="submit" name="individual_generator">GENERATE</button>
                     </form>
                 </div>
             </div>

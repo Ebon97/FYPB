@@ -642,7 +642,6 @@ ul ul a {
     color: #E35723;
     border: 1px solid #E35723;
     border-radius: 10px;
-    font-weight: bold;
 }
 
 #monthly_form button, #individual_form button
@@ -663,7 +662,7 @@ ul ul a {
     cursor: pointer;
 }
 
-#individual_form input
+#monthly_form input[type=number], #individual_form input
 {
     color: #E35723;
     border: 1px solid #E35723;
