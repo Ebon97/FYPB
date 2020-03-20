@@ -128,7 +128,7 @@
                 </div>
 
                  <div id="month_form1" style="display:block">
-                    <form id="monthly_form" action="salaryGenerate.php" method="GET">
+                    <form id="monthly_form" action="salaryMonthlyGenerator.php" method="GET">
 
                         <input type="number" class="form-control" name="year" value="2019">
 
@@ -144,7 +144,7 @@
                 </div>
 
                 <div id="indi_form2" style="display:none">
-                    <form id="individual_form" action="salaryGenerate.php" method="GET">
+                    <form id="individual_form" action="salaryMonthlyGenerator.php" method="GET">
                         <div class="form-group">
                             <input type="text" class="form-control" placeholder="Name" name="name">
                         </div>
