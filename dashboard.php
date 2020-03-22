@@ -13,6 +13,25 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
     <!-- Our Custom CSS -->
     <link rel="stylesheet" href="style1.css">
+    <style>
+        .graph
+        {
+          width:90%;
+          display:block;
+          overflow:hidden;
+          margin:0 auto;
+          background:#fff;
+          border-radius:4px;
+          margin-top: 3%;
+        }
+
+        canvas
+        {
+          background:#fff;
+          height:250px;
+        }
+
+    </style>
 
 </head>
 
@@ -106,44 +125,99 @@
                 </div>
             </nav> -->
 
-           <!--  <div id="chart">
-                <div class="row">
-                    <div class="col-3" id="col_1">
-                        <span>Late</span>
-                        <div class="statistic">50%
-                            <img src="image/red_chart.png">
-                        </div>
-                        
-                    </div>
-
-                    <div class="col-3" id="col_2">
-                        <span>On Time</span>
-                        <div class="statistic">50%
-                            <img src="image/yellow_chart.png">
-                        </div>
-                    </div>
-
-                    <div class="col-3" id="col_3">
-                        <span>OverTime</span>
-                        <div class="statistic">50%
-                            <img src="image/blue_chart.png">
-                        </div>
-                    </div>
+             <div class="row title">
+                <div class="col-6 pageTitle">
+                    <h2>Dashboard</h2>
                 </div>
 
-                
+            </div>
 
-                <div class="row">
-                    <div class="col-7" id="second_1">
-                         <span>Analysis</span>
-                        <!-- <canvas id="myChart"></canvas> -->
-                    </div>
+            <div class="graph">
+                <canvas id="myChart4"></canvas>
+            </div>
 
-                    <div class="col-3" id="second_2">
-                         <span>Record</span>
-                    </div>
+            <div class="row title">
+                <div class="col-9 pageTitle">
+                    <h5>Attendance Sheet</h5>
                 </div>
-            </div> -->
+
+                 <div class="col-3 upload">
+                    <button>UPLOAD FILE</button>
+                </div>
+            </div>
+
+            <div id="attendance_sheet">
+                <table id="attendance">
+                    <tr>
+                        <th>No</th>
+                        <th>Name</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Punctuality</th>
+                    </tr>
+                    <?php
+                        $connect =  mysqli_connect("localhost", "root", "", "shellsbt") or die ("Connection Failed: ". mysqli_connect_error()); 
+                        $i = 0;
+
+                        $query = "SELECT Name, date(DateTime), time(DateTime) from clock_in order by date(DateTime) DESC LIMIT 0,6";
+                        $result = mysqli_query($connect, $query);
+                        $row = mysqli_num_rows($result);
+
+                        while($row = mysqli_fetch_assoc($result))
+                        {
+                            $name = $row['Name'];
+                            $date = $row['date(DateTime)'];
+                            $time = $row['time(DateTime)'];
+                            $i++;
+
+                            $morning_shift_late = strtotime('6:40:00');
+                            $afternoon_shift_late = strtotime('14:40:00');
+                            $night_shift_late = strtotime('21:40:00');
+
+
+                            if(strtotime($time) > $morning_shift_late && strtotime($time) < strtotime('10:30:00'))
+                            {
+                                $late = "<span style='color:red'>LATE</span>";
+                            }
+                            else
+                            {
+                                $late = "<span style='color:green'>PUNCTUAL</span>";
+                            }
+
+                            if(strtotime($time) > $afternoon_shift_late && strtotime($time) > strtotime('10:30:00'))
+                            {
+                                $late = "<span style='color:red'>LATE</span>";
+                            }
+                            else
+                            {
+                                $late = "<span style='color:green'>PUNCTUAL</span>";
+                            }
+
+                            if(strtotime($time) > $night_shift_late && strtotime($time) < strtotime('23:30:00'))
+                            {
+                                $late = "<span style='color:red'>LATE</span>";
+                            }
+                            else
+                            {
+                                $late = "<span style='color:green'>PUNCTUAL</span>";
+                            }
+
+                             
+                            ?>
+                                <tr>
+                                    <td><?php echo $i; ?></td>
+                                    <td><?php echo $name; ?></td>
+                                    <td><?php echo $date; ?></td>
+                                    <td><?php echo $time; ?></td>
+                                    <td><?php echo $late;?></td>
+                                </tr>
+                            <?php
+                        }
+
+                    ?>
+                </table>
+            </div>
+
             
         </div>
     </div>
@@ -163,30 +237,93 @@
             });
         });
 
-        // var ctx = document.getElementById('myChart').getContext('2d');
+        var ctx = document.getElementById("myChart4").getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
+                datasets: [{
+                    label: 'OnTime',
+                    backgroundColor: "#066C81",
+                    data: [5, 10, 5],
+                }, {
+                    label: 'OverTime',
+                    backgroundColor: "#FAB418",
+                    data: [5, 10, 5,],
+                }, {
+                    label: 'Late',
+                    backgroundColor: "#DA3530",
+                    data: [5, 10, 5],
+                }],
+            },
+        options: {
+             title: {
+                display: true,
+                fontFamily: 'Futura',
+                fontColor:'#E35723',
+                fontSize: '16',
+                padding: -10,
+                text: 'Weekly Overall Status Performance'
+            },
+            tooltips: {
+              displayColors: true,
+              callbacks:{
+                mode: 'x',
+              },
+            },
 
-        // var chart = new Chart(ctx, {
-        // // The type of chart we want to create
-        // type: 'doughnut',
+            scales: {
+              xAxes: [{
+                stacked: true,
+                barPercentage: 0.5,
+                // scaleLabel: {
+                //     display: true,
+                //     labelString: 'Days',
+                //     fontSize: '15',
+                //   },
+                ticks: {
+                    fontColor: "#E35723",
+                    fontFamily: "Futura",
+                    fontStyle: 'bold',
+                    fontSize: '16',
+                },
+                gridLines: {
+                  display: false,
+                  color: '#DA3530',
+                }
+              }],
 
-        // // The data for our dataset
-        // data: {
-        //     labels: ['Late', 'OnTime', 'OverTime'],
-        //     datasets: [{
-        //         // label: 'My First dataset',
-        //         backgroundColor: ['#da3230','#fab41f','#096d82'],
-        //         borderColor: ['#da3230','#fab41f','#096d82'],
-        //         data: [10, 60, 5]
-        //     }]
-        // },
+              yAxes: [{
+                stacked: true,
+                barPercentage: 0.5,
+                // scaleLabel: {
+                //     display: true,
+                //     labelString: 'Number',
+                //     padding: 20,
+                //     fontSize: '15',
+                //   },
+                ticks: {
+                  beginAtZero: true,
+                    fontColor: "#E35723",
+                    fontFamily: "Futura",
+                    fontStyle: 'bold',
+                    fontSize: '16',
+                },
+                gridLines: {
+                  display: false,
+                  color: '#E35723',
+                },
+                type: 'linear',
+              }]
+            },
+                responsive: true,
+                maintainAspectRatio: false,
+                legend: { 
+                    position: 'right',
+                },
+            }
+        });
 
-        // options: {
-        //         legend:
-        //         {
-        //             position:'right',
-        //         }
-        //     }
-        // });
     </script>
 </body>
 

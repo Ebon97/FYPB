@@ -377,7 +377,7 @@ ul ul a {
 .title
 {
     margin-left: 5%;
-
+    padding:0;
 }
 
 .pageTitle h2
@@ -387,7 +387,84 @@ ul ul a {
     font-family: Futura;
     font-weight: bold;
     padding-top: 6%;
+
 }
+
+.pageTitle h5
+{
+    color: #E35723;
+    width: 90%;
+    font-family: Futura;
+    font-weight: bold;
+    margin-top: 5%;
+    margin-left: 4%;
+    margin-bottom: 1.5%;
+}
+
+.upload button
+{
+    color: white;
+    background-color: #E35723;
+    font-family: Futura;
+    font-weight: bold;
+    outline: none;
+    border:none;
+    border-radius: 10px;
+    padding:0.5vh 1vw;
+    margin-top: 14%;
+}
+
+.upload button:hover
+{
+    cursor: pointer;
+    background-color: white;
+    border: 1px solid #E35723;
+    color: #E35723;
+}
+
+
+#attendance_sheet table
+{
+    margin-left: 7%;
+    font-family: Futura;
+}
+
+#attendance_sheet table 
+{
+    width:85%;
+}
+
+#attendance_sheet table tr th
+{
+    background-color: #E35723;
+    color:white;
+}
+
+#attendance_sheet table tr th
+{
+    padding: 0.5vh 1vw;
+}
+
+#attendance_sheet table tr th:first-child
+{
+    border-top-left-radius: 10px;
+}
+
+#attendance_sheet table tr th:last-child
+{
+    border-top-right-radius: 10px;
+}
+
+#attendance_sheet table tr td
+{
+    border-bottom: 1px solid #E35723;
+}
+
+#attendance_sheet table tr td:last-child
+{
+    font-weight: bold;
+}
+
 
 #employeeList
 {
