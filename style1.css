@@ -578,39 +578,6 @@ ul ul a {
     font-weight: bold;
 }
 
-#showAllTable
-{
-    width: 90%;
-    text-align: center;
-    margin: 2vh auto;
-    font-family: Futura;
-}
-
-#showAllTable thead tr th
-{
-    background-color: #E35723;
-    color:white;
-    padding:1vh 0;
-}
-
-#showAllTable thead tr th:first-child
-{
-    border-top-left-radius: 10px;
-}
-
-#showAllTable thead tr th:last-child
-{
-    border-top-right-radius: 10px;
-}
-
-#showAllTable tbody tr td
-{
-    border-bottom: 1px solid #E35723;
-    padding: 1vh 0;
-    color: #E35723;
-    font-weight: bold;
-}
-
 #salary_generator_content
 {
     width: 40%;
@@ -667,6 +634,13 @@ ul ul a {
     border-radius: 10px;
 }
 
+
+.alert_icon
+{
+    width:30px;
+    display: block;
+}
+
 #individual_form ::placeholder
 {
     color: #E35723;
@@ -679,7 +653,7 @@ ul ul a {
     margin: 0 5%;
     font-family: Futura;
     font-weight: bold;
-    width: 90%;
+    width: 93%;
 }
 
 #salary_sheet table,td,th,td
@@ -720,12 +694,12 @@ ul ul a {
     border-top-right-radius: 10px;
 }
 
-#salary_sheet table tr th:last-child, td:last-child
+
+#salary_sheet table tr th:last-child, td:last-child, td:nth-last-child(2)
 {
     background-color: white;
     border-bottom: 1px solid white;
 }
-
 
 #salary_sheet table tr
 {

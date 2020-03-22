@@ -96,49 +96,64 @@
                 </div>
             </div>
 
-            <div id="salary_generator_content">
-                <div class="form-group" id="select_category">
-                    <select class="form-control"  name="category" onchange="checkCategory(this.value)">
-                        <option value="monthly">Monthly</option>
-                        <option value="individual">Individual</option>
-                    </select>
-                </div>
+            <?php
+                $connect =  mysqli_connect("localhost", "root", "", "shellsbt") or die ("Connection Failed: ". mysqli_connect_error());
 
-                 <div id="month_form1" style="display:block">
-                    <form id="monthly_form" action="salaryMonthlyGenerator.php" method="GET">
+                if(isset($_GET['individual_generator']))
+                {
+                    $_name = $_GET['name'];
+                    $month = $_GET['indi_month'];
 
-                        <input type="number" class="form-control" name="year" value="2019">
+                    //Check name in database
+                    if(empty($name))
+                    {
+                        $warning = "Missing 'Name' Input";
+                    }
 
-                        <select class="form-control" name="month">
-                            <option value="10">October</option>
-                            <option value="11">November</option>
-                            <option value="12">December</option>
-                        </select>
+                    $query = "SELECT * from employee where Name = '".$_name."'";
+                    $result = mysqli_query($connect, $query);
+                    $row = mysqli_num_rows($result);
 
-                        <button type="submit" name="monthly_generator">GENERATE</button>
-        
-                    </form>
-                </div>
+                    if($row == 0)
+                    {
+                        echo "No such name. Please try again";
+                    }
+                    else
+                    {
 
-                <div id="indi_form2" style="display:none">
-                    <form id="individual_form" action="salaryIndividualGenerator.php" method="GET">
-                        <div class="form-group">
-                            <input type="text" class="form-control" placeholder="Name" name="name">
-                        </div>
+                        // if($month == "all")
+                        // {
 
-                        <div class="form-group">
-                            <select class="form-control"  name="indi_month">
-                                <option value="all">All</option>
-                                <option value="10">October</option>
-                                <option value="11">November</option>
-                                <option value="12">December</option>
-                            </select>
-                        </div>
+                        // }
+                        // else
+                        // {
+                            
+                        // }
 
-                        <button type="submit" name="individual_generator">GENERATE</button>
-                    </form>
-                </div>
-            </div>
+                        
+
+                        // $query_out = "SELECT Name, date(DateTime),time(DateTime) 
+                        //              FROM clock_out WHERE Name='".$name."' 
+                        //              AND date(DateTime) BETWEEN '".$year."-".$month."-01' and '".$year."-".$month."-31'
+                        //              ORDER BY date(dateTime)";
+
+                        // while($row = mysqli_fetch_assoc($result))
+                        // {
+                        //     $name = $row['Name'];
+                        //     $shift = $row['shift'];
+                        //     $salary = $row['salary'];
+
+                        //     echo $name." ". $shift." ".$salary;
+                        // }
+                    }
+
+                   
+
+                    
+                    
+
+                }
+            ?>
 
           
         </div>
@@ -169,53 +184,7 @@
                 document.getElementById("month_form1").style.display = "none";
                 document.getElementById("indi_form2").style.display = "block";  
             }
-        }
-
-        // function searchFunction() 
-        // {
-        //     var input, filter, table, tr, td, i, txtValue;
-
-        //     input = document.getElementById("searchInput");
-        //     filter = input.value.toUpperCase();
-        //     table = document.getElementById("employeeList");
-        //     tr = table.getElementsByTagName("tr");
-
-        //     for (i = 0; i < tr.length; i++) 
-        //     {
-        //         td = tr[i].getElementsByTagName("td")[1];
-
-        //         if (td) 
-        //         {
-        //             txtValue = td.textContent || td.innerText;
-        //             if (txtValue.toUpperCase().indexOf(filter) > -1) 
-        //             {
-        //                 tr[i].style.display = "";
-        //             } 
-        //             else 
-        //             {
-        //                 tr[i].style.display = "none";
-        //             }
-        //         }       
-        //     }
-        // }
-
-        // var modal = document.getElementById("myModal");
-
-        // function showModal(no)
-        // {
-        //     document.getElementById("empNo").value = no;
-
-        //     modal.style.display = "block";
-        // }
-
-        // function hideModal()
-        // {
-        //     modal.style.display = "none";
-        // }
-
-
-
-        
+        }        
 
     </script>
 </body>

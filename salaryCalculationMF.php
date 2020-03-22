@@ -10,6 +10,9 @@
     $afternoon_shift_late = strtotime('14:40:00');
     $night_shift_late = strtotime('21:40:00');
 
+    $row_count = 0;
+    $final_row_count = 0;
+
 
 
 
@@ -160,6 +163,7 @@
 
 			}
 
+			
 		}
 
 		// echo 
@@ -177,9 +181,38 @@
 		// 	<td>".$bonus."</td>
 		// 	<td>".$i."</td>
 		// </tr>";
+		$row_count ++;
+		
+
+		
 	}
+			$final_row_count = $final_row_count + $row_count;
 
 			$final_salary = round($salary + $total_bonus - $total_shift_penalties - $total_late_penalties,2);
+
+			// Check rows of table if match days of month
+			if($month == 1 || $month == 3 ||$month == 5 || $month == 7 || $month == 8 || $month == 10 || $month == 12)
+			{
+				if($final_row_count != 31)
+				{
+					$alert = "<img src='image/alert_icon.png' class='alert_icon' alt='Missing Data'>";
+				}
+				else
+				{
+					$alert = "";
+				}
+			}
+			else
+			{
+				if($final_row_count != 30)
+				{
+					$alert = "<img src='image/alert_icon.png' class='alert_icon' alt='Missing Data'> ";
+				}
+				else
+				{
+					$alert = "";
+				}
+			}
 	?>
 
 		<tr>
@@ -196,11 +229,13 @@
 					<button name="show">Show Details</button>
 				</form>
 			</td>
+			<td style="padding:0;"><?php echo $alert; ?></td>
 		</tr>
 <?php
 	//Reset Total Penalties
 	$total_shift_penalties = 0;
 	$total_bonus = 0;
 	$total_late_penalties = 0;
+	$final_row_count = 0;
 	
 ?>

@@ -120,7 +120,7 @@
 	        			<th>Total Late Penalties</th>
 	        			<th>Total Bonus</th>
 	        			<th>Salary</th>
-	        			<th>Action</th>
+	        			<th colspan="2">Action</th>
 	        		</tr>
 
 		 			<?php 
@@ -194,31 +194,6 @@
                 }       
             }
         }
-
-        // var ctx = document.getElementById('myChart').getContext('2d');
-
-        // var chart = new Chart(ctx, {
-        // // The type of chart we want to create
-        // type: 'doughnut',
-
-        // // The data for our dataset
-        // data: {
-        //     labels: ['Late', 'OnTime', 'OverTime'],
-        //     datasets: [{
-        //         // label: 'My First dataset',
-        //         backgroundColor: ['#da3230','#fab41f','#096d82'],
-        //         borderColor: ['#da3230','#fab41f','#096d82'],
-        //         data: [10, 60, 5]
-        //     }]
-        // },
-
-        // options: {
-        //         legend:
-        //         {
-        //             position:'right',
-        //         }
-        //     }
-        // });
     </script>
 </body>
 
