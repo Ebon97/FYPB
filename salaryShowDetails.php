@@ -1,4 +1,3 @@
-<?php session_start()?>
 <!DOCTYPE html>
 <html>
 
@@ -90,69 +89,73 @@
 
         <!-- Page Content Holder -->
         <div id="content">
-
-            <!-- <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                <div class="container-fluid">
-
-                    <button type="button" id="sidebarCollapse" class="navbar-btn">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                    </button>
-                    <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                        <i class="fas fa-align-justify"></i>
-                    </button>
-
-                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul class="nav navbar-nav ml-auto">
-                            <li class="nav-item active">
-                                <a class="nav-link" href="#">Hi, John Wick</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </nav> -->
-
             <div class="row title">
-                <div class="col-6 pageTitle">
-                    <h2>Employee List</h2>
+                <div class="col-7 pageTitle">
+                    <h2>Details</h2>
                 </div>
-                
+
                 <div class="col-4 search">
-                    <input type="text" id="searchInput" onkeyup="searchFunction()" placeholder="Search Names" title="Type in a name">
+                    <input type="text" id="searchInput" onkeyup="searchFunction()" placeholder="Search Dates" title="Type in a name">
                 </div>
             </div>
 
-            <table id="employeeList">
-                <tr>
-                    <th>No.</th>
-                    <th>Employee Name</th>
-                    <th>Position</th>
-                    <th>Salary</th>
-                    <th>Joined Since</th>
-                    <th>Action</th>
-                </tr>
 
-                <?php 
-                    include('employeeList.php'); 
-                ?>
+            <div id="salary_detail">
+                <table>
+                    <tr>
+                        <th>Name</th>
+                        <th>Date</th>
+                        <th colspan="2">Time</th>
+                        <!-- <th>DateOut</th> -->
+                        <!-- <th>TimeOut</th> -->
+                        <th>Hours</th>
+                        <th>OnShift</th>
+                        <th>Shift Penalties</th>
+                        <th>Late Penalties</th>
+                        <th>Bonus</th>
+                    </tr>
+                   <?php
+                        $connect =  mysqli_connect("localhost", "root", "", "shellsbt") or die ("Connection Failed: ". mysqli_connect_error());
 
-            </table>
+                        if(isset($_GET['show']))
+                        {
+                            $name = $_GET['name'];
+                            $month = $_GET['month'];
+                            $year = $_GET['year'];
 
-           <!--  <div id="myModal" class="modal">
-                <div class="modal-content">
-                    <span class="close" onclick="hideModal()">&times;</span>
+                            $month_add_one = $month + 1;
+                            // echo $name." ".$month." ".$year;
 
-                    <form>
-                        <input value="" id="empNo">
-                        <?php 
+                            $query = "SELECT * from employee where Name='".$name."'";
+                            $result = mysqli_query($connect, $query);
+                            $row = mysqli_num_rows($result);
 
-                        ?>
+                            while($row = mysqli_fetch_assoc($result))
+                            {
+                                $name = $row['Name'];
+                                $shift = $row['shift'];
+                                $salary = $row['salary'];
 
-                    </form>
-                </div>
-            </div> -->
+                                if($shift == "Morning" || $shift == "Afternoon")
+                                {
+                                    $show = "1";
+                                    include("salaryShowDetailsCalculationMA.php");
+                                }
+                                else if ($shift == "Night")
+                                {
+                                    $show = "2";
+                                    include("salaryShowDetailsCalculationN.php");
+                                }
 
+                            }
+                        }            
+                    ?>
+                </table>
+            </div>
+
+            
+
+          
         </div>
     </div>
 
@@ -168,13 +171,28 @@
             });
         });
 
-        function searchFunction() 
+        function checkCategory(cat)
+        {
+            if(cat == "monthly")
+            {
+                document.getElementById("month_form1").style.display = "block";
+                document.getElementById("indi_form2").style.display = "none";  
+            }
+            else if (cat == "individual")
+            {
+            
+                document.getElementById("month_form1").style.display = "none";
+                document.getElementById("indi_form2").style.display = "block";  
+            }
+        }
+
+         function searchFunction() 
         {
             var input, filter, table, tr, td, i, txtValue;
 
             input = document.getElementById("searchInput");
             filter = input.value.toUpperCase();
-            table = document.getElementById("employeeList");
+            table = document.getElementById("salary_detail");
             tr = table.getElementsByTagName("tr");
 
             for (i = 0; i < tr.length; i++) 
@@ -194,25 +212,7 @@
                     }
                 }       
             }
-        }
-
-        // var modal = document.getElementById("myModal");
-
-        // function showModal(no)
-        // {
-        //     document.getElementById("empNo").value = no;
-
-        //     modal.style.display = "block";
-        // }
-
-        // function hideModal()
-        // {
-        //     modal.style.display = "none";
-        // }
-
-
-
-        
+        }    
 
     </script>
 </body>

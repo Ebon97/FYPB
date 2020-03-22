@@ -11,16 +11,14 @@
     $night_shift_late = strtotime('21:40:00');
 
 
-
-
-	$query_in = "SELECT Name, date(DateTime),time(DateTime) 
+	$query_in = "SELECT Name, date(DateTime),time(DateTime), DateTime
 				 FROM clock_in WHERE Name='".$name."' 
-				 AND date(DateTime) BETWEEN '".$year."-".$month."-01' and '".$year."-".$month."-31'
+				 AND date(DateTime) BETWEEN '".$year."-".$month."-01' and '".$year."-".$month."-31' 
 				 ORDER BY date(dateTime)";
 
-	$query_out = "SELECT Name, date(DateTime),time(DateTime) 
+	$query_out = "SELECT Name, date(DateTime),time(DateTime), DateTime
 				 FROM clock_out WHERE Name='".$name."' 
-				 AND date(DateTime) BETWEEN '".$year."-".$month."-01' and '".$year."-".$month."-31'
+				 AND date(DateTime) BETWEEN '".$year."-".$month."-02' and '".$year."-".$month_add_one."-01'
 				 ORDER BY date(dateTime)";
 
 	// echo "<br>".$query_in."<br>".$query_out;
@@ -28,33 +26,37 @@
 	$result_in = mysqli_query($connect, $query_in);
 	$result_out = mysqli_query($connect, $query_out);
 
+
 	while(($row_in = mysqli_fetch_assoc($result_in)) && ($row_out = mysqli_fetch_assoc($result_out)))
 	{
 		$name_in = $row_in['Name'];
 		$date_in = $row_in['date(DateTime)'];
 		$time_in = $row_in['time(DateTime)'];
+		$dateTime_in = $row_in['DateTime'];
 
 		$name_out = $row_out['Name'];
 		$date_out = $row_out['date(DateTime)'];
 		$time_out = $row_out['time(DateTime)'];
+		$dateTime_out = $row_out['DateTime'];
+		
+		$diff = round((strtotime($date_out) - strtotime($date_in))/3600/24,1);
 
-		if($date_in == $date_out)
+		if($diff == 1)
 		{
 			$match = "MATCH";
-			$diff = 0;
 
 			//Calculation
-			if(strtotime($time_out) > strtotime($time_in))
+			if(strtotime($dateTime_out) > strtotime($dateTime_in))
 		    {
-		    	$interval = strtotime($time_out) - strtotime($time_in);
+		    	$interval = strtotime($dateTime_out) - strtotime($dateTime_in);
 		    }
 		    else
 		    {
-		    	$interval = strtotime($time_in) - strtotime($time_out);
+		    	$interval = strtotime($dateTime_in) - strtotime($dateTime_out);
 		    }
 
 		    $minutes = floor($interval/60);
-			$hours = floor($interval/3600);
+				$hours = floor($interval/3600);
 		    $_remainder = $minutes % 60;
 
 		    //Checking if on shift 8 hours
@@ -73,7 +75,6 @@
 		    	$penalties_min = 480 - $minutes;
 
 		    	$penalties = round($penalties_min * $penalties_per_minutes,2);
-		    	$total_shift_penalties = $total_shift_penalties + $penalties;
 		    }
 		    else
 		    {
@@ -92,39 +93,44 @@
 		    	{
 		    		$overtime_hours = $hours - 8;
 		        	$bonus = $overtime_hours * 4.86;
-		    	}
 
-		    	$total_bonus = $total_bonus + $bonus;
+		        	$total_bonus = $total_bonus + $bonus;
+		    	}
 		    }
 		    else
 		    {
 		    	$bonus = " ";
 		    }
 
-		    
-			if(strtotime($time_in) > $morning_shift_late && strtotime($time_in) < strtotime('10:30:00'))
+		    //Checking Penalities if not work full 8 Hours
+		    if($minutes < 480)
+		    {
+		    	$penalties_min = 480 - $minutes;
+
+		    	$penalties = round($penalties_min * $penalties_per_minutes,2);
+		    	$total_penalties = $total_penalties + $penalties;
+		    }
+		    else
+		    {
+		    	$penalties = " ";
+		    }
+
+		   //Checking Late Penalties
+		    // 6:40:00 , 10:30:00 < 
+		    if(strtotime($time_in) > $night_shift_late && strtotime($time_in) < strtotime('23:30:00'))
 			{
 				$late = "1";
 
-				$i = round((strtotime($time_in) - $morning_shift_late)/60 * $penalties_per_minutes,2);
+				$i = round((strtotime($time_in) - $night_shift_late)/60 * $penalties_per_minutes,2);
 				$total_late_penalties = $total_late_penalties + $i;
 			}
-			else 
+			else
 			{
-				$late = "0";
 				$i = 0;
 			}
 
-
-			if(strtotime($time_in) > $afternoon_shift_late && strtotime($time_in) > strtotime('10:30:00'))
-			{
-				$late = "1";
-
-				$i = round((strtotime($time_in) - $afternoon_shift_late)/60 * $penalties_per_minutes,2);
-				$total_late_penalties = $total_late_penalties + $i;
-			}
 		}
-		else
+		else if ($diff == 0 || $diff > 1)
 		{
 			$match = "NOT MATCH";
 
@@ -159,14 +165,13 @@
 				// $update_result_out = mysqli_query($connect, $update_query_in);
 
 			}
-
 		}
-
+				
 		// echo 
 		// "<tr>
 		// 	<td>".$name_in."</td>
 		// 	<td>".$date_in."</td>
-		// 	<th>".$time_in."</th>
+		// 	<td>".$time_in."</td>
 		// 	<td>".$date_out."</td>
 		// 	<td>".$time_out."</td>
 		// 	<td>".$match."</td>
@@ -179,7 +184,7 @@
 		// </tr>";
 	}
 
-			$final_salary = round($salary + $total_bonus - $total_shift_penalties - $total_late_penalties,2);
+	$final_salary = round($salary + $total_bonus - $total_shift_penalties - $total_late_penalties,2);
 	?>
 
 		<tr>

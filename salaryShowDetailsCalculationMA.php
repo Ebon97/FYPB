@@ -12,7 +12,6 @@
 
 
 
-
 	$query_in = "SELECT Name, date(DateTime),time(DateTime) 
 				 FROM clock_in WHERE Name='".$name."' 
 				 AND date(DateTime) BETWEEN '".$year."-".$month."-01' and '".$year."-".$month."-31'
@@ -60,11 +59,11 @@
 		    //Checking if on shift 8 hours
 		    if($hours >= 8 && $hours < 12)
 		    {
-		    	$onshift_status = "O";
+		    	$onshift_status = "<span style='color:green;'>O</span>";
 		    }
 		    else
 		    {
-		    	$onshift_status = "X";
+		    	$onshift_status = "<span style='color:red;'>X</span>";
 		    }
 
 		    //Checking Penalities if not work full 8 Hours
@@ -106,13 +105,13 @@
 			{
 				$late = "1";
 
-				$i = round((strtotime($time_in) - $morning_shift_late)/60 * $penalties_per_minutes,2);
-				$total_late_penalties = $total_late_penalties + $i;
+				$late_penalties = round((strtotime($time_in) - $morning_shift_late)/60 * $penalties_per_minutes,2);
+				$total_late_penalties = $total_late_penalties + $late_penalties;
 			}
 			else 
 			{
 				$late = "0";
-				$i = 0;
+				$late_penalties = " ";
 			}
 
 
@@ -120,8 +119,8 @@
 			{
 				$late = "1";
 
-				$i = round((strtotime($time_in) - $afternoon_shift_late)/60 * $penalties_per_minutes,2);
-				$total_late_penalties = $total_late_penalties + $i;
+				$late_penalties = round((strtotime($time_in) - $afternoon_shift_late)/60 * $penalties_per_minutes,2);
+				$total_late_penalties = $total_late_penalties + $late_penalties;
 			}
 		}
 		else
@@ -161,46 +160,30 @@
 			}
 
 		}
+?>
+		<tr>
+			<td><?php echo $name_in; ?></td>
+			<td><?php echo $date_in; ?></td>
+			<td><?php echo $time_in; ?></td>
+			<!-- <td><?php echo $date_out; ?></td> -->
+			<td><?php echo $time_out; ?></td>
+			<!-- <td><?php echo $match; ?></td> -->
+			<!-- <td><?php echo $diff ?></td> -->
+			<td><?php echo $hours; ?> Hours <?php echo $_remainder ?> Minutes</td>
+			<td><?php echo $onshift_status; ?></td>
+			<td><?php echo $penalties; ?></td>
+			<td><?php echo $late_penalties; ?></td>
+			<td><?php echo $bonus; ?></td>
+		</tr>
 
-		// echo 
-		// "<tr>
-		// 	<td>".$name_in."</td>
-		// 	<td>".$date_in."</td>
-		// 	<th>".$time_in."</th>
-		// 	<td>".$date_out."</td>
-		// 	<td>".$time_out."</td>
-		// 	<td>".$match."</td>
-		// 	<td>".$diff."</td>
-		// 	<td>".$hours." Hours ".$_remainder." Minutes</td>
-		// 	<td>".$onshift_status."</td>
-		// 	<td>".$penalties."</td>
-		// 	<td>".$bonus."</td>
-		// 	<td>".$i."</td>
-		// </tr>";
+<?php
 	}
 
-			$final_salary = round($salary + $total_bonus - $total_shift_penalties - $total_late_penalties,2);
-	?>
+	// $final_salary = round($salary + $total_bonus - $total_shift_penalties - $total_late_penalties,2);
 
-		<tr>
-			<td><?php echo $name; ?></td>
-			<td><?php echo $total_shift_penalties; ?></td>
-			<td><?php echo $total_late_penalties; ?></td>
-			<td><?php echo $total_bonus; ?></td>
-			<td>RM <?php echo $final_salary; ?></td>
-			<td>
-				<form action="salaryShowDetails.php" method="GET">
-					<input type="hidden" name="name" value="<?php echo $name; ?>">
-					<input type="hidden" name="month" value="<?php echo $month; ?>">
-					<input type="hidden" name="year" value="<?php echo $year; ?>">
-					<button name="show">Show Details</button>
-				</form>
-			</td>
-		</tr>
-<?php
-	//Reset Total Penalties
-	$total_shift_penalties = 0;
-	$total_bonus = 0;
-	$total_late_penalties = 0;
+	// //Reset Total Penalties
+	// $total_shift_penalties = 0;
+	// $total_bonus = 0;
+	// $total_late_penalties = 0;
 	
 ?>

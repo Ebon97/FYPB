@@ -11,16 +11,14 @@
     $night_shift_late = strtotime('21:40:00');
 
 
-
-
-	$query_in = "SELECT Name, date(DateTime),time(DateTime) 
+	$query_in = "SELECT Name, date(DateTime),time(DateTime), DateTime
 				 FROM clock_in WHERE Name='".$name."' 
-				 AND date(DateTime) BETWEEN '".$year."-".$month."-01' and '".$year."-".$month."-31'
+				 AND date(DateTime) BETWEEN '".$year."-".$month."-01' and '".$year."-".$month."-31' 
 				 ORDER BY date(dateTime)";
 
-	$query_out = "SELECT Name, date(DateTime),time(DateTime) 
+	$query_out = "SELECT Name, date(DateTime),time(DateTime), DateTime
 				 FROM clock_out WHERE Name='".$name."' 
-				 AND date(DateTime) BETWEEN '".$year."-".$month."-01' and '".$year."-".$month."-31'
+				 AND date(DateTime) BETWEEN '".$year."-".$month."-02' and '".$year."-".$month_add_one."-01'
 				 ORDER BY date(dateTime)";
 
 	// echo "<br>".$query_in."<br>".$query_out;
@@ -28,33 +26,37 @@
 	$result_in = mysqli_query($connect, $query_in);
 	$result_out = mysqli_query($connect, $query_out);
 
+
 	while(($row_in = mysqli_fetch_assoc($result_in)) && ($row_out = mysqli_fetch_assoc($result_out)))
 	{
 		$name_in = $row_in['Name'];
 		$date_in = $row_in['date(DateTime)'];
 		$time_in = $row_in['time(DateTime)'];
+		$dateTime_in = $row_in['DateTime'];
 
 		$name_out = $row_out['Name'];
 		$date_out = $row_out['date(DateTime)'];
 		$time_out = $row_out['time(DateTime)'];
+		$dateTime_out = $row_out['DateTime'];
+		
+		$diff = round((strtotime($date_out) - strtotime($date_in))/3600/24,1);
 
-		if($date_in == $date_out)
+		if($diff == 1)
 		{
 			$match = "MATCH";
-			$diff = 0;
 
 			//Calculation
-			if(strtotime($time_out) > strtotime($time_in))
+			if(strtotime($dateTime_out) > strtotime($dateTime_in))
 		    {
-		    	$interval = strtotime($time_out) - strtotime($time_in);
+		    	$interval = strtotime($dateTime_out) - strtotime($dateTime_in);
 		    }
 		    else
 		    {
-		    	$interval = strtotime($time_in) - strtotime($time_out);
+		    	$interval = strtotime($dateTime_in) - strtotime($dateTime_out);
 		    }
 
 		    $minutes = floor($interval/60);
-			$hours = floor($interval/3600);
+				$hours = floor($interval/3600);
 		    $_remainder = $minutes % 60;
 
 		    //Checking if on shift 8 hours
@@ -73,7 +75,6 @@
 		    	$penalties_min = 480 - $minutes;
 
 		    	$penalties = round($penalties_min * $penalties_per_minutes,2);
-		    	$total_shift_penalties = $total_shift_penalties + $penalties;
 		    }
 		    else
 		    {
@@ -92,39 +93,44 @@
 		    	{
 		    		$overtime_hours = $hours - 8;
 		        	$bonus = $overtime_hours * 4.86;
-		    	}
 
-		    	$total_bonus = $total_bonus + $bonus;
+		        	$total_bonus = $total_bonus + $bonus;
+		    	}
 		    }
 		    else
 		    {
 		    	$bonus = " ";
 		    }
 
-		    
-			if(strtotime($time_in) > $morning_shift_late && strtotime($time_in) < strtotime('10:30:00'))
+		    //Checking Penalities if not work full 8 Hours
+		    if($minutes < 480)
+		    {
+		    	$penalties_min = 480 - $minutes;
+
+		    	$penalties = round($penalties_min * $penalties_per_minutes,2);
+		    	$total_penalties = $total_penalties + $penalties;
+		    }
+		    else
+		    {
+		    	$penalties = " ";
+		    }
+
+		   //Checking Late Penalties
+		    // 6:40:00 , 10:30:00 < 
+		    if(strtotime($time_in) > $night_shift_late && strtotime($time_in) < strtotime('23:30:00'))
 			{
 				$late = "1";
 
-				$i = round((strtotime($time_in) - $morning_shift_late)/60 * $penalties_per_minutes,2);
-				$total_late_penalties = $total_late_penalties + $i;
+				$late_penalties = round((strtotime($time_in) - $night_shift_late)/60 * $penalties_per_minutes,2);
+				$total_late_penalties = $total_late_penalties + $late_penalties;
 			}
-			else 
+			else
 			{
-				$late = "0";
-				$i = 0;
+				$late_penalties = " ";
 			}
 
-
-			if(strtotime($time_in) > $afternoon_shift_late && strtotime($time_in) > strtotime('10:30:00'))
-			{
-				$late = "1";
-
-				$i = round((strtotime($time_in) - $afternoon_shift_late)/60 * $penalties_per_minutes,2);
-				$total_late_penalties = $total_late_penalties + $i;
-			}
 		}
-		else
+		else if ($diff == 0 || $diff > 1)
 		{
 			$match = "NOT MATCH";
 
@@ -159,48 +165,31 @@
 				// $update_result_out = mysqli_query($connect, $update_query_in);
 
 			}
-
 		}
+?>
+		<tr>
+			<td><?php echo $name_in; ?></td>
+			<td><?php echo $date_in; ?></td>
+			<td><?php echo $time_in; ?></td>
+			<!-- <td><?php echo $date_out; ?></td> -->
+			<td><?php echo $time_out; ?></td>
+			<!-- <td><?php echo $match; ?></td> -->
+			<!-- <td><?php echo $diff ?></td> -->
+			<td><?php echo $hours; ?> Hours <?php echo $_remainder ?> Minutes</td>
+			<td><?php echo $onshift_status; ?></td>
+			<td><?php echo $penalties; ?></td>
+			<td><?php echo $late_penalties; ?></td>
+			<td><?php echo $bonus; ?></td>
+		</tr>
 
-		// echo 
-		// "<tr>
-		// 	<td>".$name_in."</td>
-		// 	<td>".$date_in."</td>
-		// 	<th>".$time_in."</th>
-		// 	<td>".$date_out."</td>
-		// 	<td>".$time_out."</td>
-		// 	<td>".$match."</td>
-		// 	<td>".$diff."</td>
-		// 	<td>".$hours." Hours ".$_remainder." Minutes</td>
-		// 	<td>".$onshift_status."</td>
-		// 	<td>".$penalties."</td>
-		// 	<td>".$bonus."</td>
-		// 	<td>".$i."</td>
-		// </tr>";
+<?php
 	}
 
-			$final_salary = round($salary + $total_bonus - $total_shift_penalties - $total_late_penalties,2);
-	?>
+	// $final_salary = round($salary + $total_bonus - $total_shift_penalties - $total_late_penalties,2);
 
-		<tr>
-			<td><?php echo $name; ?></td>
-			<td><?php echo $total_shift_penalties; ?></td>
-			<td><?php echo $total_late_penalties; ?></td>
-			<td><?php echo $total_bonus; ?></td>
-			<td>RM <?php echo $final_salary; ?></td>
-			<td>
-				<form action="salaryShowDetails.php" method="GET">
-					<input type="hidden" name="name" value="<?php echo $name; ?>">
-					<input type="hidden" name="month" value="<?php echo $month; ?>">
-					<input type="hidden" name="year" value="<?php echo $year; ?>">
-					<button name="show">Show Details</button>
-				</form>
-			</td>
-		</tr>
-<?php
-	//Reset Total Penalties
-	$total_shift_penalties = 0;
-	$total_bonus = 0;
-	$total_late_penalties = 0;
+	// //Reset Total Penalties
+	// $total_shift_penalties = 0;
+	// $total_bonus = 0;
+	// $total_late_penalties = 0;
 	
 ?>
