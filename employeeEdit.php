@@ -91,21 +91,22 @@
         	<form id="editEmployeeForm" action="employeeEdit.php" method="POST">
         		<?php
 					$connect =  mysqli_connect("localhost", "root", "", "shellsbt") or die ("Failed");
+
 					$message = "";
 					$link = ""; 
 
-					if(isset($_GET['EnNo']))
+					if(isset($_GET['No']))
 					{
-						$no = $_GET['EnNo'];
+						$no = $_GET['No'];
 
-						$query = "SELECT * FROM `employee` WHERE EnNo = ".$no." group by EnNo";
+						$query = "SELECT * FROM `employee` WHERE No = ".$no." group by No";
 
 						$result = mysqli_query($connect, $query);
 						$row  = mysqli_num_rows($result);
 
 						 while($row = mysqli_fetch_assoc($result))
 						 {
-						 	$no = $row['EnNo'];
+						 	$no = $row['No'];
 					   		$emp_name = $row['Name'];
 					        $position = $row['position'];
 					        $salary = $row['salary'];

@@ -85,7 +85,7 @@
         <!-- Page Content Holder -->
         <div id="content">
 
-            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+           <!--  <nav class="navbar navbar-expand-lg navbar-light bg-light">
                 <div class="container-fluid">
                     <button type="button" id="sidebarCollapse" class="navbar-btn">
                         <span></span>
@@ -104,9 +104,9 @@
                         </ul>
                     </div>
                 </div>
-            </nav>
+            </nav> -->
 
-            <div id="chart">
+           <!--  <div id="chart">
                 <div class="row">
                     <div class="col-3" id="col_1">
                         <span>Late</span>
@@ -143,7 +143,7 @@
                          <span>Record</span>
                     </div>
                 </div>
-            </div>
+            </div> -->
             
         </div>
     </div>
