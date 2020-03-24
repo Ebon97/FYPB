@@ -1,4 +1,5 @@
 <?php
+	session_start();
 	$connect =  mysqli_connect("localhost", "root", "", "shellsbt") or die ("Connection Failed: ". mysqli_connect_error());  
 	$message = ""; 
 
@@ -27,6 +28,11 @@
 			else
 			{
 				$message = "<div class='success'><p>Redirecting....</p></div>";
+
+				$_SESSION['username'] = $username;
+				$_SESSION['password'] = $password;
+				$_SESSION['hashed_password'] = $hashed_password;
+
 				header("refresh:2; url=dashboard.php");
 			}
 		}

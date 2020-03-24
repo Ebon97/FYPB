@@ -156,6 +156,90 @@
     font-family: Futura;
     font-size: 1.3em;
 }
+#update_setting
+{
+    font-family: Futura;
+}
+
+#update_setting form
+{
+    width:90%;
+    margin-top: 2%;
+    margin-left: 6%;
+    color: #E35723;
+}
+
+#update_setting .row
+{
+    margin: 3vh 0;
+    width: 80%;
+}
+
+#update_setting label
+{
+    width: 15%;
+    font-weight: bold;
+    text-align: left;
+}
+
+#update_setting form input[type=text]
+{
+    outline:none;
+    border: 1px solid #E35723;
+    border-radius: 10px;
+    color: #E35723;
+    width: 200%;
+}
+
+#update_setting #update_button
+{
+    margin-left: 35%;
+}
+
+#update_setting input[type=submit]
+{
+    color: white;
+    font-weight: bold;
+    background-color: #E35723;
+    outline: none;
+    border:none;
+    border-radius: 10px;
+    padding:1vh 3vw;
+    margin: 3% 0;
+}
+
+.sUpdate_warning, .sUpdate_success
+{
+    width: 57%;
+}
+
+.sUpdate_warning p
+{
+    margin: 1vh auto;
+    padding: 1vh 0;
+    border-radius: 10px;
+    text-align: center;
+    background-color: #FFCCCB;
+    border: 1.5px solid red;
+    color: red;
+    width: 40%;
+    font-family: Futura;
+    font-size: 1.1em;
+}
+
+.sUpdate_success p
+{
+    margin: 1vh auto;
+    padding: 1vh 0;
+    border-radius: 10px;
+    text-align: center;
+    background-color: #D0F0C0;
+    border: 1.5px solid green;
+    color: green;
+    width: 35%;
+    font-family: Futura;
+    font-size: 1.1em;
+}
 
 
 

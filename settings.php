@@ -1,3 +1,7 @@
+<?php
+    session_start();
+?>
+
 <!DOCTYPE html>
 <html>
 
@@ -6,13 +10,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Salary</title>
+    <title>Dashboard</title>
 
     <!-- Bootstrap CSS CDN -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
-    <!-- Our Custom CSS -->
+
     <link rel="stylesheet" href="style1.css">
+    <style>
+        .graph
+        {
+          width:90%;
+          display:block;
+          overflow:hidden;
+          margin:0 auto;
+          background:#fff;
+          border-radius:4px;
+          margin-top: 3%;
+        }
+
+        canvas
+        {
+          background:#fff;
+          height:250px;
+        }
+
+    </style>
 
 </head>
 
@@ -62,7 +85,7 @@
                     <a href="employee.php">Employee List</a>
                 </li>
                 <li>
-                    <a href="performance.php">Performance</a>
+                    <a href="#">Performance</a>
                 </li>
                 <li>
                     <a href="salary.php">Salary</a>
@@ -85,9 +108,8 @@
         <!-- Page Content Holder -->
         <div id="content">
 
-            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+           <!--  <nav class="navbar navbar-expand-lg navbar-light bg-light">
                 <div class="container-fluid">
-
                     <button type="button" id="sidebarCollapse" class="navbar-btn">
                         <span></span>
                         <span></span>
@@ -105,8 +127,86 @@
                         </ul>
                     </div>
                 </div>
-            </nav>
+            </nav> -->
 
+             <div class="row title">
+                <div class="col-6 pageTitle">
+                    <h2>Settings</h2>
+                </div>
+            </div>
+
+      
+            <?php
+                $connect =  mysqli_connect("localhost", "root", "", "shellsbt") or die ("Connection Failed: ". mysqli_connect_error());  
+
+                $username = $_SESSION['username'];
+                $password = $_SESSION['password'];
+                $hashed_password = $_SESSION['hashed_password'];
+
+                // echo $username." ".$password." ".$hashed_password."<br>";
+
+                $query = "SELECT * FROM manager where username='$username' and password='$hashed_password'";
+                $result = mysqli_query($connect, $query);
+                $row = mysqli_num_rows($result);
+
+                // echo $row;
+
+                if($row == 1)
+                {
+                        $row = mysqli_fetch_assoc($result);
+                            
+                        $db_id = $row['ID'];
+                        $db_name = $row['username'];
+                        $db_email = $row['email'];
+                        $db_password = $password;
+                        $db_hashpassword = $row['password'];
+
+                        // echo $db_name." ".$db_email." ".$db_password." ".$db_hashpassword;
+            ?>
+                    <div id="update_setting">
+                        <form action="settings.php" method="GET">
+                           <div class='form-group row'>
+                                <label>Username</label>
+                                <label>:</label>
+                                <div>
+                                    <input type='text' class='form-control' value="<?php echo $db_name?>" name="sUsername">
+                                </div>
+                            </div>
+
+                            <div class='form-group row'>
+                                <label>Password</label>
+                                <label>:</label>
+                                <div>
+                                    <input type='text' class='form-control' value="<?php echo $db_password?>" name="sPassword">
+                                </div>
+                            </div>
+
+                            <div class='form-group row'>
+                                <label>Email</label>
+                                <label>:</label>
+                                <div>
+                                    <input type='text' class='form-control' value="<?php echo $db_email?>" name="sEmail">
+                                </div>
+                            </div>
+
+                            <div id="update_button">
+                                <input type="submit" name="settings_update" value="UPDATE">
+                            </div>
+                        </form>
+                    <div>
+            <?php   
+
+                    include("settingsUpdate.php");
+                }
+                else 
+                {
+                   $message = "Something's not wrong. Re-login is recommended";
+                }
+
+            ?>
+
+            
+        </div>
     </div>
 
     <!-- jQuery CDN - Slim version (=without AJAX) -->
@@ -118,7 +218,7 @@
 
     <script type="text/javascript">
         $(document).ready(function () {
-            $('#sidebarCollapse').on('click', function () {s
+            $('#sidebarCollapse').on('click', function () {
                 $('#sidebar').toggleClass('active');
                 $(this).toggleClass('active');
             });

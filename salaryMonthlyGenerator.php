@@ -84,7 +84,7 @@
                     <a href="#">Salary</a>
                 </li>
                 <li>
-                    <a href="#">Others</a>
+                    <a href="settings.php">Settings</a>
                 </li>
             </ul>
 

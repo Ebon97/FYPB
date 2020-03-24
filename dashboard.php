@@ -1,3 +1,7 @@
+<?php
+    session_start();
+?>
+
 <!DOCTYPE html>
 <html>
 
@@ -87,7 +91,7 @@
                     <a href="salary.php">Salary</a>
                 </li>
                 <li>
-                    <a href="#">Account</a>
+                    <a href="settings.php">Settings</a>
                 </li>
             </ul>
 
@@ -168,6 +172,11 @@
                     </tr>
                         <?php
                             include("dashboardAttendance.php");
+
+                            $username = $_SESSION['username'];
+                            $hashed_password = $_SESSION['hashed_password'];
+
+                            // echo $username." ".$hashed_password;
                         ?>
                 </table>
             </div>
