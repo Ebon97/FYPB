@@ -11,7 +11,7 @@
     <!-- Bootstrap CSS CDN -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
-    <!-- Our Custom CSS -->
+
     <link rel="stylesheet" href="style1.css">
     <style>
         .graph
@@ -87,7 +87,7 @@
                     <a href="salary.php">Salary</a>
                 </li>
                 <li>
-                    <a href="#">Others</a>
+                    <a href="#">Account</a>
                 </li>
             </ul>
 
@@ -130,6 +130,17 @@
                     <h2>Dashboard</h2>
                 </div>
 
+                <div class="col-4 datepicker" style="text-align: right;">
+                    <input type="date" name="start_date">
+                    <!-- <span class="tooltiptext">Tooltip text</span> -->
+                    <input type="submit" value="APPLY">
+                </div>
+
+                 <!-- <div class="col-3 apply">
+                    <button onclick="applyDate()">APPLY</button>
+                </div> -->
+
+
             </div>
 
             <div class="graph">
@@ -155,66 +166,9 @@
                         <th>Time</th>
                         <th>Punctuality</th>
                     </tr>
-                    <?php
-                        $connect =  mysqli_connect("localhost", "root", "", "shellsbt") or die ("Connection Failed: ". mysqli_connect_error()); 
-                        $i = 0;
-
-                        $query = "SELECT Name, date(DateTime), time(DateTime) from clock_in order by date(DateTime) DESC LIMIT 0,6";
-                        $result = mysqli_query($connect, $query);
-                        $row = mysqli_num_rows($result);
-
-                        while($row = mysqli_fetch_assoc($result))
-                        {
-                            $name = $row['Name'];
-                            $date = $row['date(DateTime)'];
-                            $time = $row['time(DateTime)'];
-                            $i++;
-
-                            $morning_shift_late = strtotime('6:40:00');
-                            $afternoon_shift_late = strtotime('14:40:00');
-                            $night_shift_late = strtotime('21:40:00');
-
-
-                            if(strtotime($time) > $morning_shift_late && strtotime($time) < strtotime('10:30:00'))
-                            {
-                                $late = "<span style='color:red'>LATE</span>";
-                            }
-                            else
-                            {
-                                $late = "<span style='color:green'>PUNCTUAL</span>";
-                            }
-
-                            if(strtotime($time) > $afternoon_shift_late && strtotime($time) > strtotime('10:30:00'))
-                            {
-                                $late = "<span style='color:red'>LATE</span>";
-                            }
-                            else
-                            {
-                                $late = "<span style='color:green'>PUNCTUAL</span>";
-                            }
-
-                            if(strtotime($time) > $night_shift_late && strtotime($time) < strtotime('23:30:00'))
-                            {
-                                $late = "<span style='color:red'>LATE</span>";
-                            }
-                            else
-                            {
-                                $late = "<span style='color:green'>PUNCTUAL</span>";
-                            }
-
-                             
-                            ?>
-                                <tr>
-                                    <td><?php echo $i; ?></td>
-                                    <td><?php echo $name; ?></td>
-                                    <td><?php echo $date; ?></td>
-                                    <td><?php echo $time; ?></td>
-                                    <td><?php echo $late;?></td>
-                                </tr>
-                            <?php
-                        }
-
-                    ?>
+                        <?php
+                            include("dashboardAttendance.php");
+                        ?>
                 </table>
             </div>
 

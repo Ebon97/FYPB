@@ -30,7 +30,6 @@
 {
     border: 1px solid #D93630;
     width:40%;
-    height:100%;
     margin: 0 auto;
     margin-top: 1%;
     border-radius: 20px;
@@ -51,6 +50,21 @@
 #login_form, #register_form
 {
     text-align: center;
+}
+
+#register_form a 
+{
+    background-color: #FFB500;
+    color:  #D93630;
+    padding: 1vh 3.3vw;
+    border-radius: 10px;
+    font-family: Brandon Black;
+}
+
+#register_form a:hover
+{
+    opacity: 0.8;
+    cursor: pointer;
 }
 
 #login_form a
@@ -84,7 +98,7 @@
 #login_form ::placeholder, #register_form ::placeholder
 {
     color: #FFB500;
-    opacity :0.5;
+    opacity : 0.8;
 }
 
 
@@ -113,6 +127,34 @@
 {
     opacity:0.8;
     cursor:pointer;
+}
+
+.success p
+{
+    margin: 4vh auto;
+    padding: 2vh 0;
+    border-radius: 10px;
+    text-align: center;
+    background-color: #D0F0C0;
+    border: 1.5px solid green;
+    color:green;
+    width:40%;
+    font-family: Futura;
+    font-size: 1.3em;
+}
+
+.warning p
+{
+    margin: 4vh auto;
+    padding: 2vh 0;
+    border-radius: 10px;
+    text-align: center;
+    background-color: #FFCCCB;
+    border: 1.5px solid red;
+    color: red;
+    width: 40%;
+    font-family: Futura;
+    font-size: 1.3em;
 }
 
 
@@ -386,7 +428,7 @@ ul ul a {
     width: 90%;
     font-family: Futura;
     font-weight: bold;
-    padding-top: 6%;
+    padding-top: 3%;
 
 }
 
@@ -401,6 +443,46 @@ ul ul a {
     margin-bottom: 1.5%;
 }
 
+.datepicker
+{
+    margin-left: 1%;
+}
+
+.datepicker input[type=date]
+{
+    margin-top: 7%;
+    color: #E35723;
+    font-family: Futura;
+    outline: none;
+    border: 1px solid #E35723;
+    border-radius: 7px;
+    text-align: center;
+    padding-top: 0.6vh;
+    padding-bottom: 0.3vh;
+    text-align: center;
+}
+
+.datepicker input[type=submit]
+{
+    margin-left: 3%;
+    background-color: #E35723;
+    color: white;
+    outline: none;
+    border: none;
+    border-radius: 7px;
+    padding: 0.5vh 1vw;
+    font-family: Futura;
+    font-weight: bold;
+}
+
+.apply button:hover
+{
+    cursor: pointer;
+    background-color: white;
+    border: 1px solid #E35723;
+    color: #E35723;
+}
+
 .upload button
 {
     color: white;
@@ -409,7 +491,7 @@ ul ul a {
     font-weight: bold;
     outline: none;
     border:none;
-    border-radius: 10px;
+    border-radius: 7px;
     padding:0.5vh 1vw;
     margin-top: 14%;
 }

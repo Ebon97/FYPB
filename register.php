@@ -14,7 +14,7 @@
 		
 		<div id="register_page_content">
 			<p>REGISTER</p>
-			<form id="register_form">
+			<form id="register_form" action="register.php" method="GET">
 				<div id="register_username">
 					<input type="text" name="username" placeholder="Username" autocomplete="off">
 				</div>
@@ -32,9 +32,18 @@
 				</div>
 
 				<div id="register_button">
-					<input type="submit" name="login" value="REGISTER">
+					<input type="submit" name="register" value="REGISTER">
+					<a href="login.php">BACK</a>
 				</div>
 			</form>
 		</div>
+
+		<?php
+			include("registerValidation.php");
+			echo "
+				<div class='message'>
+					<p>".$message."</p>
+				</div>";
+		?>
 	</body>
 </html>

@@ -14,7 +14,7 @@
 
 		<div id="login_page_content">
 			<p>WELCOME</p>
-			<form id="login_form">
+			<form id="login_form" action="login.php" method="GET">
 				<div id="login_username">
 					<input type="text" name="username" placeholder="Username" autocomplete="off">
 				</div>
@@ -31,5 +31,12 @@
 				</div>
 			</form>
 		</div>
+
+		<?php
+			include("loginValidation.php");
+			echo $message;
+		?>
+
+		
 	</body>
 </html>
