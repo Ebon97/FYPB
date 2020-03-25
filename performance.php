@@ -67,25 +67,23 @@
                 <li>
                     <a href="salary.php">Salary</a>
                 </li>
-                <li>
-                    <a href="settings.php">Settings</a>
-                </li>
+
             </ul>
 
-           <!--  <ul class="list-unstyled CTAs">
+            <ul class="list-unstyled icon">
                 <li>
-                    <a href="https://bootstrapious.com/tutorial/files/sidebar.zip" class="download">Download source</a>
+                    <a href="settings.php" class="setting_icon"><img src="image/setting_icon.png"></a>
                 </li>
                 <li>
-                    <a href="https://bootstrapious.com/p/bootstrap-sidebar" class="article">Back to article</a>
+                    <a href="login.php" class="logout_icon"><img src="image/logout_icon.png"></a>
                 </li>
-            </ul> -->
+            </ul>
         </nav>
 
         <!-- Page Content Holder -->
         <div id="content">
 
-            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <!-- <nav class="navbar navbar-expand-lg navbar-light bg-light">
                 <div class="container-fluid">
 
                     <button type="button" id="sidebarCollapse" class="navbar-btn">
@@ -105,7 +103,7 @@
                         </ul>
                     </div>
                 </div>
-            </nav>
+            </nav> -->
 
     </div>
 

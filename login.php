@@ -13,7 +13,12 @@
 		</div>
 
 		<div id="login_page_content">
-			<p>WELCOME</p>
+			<div class="back_icon">
+				<a href="login.php"><img src="image/back_icon.png" style="visibility: hidden"><a>
+			</div>
+
+			<span>WELCOME</span>
+
 			<form id="login_form" action="login.php" method="GET">
 				<div id="login_username">
 					<input type="text" name="username" placeholder="Username" autocomplete="off">
@@ -23,7 +28,7 @@
 					<input type="password" name="password" placeholder="Password" autocomplete="off">
 				</div>
 
-				<a href="#">Forgot Password</a>
+				<a href="forgotPassword.php">Forgot Password</a>
 				<a href="register.php">Register</a>
 
 				<div id="login_button">

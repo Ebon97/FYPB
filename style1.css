@@ -26,7 +26,7 @@
     width:20%;
 }
 
-#login_page_content, #register_page_content
+#login_page_content, #register_page_content, #forgot_page_content, #new_password_page_content
 {
     border: 1px solid #D93630;
     width:40%;
@@ -37,17 +37,17 @@
     box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-#login_page_content p , #register_page_content p
+#login_page_content span , #register_page_content span, #forgot_page_content span, #new_password_page_content span
 {
+    display: block;
     text-align: center;
-    padding:1vh 0;
+    margin-bottom: 3vh;
     font-family: Brandon Black;
     font-size: 2em;
     color:#FFB500;
-
 }
 
-#login_form, #register_form
+#login_form, #register_form, #forgot_form, #new_password_form
 {
     text-align: center;
 }
@@ -82,7 +82,8 @@
 }
 
 #login_form input[type=text], #login_form input[type=password], 
-#register_form input[type=text],#register_form input[type=password], #register_form input[type=email]
+#register_form input[type=text],#register_form input[type=password], #register_form input[type=email], 
+#forgot_form input[type=email], #new_password_form input[type=password]
 {
     width:50%;
     border:none;
@@ -95,24 +96,27 @@
     color: #FFB500;
 }
 
-#login_form ::placeholder, #register_form ::placeholder
+#login_form ::placeholder, #register_form ::placeholder, #forgot_form ::placeholder, #new_password_form ::placeholder
 {
     color: #FFB500;
     opacity : 0.8;
 }
 
 
-#login_username, #login_password, #register_username, #register_password, #register_confirmpassword
+#login_username, #login_password, 
+#register_username, #register_password, #register_confirmpassword, 
+#new_password, #new_confirm_password
 {
     padding-bottom: 4%;
 }
 
-#login_button, #register_button
+#login_button, #register_button, #forgot_password_button, #confirm_new_password_button
 {
     padding:7vh 0;
 }
 
-#login_button input[type=submit], #register_button input[type=submit]
+#login_button input[type=submit], #register_button input[type=submit], 
+#forgot_password_button input[type=submit], #confirm_new_password_button input[type=submit]
 {
     padding:1vh 2.5vw;
     font-family: Brandon Black;
@@ -123,11 +127,18 @@
     border:none;
 }
 
-#login_button input[type=submit]:hover, #register_button input[type=submit]:hover
+#forgot_form input
+{
+    text-align: center;
+}
+
+#login_button input[type=submit]:hover, #register_button input[type=submit]:hover, 
+#forgot_password_button input[type=submit]:hover, #confirm_new_password_button input[type=submit]:hover
 {
     opacity:0.8;
     cursor:pointer;
 }
+
 
 .success p
 {
@@ -156,6 +167,20 @@
     font-family: Futura;
     font-size: 1.3em;
 }
+
+.back_icon img
+{
+    width:5%;
+    margin-top: 2vh;
+    margin-left: 2vh;
+}
+
+.back_icon img:hover
+{
+    cursor: pointer;
+    opacity: 0.5;
+}
+
 #update_setting
 {
     font-family: Futura;
@@ -241,7 +266,21 @@
     font-size: 1.1em;
 }
 
+.setting_icon img
+{
+    width: 16.5%;
+    float:left;
+    margin-top: 165%;
+    margin-left: 23%;
+}
 
+.logout_icon img
+{
+    margin-top: 156.5%;
+    width: 16%;
+    float:left;
+    margin-left: 20%;
+}
 
 a, a:hover, a:focus {
     color: inherit;
@@ -318,7 +357,8 @@ a, a:hover, a:focus {
 }
 
 #sidebar ul li a:hover {
-   opacity: 0.5;
+    opacity: 0.6;
+   /*color:  #D93630;*/
 }
 
 #sidebar ul li.active > a, a[aria-expanded="true"] {
