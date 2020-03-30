@@ -73,9 +73,6 @@
                 <li>
                     <a href="salary.php">Salary</a>
                 </li>
-                <li>
-                    <a href="#">Others</a>
-                </li>
             </ul>
 
            <!--  <ul class="list-unstyled CTAs">

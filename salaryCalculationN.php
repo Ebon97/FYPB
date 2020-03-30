@@ -59,7 +59,7 @@
 		    }
 
 		    $minutes = floor($interval/60);
-				$hours = floor($interval/3600);
+			$hours = floor($interval/3600);
 		    $_remainder = $minutes % 60;
 
 		    //Checking if on shift 8 hours
