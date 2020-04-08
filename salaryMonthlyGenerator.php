@@ -2,13 +2,16 @@
 
 	$connect =  mysqli_connect("localhost", "root", "", "shellsbt") or die ("Connection Failed: ". mysqli_connect_error()); 
 
-	if(isset($_GET['monthly_generator']))
-	{
-		$year = $_GET['year'];
-		$month = $_GET['month'];
-		$month_add_one = $month + 1;
-		// echo $year." ".$month;
-	}
+    if(isset($_GET['confirmsalary']))
+    {
+        $year = $_GET['year'];
+        $month = $_GET['month'];
+        $month_add_one = $month + 1;
+    }
+    else
+    {
+        echo "NOTHING";
+    }
 
 	$month_name_array = ["NULL","January","February","March","April","May","June","July","August","September","October","November","December"];
 
@@ -22,7 +25,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Dashboard</title>
+    <title>Salary Payroll</title>
 
     <!-- Bootstrap CSS CDN -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
@@ -42,35 +45,6 @@
             </div>
 
             <ul class="list-unstyled components">
-               <!--  <li class="active">
-                    <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Home</a>
-                    <ul class="collapse list-unstyled" id="homeSubmenu">
-                        <li>
-                            <a href="#">Home 1</a>
-                        </li>
-                        <li>
-                            <a href="#">Home 2</a>
-                        </li>
-                        <li>
-                            <a href="#">Home 3</a>
-                        </li>
-                    </ul>
-                </li> -->
-               <!--  <li>
-                    <a href="#">About</a>
-                    <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Pages</a>
-                    <ul class="collapse list-unstyled" id="pageSubmenu">
-                        <li>
-                            <a href="#">Page 1</a>
-                        </li>
-                        <li>
-                            <a href="#">Page 2</a>
-                        </li>
-                        <li>
-                            <a href="#">Page 3</a>
-                        </li>
-                    </ul>
-                </li> -->
                 <li>
                     <a href="dashboard.php">Dashboard</a>
                 </li>
@@ -80,8 +54,14 @@
                 <li>
                     <a href="#">Performance</a>
                 </li>
+                 <li>
+                    <a href="salary.php">Salary Payroll</a>
+                </li>
+                 <li>
+                    <a href="rates.php">Rates</a>
+                </li>
                 <li>
-                    <a href="salary.php">Salary</a>
+                    <a href="history.php">History</a>
                 </li>
             </ul>
 
@@ -107,7 +87,6 @@
                     <input type="text" id="searchInput" onkeyup="searchFunction()" placeholder="Search Names" title="Type in a name">
                 </div>
             </div>
-
 
             <div id="salary_sheet">
 	        	<table>

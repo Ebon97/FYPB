@@ -70,10 +70,13 @@
                     <a href="#">Performance</a>
                 </li>
                 <li>
-                    <a href="#">Salary</a>
+                    <a href="salary.php">Salary Payroll</a>
                 </li>
-                <li>
-                    <a href="#">Others</a>
+                 <li>
+                    <a href="rates.php">Rates</a>
+                </li>
+                 <li>
+                    <a href="history.php">History</a>
                 </li>
             </ul>
 
@@ -157,7 +160,7 @@
 					
 				<div id="editEmployeeButton">
 					<?php include('employeeUpdate.php')?>
-					<input type="submit" name="update" value="Update" id="updateButton>
+					<input type="submit" name="update" value="Update" id="updateButton">
 				</div>
 
 				<div id="editSuccessMessage">
@@ -216,14 +219,6 @@
                 }       
             }
         }
-
-       var modal = document.getElementById("myModal");
-
-		function showAlertMessage()
-		{
-			alert("HI");
-		}
-
 		
 
     </script>

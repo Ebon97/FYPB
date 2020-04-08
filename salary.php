@@ -1,7 +1,38 @@
-<?php session_start()?>
+
+<?php
+    session_start();
+
+    $connect =  mysqli_connect("localhost", "root", "", "shellsbt") or die ("Connection Failed: ". mysqli_connect_error()); 
+
+    if(isset($_GET['monthly_generator']))
+    {
+        $year = $_GET['year'];
+        $month = $_GET['month'];
+
+        $_SESSION['year'] = $year;
+        $_SESSION['month'] = $month;
+
+        // echo $_SESSION['year']." ".$_SESSION['month'];
+
+        $query = "SELECT * FROM checkgenerator WHERE year='$year' AND month='$month'";
+        $result = mysqli_query($connect, $query);
+        $row = mysqli_num_rows($result);
+
+        if($row == 1)
+        {
+            header("Location: salaryMonthlyGenerator.php");
+        }
+        else
+        {
+            header("Location: salaryConfirmation.php");
+        }
+    }
+
+    
+?>
+
 <!DOCTYPE html>
 <html>
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -32,35 +63,6 @@
             </div>
 
             <ul class="list-unstyled components">
-               <!--  <li class="active">
-                    <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Home</a>
-                    <ul class="collapse list-unstyled" id="homeSubmenu">
-                        <li>
-                            <a href="#">Home 1</a>
-                        </li>
-                        <li>
-                            <a href="#">Home 2</a>
-                        </li>
-                        <li>
-                            <a href="#">Home 3</a>
-                        </li>
-                    </ul>
-                </li> -->
-               <!--  <li>
-                    <a href="#">About</a>
-                    <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Pages</a>
-                    <ul class="collapse list-unstyled" id="pageSubmenu">
-                        <li>
-                            <a href="#">Page 1</a>
-                        </li>
-                        <li>
-                            <a href="#">Page 2</a>
-                        </li>
-                        <li>
-                            <a href="#">Page 3</a>
-                        </li>
-                    </ul>
-                </li> -->
                 <li>
                     <a href="dashboard.php">Dashboard</a>
                 </li>
@@ -71,7 +73,13 @@
                     <a href="#">Performance</a>
                 </li>
                 <li>
-                    <a href="salary.php">Salary</a>
+                    <a href="salary.php">Salary Payroll</a>
+                </li>
+                 <li>
+                    <a href="rates.php">Rates</a>
+                </li>
+                <li>
+                    <a href="history.php">History</a>
                 </li>
             </ul>
 
@@ -102,7 +110,7 @@
                 </div>
 
                  <div id="month_form1" style="display:block">
-                    <form id="monthly_form" action="salaryMonthlyGenerator.php" method="GET">
+                    <form id="monthly_form" action="salary.php" method="GET">
 
                         <input type="number" class="form-control" name="year" value="2019">
 
@@ -113,7 +121,6 @@
                         </select>
 
                         <button type="submit" name="monthly_generator">GENERATE</button>
-        
                     </form>
                 </div>
 
@@ -136,6 +143,7 @@
                     </form>
                 </div>
             </div>
+
 
           
         </div>
@@ -168,51 +176,8 @@
             }
         }
 
-        // function searchFunction() 
-        // {
-        //     var input, filter, table, tr, td, i, txtValue;
 
-        //     input = document.getElementById("searchInput");
-        //     filter = input.value.toUpperCase();
-        //     table = document.getElementById("employeeList");
-        //     tr = table.getElementsByTagName("tr");
-
-        //     for (i = 0; i < tr.length; i++) 
-        //     {
-        //         td = tr[i].getElementsByTagName("td")[1];
-
-        //         if (td) 
-        //         {
-        //             txtValue = td.textContent || td.innerText;
-        //             if (txtValue.toUpperCase().indexOf(filter) > -1) 
-        //             {
-        //                 tr[i].style.display = "";
-        //             } 
-        //             else 
-        //             {
-        //                 tr[i].style.display = "none";
-        //             }
-        //         }       
-        //     }
-        // }
-
-        // var modal = document.getElementById("myModal");
-
-        // function showModal(no)
-        // {
-        //     document.getElementById("empNo").value = no;
-
-        //     modal.style.display = "block";
-        // }
-
-        // function hideModal()
-        // {
-        //     modal.style.display = "none";
-        // }
-
-
-
-        
+ 
 
     </script>
 </body>

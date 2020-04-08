@@ -218,7 +218,7 @@
 
 #update_setting #update_button
 {
-    margin-left: 35%;
+    margin-left: 33%;
 }
 
 #update_setting input[type=submit]
@@ -230,12 +230,12 @@
     border:none;
     border-radius: 10px;
     padding:1vh 3vw;
-    margin: 3% 0;
+    margin: 4% 0;
 }
 
 .sUpdate_warning, .sUpdate_success
 {
-    width: 57%;
+    width: 85%;
 }
 
 .sUpdate_warning p
@@ -247,7 +247,7 @@
     background-color: #FFCCCB;
     border: 1.5px solid red;
     color: red;
-    width: 40%;
+    width: 30%;
     font-family: Futura;
     font-size: 1.1em;
 }
@@ -261,7 +261,7 @@
     background-color: #D0F0C0;
     border: 1.5px solid green;
     color: green;
-    width: 35%;
+    width: 30%;
     font-family: Futura;
     font-size: 1.1em;
 }
@@ -270,13 +270,13 @@
 {
     width: 16.5%;
     float:left;
-    margin-top: 165%;
+    margin-top: 100%;
     margin-left: 23%;
 }
 
 .logout_icon img
 {
-    margin-top: 156.5%;
+    margin-top: 100%;
     width: 16%;
     float:left;
     margin-left: 20%;
@@ -738,7 +738,7 @@ ul ul a {
     cursor:pointer;
 }
 
-#editEmployeeForm
+#editEmployeeForm, 
 {
     color:#E35723;
     font-family: Futura;
@@ -752,7 +752,7 @@ ul ul a {
     width: 80%;
 }
 
-#editEmployeeForm label
+#editEmployeeForm label 
 {
     width: 15%;
     font-weight: bold;
@@ -1064,9 +1064,214 @@ ul ul a {
     color:green;
 }
 
+#ratesForm
+{
+    color: #E35723;
+    font-family: Futura;
+    padding-top: 3%;
+}
 
+#ratesForm .row
+{
+    margin: 3vh auto;
+    padding-left: 1.5%;
+}
 
+#ratesForm .row .title
+{
+    text-align: left;
+    width:17%;
+    font-weight: bold;
+}
 
+#ratesForm .row .colon
+{
+    width:6%;
+    font-weight: bold;
+}
+
+#ratesForm input[type=text]
+{
+    outline:none;
+    border: 1px solid #E35723;
+    border-radius: 10px;
+    color: #E35723;
+    width: 200%;
+}
+
+#ratesForm button
+{
+    color: white;
+    background-color: #E35723;
+    font-weight: bold;
+    outline: none;
+    border:none;
+    border-radius: 10px;
+    padding:1vh 3vw;
+    margin-top: 3%;
+    margin-left: 37.5%;
+    margin-bottom: 3%;
+}
+
+#ratesForm button:hover
+{
+    opacity: 0.7;
+    cursor: pointer;
+}
+
+.rUpdate_warning, .rUpdate_success
+{
+    width: 87%;
+}
+
+.rUpdate_warning p
+{
+    margin: 1vh auto;
+    padding: 1vh 0;
+    border-radius: 10px;
+    text-align: center;
+    background-color: #FFCCCB;
+    border: 1.5px solid red;
+    color: red;
+    width: 30%;
+    font-family: Futura;
+    font-size: 1.1em;
+}
+
+.rUpdate_success p
+{
+    margin: 1vh auto;
+    padding: 1vh 0;
+    border-radius: 10px;
+    text-align: center;
+    background-color: #D0F0C0;
+    border: 1.5px solid green;
+    color: green;
+    width: 30%;
+    font-family: Futura;
+    font-size: 1.1em;
+}
+
+.rUpdate_success a
+{
+    color: blue;
+    text-decoration: underline;
+
+}
+
+#ratesConfirm
+{
+    margin-left: 6%;
+    width: 90%;
+    color: #E35723;
+    font-family: Futura;
+    font-weight: bold;
+}
+
+#ratesConfirm h5
+{
+    margin-top: 3%;
+}
+
+#ratesConfirm table
+{
+    width:97%;
+}
+
+#ratesConfirm table th
+{
+    background-color: #E35723;
+    padding: 0.6vh 1vw;
+    text-align: center;
+    color: white;
+}
+
+#ratesConfirm table th:first-child
+{
+    border-top-left-radius: 10px;
+}
+
+#ratesConfirm table th:last-child
+{
+    border-top-right-radius: 10px;
+}
+
+#ratesConfirm table td
+{
+    color: #E35723;
+}
+
+#ratesConfirm table td
+{
+    border-bottom: 1px solid #E35723;
+}
+
+#historyList
+{
+    width: 90%;
+    margin-left: 6%;
+    margin-top: 3%;
+}
+
+#historyList tr th
+{
+    background-color: #E35723;
+    color:white;
+}
+
+#historyList tr th:first-child
+{
+    border-top-left-radius: 10px;
+}
+
+#historyList tr th:last-child
+{
+    border-top-right-radius: 10px;
+}
+
+#historyList tr td
+{
+    border-bottom: 1px solid #E35723;
+}
+
+#historyList tr td:last-child
+{
+    text-align: left;
+}
+
+#salaryRaise tr td:nth-child(4) input, td:nth-child(5) input
+{
+    border-radius: 7px;
+    outline: none;
+    border: 1px solid #E35723;
+    color: #E35723;
+    text-align: center;
+}
+
+#salaryConfirmbutton
+{
+    width: 97%;
+    text-align: right;
+}
+
+#salaryConfirmbutton button
+{
+    outline: none;
+    border: 1px solid #E35723;
+    color: white;
+    border-radius: 7px;
+    background-color: #E35723;
+    font-weight: bold;
+    font-size: 1em;
+    padding: 0.5vh 2vw;
+    margin-top: 2%;
+}
+
+#salaryConfirmbutton button:hover
+{
+    opacity: 0.8;
+    cursor: pointer;
+}
 
 
 

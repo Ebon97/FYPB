@@ -70,7 +70,13 @@
                     <a href="#">Performance</a>
                 </li>
                 <li>
-                    <a href="salary.php">Salary</a>
+                    <a href="salary.php">Salary Payroll</a>
+                </li>
+                 <li>
+                    <a href="rates.php">Rates</a>
+                </li>
+                <li>
+                    <a href="history.php">History</a>
                 </li>
             </ul>
 

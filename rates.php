@@ -10,33 +10,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Dashboard</title>
+    <title>Rates</title>
 
     <!-- Bootstrap CSS CDN -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 
     <link rel="stylesheet" href="style1.css">
-    <style>
-        .graph
-        {
-          width:90%;
-          display:block;
-          overflow:hidden;
-          margin:0 auto;
-          background:#fff;
-          border-radius:4px;
-          margin-top: 3%;
-        }
-
-        canvas
-        {
-          background:#fff;
-          height:250px;
-        }
-
-    </style>
-
 </head>
 
 <body>
@@ -134,64 +114,74 @@
 
              <div class="row title">
                 <div class="col-6 pageTitle">
-                    <h2>Dashboard</h2>
+                    <h2>Rates</h2>
                 </div>
+            </div>
 
-                <div class="col-4 datepicker" style="text-align: right;">
-                    <form action="dashboard.php" method="GET">
-                        <input type="date" name="start_date" value="2019-10-01">
-                        <!-- <span class="tooltiptext">Tooltip text</span> -->
-                        <input type="submit" name="apply" value="APPLY" class="apply">
+            <?php
+                $connect =  mysqli_connect("localhost", "root", "", "shellsbt") or die ("Failed");
+                $message = "";
+
+                $query = "SELECT * FROM rates";
+                $result = mysqli_query($connect, $query);
+                $row = mysqli_num_rows($result);
+
+                if($row == 1)
+                {
+
+                    $row = mysqli_fetch_assoc($result);
+                    
+                    $overtime_bonus = $row['overtime_bonus'];                                               
+                    $late_penalties = $row['late_penalties'];
+                    $shift_penalties = $row['shift_penalties'];
+
+            ?>
+                    <form id="ratesForm" action="rates.php" method="GET">
+                        <div class='form-group row'>
+                            <label class="title">Bonus Rates</label>
+                            <label class="colon">:</label>
+                            <div>
+                                <input type='text' class='form-control' value="<?php echo $overtime_bonus; ?>" name="bonus" >/ hour
+                            </div>
+                        </div>
+
+                        <div class='form-group row'>
+                            <label class="title">Late Penalties Rates</label>
+                            <label class="colon">:</label>
+                            <div>
+                                <input type='text' class='form-control' value="<?php echo $late_penalties; ?>" name="late">/ minutes
+                            </div>
+                        </div>
+
+                        <div class='form-group row'>
+                            <label class="title">Shift Penalties Rates</label>
+                            <label class="colon">:</label>
+                            <div>
+                                <input type='text' class='form-control' value="<?php echo $shift_penalties; ?>" name="shift">/ minutes
+                            </div>
+                        </div>
+
+                        <div>
+                            <button type="submit" name="rates">UPDATE</button>
+                        </div>
                     </form>
-                </div>
-
-                <?php 
-                    include("dashboardGraphCalculation.php")
-                ?>
-
-            </div>
-
-            <div class="graph">
-                <canvas id="myChart4"></canvas>
-            </div>
-
-            <div class="row title">
-                <div class="col-9 pageTitle">
-                    <h5>Attendance Sheet</h5>
-                </div>
-
-                 <div class="col-3 upload">
-                    <button>UPLOAD FILE</button>
-                </div>
-            </div>
-
-            <div id="attendance_sheet">
-                <table id="attendance">
-                    <tr>
-                        <th>No</th>
-                        <th>Name</th>
-                        <th>Date</th>
-                        <th>Time</th>
-                        <th>Punctuality</th>
-                    </tr>
-                        <?php
-                            include("dashboardAttendance.php");
-
-                            $username = $_SESSION['username'];
-                            $hashed_password = $_SESSION['hashed_password'];
-
-                            if(empty($username) || empty($hashed_password))
-                            {
-                                $message = "";
-                                header("Location: login.php");
-                            }
 
 
-                            // echo $username." ".$hashed_password;
-                        ?>
-                </table>
-            </div>
+            <?php
+                    
+                    
+                    
+                }
+                else
+                {
+                    $message = "<div class='rUpdate_warning'><p>Something Wrong....</p></div>";
+                }
 
+                include("ratesUpdate.php");
+                
+
+                echo $message;
+            ?>
             
         </div>
     </div>
@@ -209,93 +199,6 @@
                 $('#sidebar').toggleClass('active');
                 $(this).toggleClass('active');
             });
-        });
-
-        var ctx = document.getElementById("myChart4").getContext('2d');
-        var myChart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: <?php echo $dates; ?>,
-                datasets: [{
-                    label: 'NotOnShift',
-                    backgroundColor: "#066C81",
-                    data: <?php echo $notOnShift_data; ?>,
-                }, {
-                    label: 'OverTime',
-                    backgroundColor: "#FAB418",
-                    data: <?php echo $overtime_data; ?>,
-                }, {
-                    label: 'Late',
-                    backgroundColor: "#DA3530",
-                    data: <?php echo $late_data; ?>,
-                }],
-            },
-        options: {
-             title: {
-                display: true,
-                fontFamily: 'Futura',
-                fontColor:'#E35723',
-                fontSize: '16',
-                padding: 10,
-                text: 'Weekly Overall Status Performance'
-            },
-            tooltips: {
-              displayColors: true,
-              callbacks:{
-                mode: 'x',
-              },
-            },
-
-            scales: {
-              xAxes: [{
-                stacked: true,
-                barPercentage: 0.5,
-                // scaleLabel: {
-                //     display: true,
-                //     labelString: 'Days',
-                //     fontSize: '15',
-                //   },
-                ticks: {
-                    fontColor: "#E35723",
-                    fontFamily: "Futura",
-                    fontStyle: 'bold',
-                    fontSize: '16',
-                },
-                gridLines: {
-                  display: false,
-                  color: '#DA3530',
-                }
-              }],
-
-              yAxes: [{
-                stacked: true,
-                barPercentage: 0.5,
-                // scaleLabel: {
-                //     display: true,
-                //     labelString: 'Number',
-                //     padding: 20,
-                //     fontSize: '15',
-                //   },
-                ticks: {
-                  beginAtZero: true,
-                    fontColor: "#E35723",
-                    fontFamily: "Futura",
-                    fontStyle: 'bold',
-                    fontSize: '16',
-                },
-                gridLines: {
-                  display: false,
-                  color: '#E35723',
-                },
-                type: 'linear',
-              }]
-            },
-                responsive: true,
-                maintainAspectRatio: false,
-                legend: { 
-                    position: 'right',
-                },
-            }
         });
 
     </script>

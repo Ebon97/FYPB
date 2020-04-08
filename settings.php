@@ -17,25 +17,6 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 
     <link rel="stylesheet" href="style1.css">
-    <style>
-        .graph
-        {
-          width:90%;
-          display:block;
-          overflow:hidden;
-          margin:0 auto;
-          background:#fff;
-          border-radius:4px;
-          margin-top: 3%;
-        }
-
-        canvas
-        {
-          background:#fff;
-          height:250px;
-        }
-
-    </style>
 
 </head>
 
@@ -88,7 +69,13 @@
                     <a href="#">Performance</a>
                 </li>
                 <li>
-                    <a href="salary.php">Salary</a>
+                   <a href="salary.php">Salary Payroll</a>
+                </li>
+                 <li>
+                    <a href="rates.php">Rates</a>
+                </li>
+                <li>
+                    <a href="history.php">History</a>
                 </li>
             </ul>
 

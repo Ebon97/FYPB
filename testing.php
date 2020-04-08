@@ -200,16 +200,19 @@
                 </div>
             </div>
 
-            <button onclick="document.getElementById('id01').style.display='block'">Open Modal</button>
+            
 
-            <?php
-              echo "HI";
-            ?>
-
+            <form>
+              <input type="text" name="month" id="month">
+              <input type="text" name="month_name" id="month_name">
+              
+              <button onclick="openModal()" name="open" id="open">Open Modal</button>
+            </form>
+          
             <div id="id01" class="modal">
-                <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
+                <span onclick="closeModal()" class="close" title="Close Modal">&times;</span>
 
-                <form class="modal-content" action="/action_page.php">
+                <form class="modal-content" action="/action_page.php" method="GET">
                     <div class="container">
                         <h1>Delete Account</h1>
                         <p>Are you sure you want to delete your account?</p>
@@ -221,10 +224,6 @@
                     </div>
                 </form>
             </div>
-            
-
-          
-          
         </div>
     </div>
 
@@ -251,6 +250,17 @@
           }
         }
 
+        function openModal()
+        {
+          document.getElementById('id01').style.display = 'block';
+          // x = document.getElementById('open').name;
+
+        }
+
+        function closeModal()
+        {
+          document.getElementById('id01').style.display = 'none';
+        }
 
  
 

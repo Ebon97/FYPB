@@ -12,8 +12,6 @@
     <!-- Bootstrap CSS CDN -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
-
-
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 
     <!-- Our Custom CSS -->
@@ -73,6 +71,12 @@
                 <li>
                     <a href="salary.php">Salary</a>
                 </li>
+                 <li>
+                    <a href="rates.php">Rates</a>
+                </li>
+                <li>
+                    <a href="history.php">History</a>
+                </li>
             </ul>
 
            <!--  <ul class="list-unstyled CTAs">
@@ -118,36 +122,7 @@
                     else
                     {
 
-                        // if($month == "all")
-                        // {
-
-                        // }
-                        // else
-                        // {
-                            
-                        // }
-
-                        
-
-                        // $query_out = "SELECT Name, date(DateTime),time(DateTime) 
-                        //              FROM clock_out WHERE Name='".$name."' 
-                        //              AND date(DateTime) BETWEEN '".$year."-".$month."-01' and '".$year."-".$month."-31'
-                        //              ORDER BY date(dateTime)";
-
-                        // while($row = mysqli_fetch_assoc($result))
-                        // {
-                        //     $name = $row['Name'];
-                        //     $shift = $row['shift'];
-                        //     $salary = $row['salary'];
-
-                        //     echo $name." ". $shift." ".$salary;
-                        // }
-                    }
-
-                   
-
-                    
-                    
+                    }         
 
                 }
             ?>

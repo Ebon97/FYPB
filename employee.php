@@ -12,8 +12,6 @@
     <!-- Bootstrap CSS CDN -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
-
-
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 
     <!-- Our Custom CSS -->
@@ -71,7 +69,13 @@
                     <a href="performance.php">Performance</a>
                 </li>
                 <li>
-                    <a href="salary.php">Salary</a>
+                    <a href="salary.php">Salary Payroll</a>
+                </li>
+                 <li>
+                    <a href="rates.php">Rates</a>
+                </li>
+                <li>
+                    <a href="history.php">History</a>
                 </li>
             </ul>
 
@@ -193,23 +197,6 @@
             }
         }
 
-        // var modal = document.getElementById("myModal");
-
-        // function showModal(no)
-        // {
-        //     document.getElementById("empNo").value = no;
-
-        //     modal.style.display = "block";
-        // }
-
-        // function hideModal()
-        // {
-        //     modal.style.display = "none";
-        // }
-
-
-
-        
 
     </script>
 </body>

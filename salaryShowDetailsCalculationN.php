@@ -1,6 +1,18 @@
 <?php
 
-	$penalties_per_minutes = 4.86 / 60;
+	$query_rates = "SELECT * FROM rates WHERE no=1";
+    $result_rates = mysqli_query($connect, $query_rates);
+    $row_rates = mysqli_num_rows($result_rates);
+
+    if($row_rates == 1)
+    {
+    	$row_rates = mysqli_fetch_assoc($result_rates);
+    	
+    	$no = $row_rates['no'];
+    	$bonus = $row_rates['overtime_bonus'];
+    	$late_penalties = $row_rates['late_penalties'];
+    	$shift_penalties = $row_rates['shift_penalties'];
+    }
 
 	$total_shift_penalties = 0;
 	$total_late_penalties = 0;
@@ -74,7 +86,7 @@
 		    {
 		    	$penalties_min = 480 - $minutes;
 
-		    	$penalties = round($penalties_min * $penalties_per_minutes,2);
+		    	$penalties = round($penalties_min * $shift_penalties,2);
 		    }
 		    else
 		    {
@@ -107,7 +119,7 @@
 		    {
 		    	$penalties_min = 480 - $minutes;
 
-		    	$penalties = round($penalties_min * $penalties_per_minutes,2);
+		    	$penalties = round($penalties_min * $shift_penalties,2);
 		    	$total_penalties = $total_penalties + $penalties;
 		    }
 		    else
@@ -121,7 +133,7 @@
 			{
 				$late = "1";
 
-				$late_penalties = round((strtotime($time_in) - $night_shift_late)/60 * $penalties_per_minutes,2);
+				$late_penalties = round((strtotime($time_in) - $night_shift_late)/60 * $late_penalties,2);
 				$total_late_penalties = $total_late_penalties + $late_penalties;
 			}
 			else
