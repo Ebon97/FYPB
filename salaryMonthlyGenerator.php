@@ -1,19 +1,51 @@
 <?php
+    session_start();
 
 	$connect =  mysqli_connect("localhost", "root", "", "shellsbt") or die ("Connection Failed: ". mysqli_connect_error()); 
 
+    $month_name_array = ["NULL","January","February","March","April","May","June","July","August","September","October","November","December"];
+    $found = false;
+    $notification = "";
+    $i = 1;
+
+    //When Generating New Payroll
     if(isset($_GET['confirmsalary']))
     {
         $year = $_GET['year'];
         $month = $_GET['month'];
         $month_add_one = $month + 1;
+
+        $table_row = $_SESSION['row'];
+
+        for($i = 1; $i < $table_row; $i++)
+        {
+            $salary[$i] = $_GET['salary'.$i];
+            $name[$i] = $_GET['name'.$i];
+
+            // UPDATE employee SET salary=[value-5] WHERE Name = '';
+            $query_upd = "UPDATE employee SET salary='$salary[$i]' WHERE Name = '$name[$i]'";
+            $result_upd = mysqli_query($connect, $query_upd);
+
+        }
+
+        $found = false;
     }
+    //When Generating Past Record
     else
     {
-        echo "NOTHING";
-    }
+        $year = $_SESSION['year'];
+        $month = $_SESSION['month'];
+        $month_add_one = $month+1;
 
-	$month_name_array = ["NULL","January","February","March","April","May","June","July","August","September","October","November","December"];
+        $query = "SELECT * FROM checkgenerator WHERE year='$year' AND month='$month'";
+        $result = mysqli_query($connect, $query);
+        $row = mysqli_num_rows($result);
+
+        if($row == 1)
+        {
+            $found = true;
+        }
+    }
 
 ?>
 
@@ -92,39 +124,99 @@
 	        	<table>
 	        		<tr>
 	        			<th>Name</th>
+                        <th>Salary</th>
 	        			<th>Total Shift Penalties</th>
 	        			<th>Total Late Penalties</th>
 	        			<th>Total Bonus</th>
-	        			<th>Salary</th>
+	        			<th>Final Salary</th>
 	        			<th colspan="2">Action</th>
 	        		</tr>
 
 		 			<?php 
 
-						$query = "SELECT * from employee";
-						$result = mysqli_query($connect, $query);
-						$row = mysqli_num_rows($result);
+                        if($found == false)
+                        {
+                            $query = "SELECT * from employee";
+                            $result = mysqli_query($connect, $query);
+                            $row = mysqli_num_rows($result);
 
-						while($row = mysqli_fetch_assoc($result))
-						{
-							$name = $row['Name'];
-							$shift = $row['shift'];
-							$salary = $row['salary'];
+                            while($row = mysqli_fetch_assoc($result))
+                            {
+                                $name = $row['Name'];
+                                $shift = $row['shift'];
+                                $salary = $row['salary'];
 
-							if($shift == "Morning" || $shift == "Afternoon")
-							{
-								include("salaryCalculationMF.php");
-							}
-							else if ($shift == "Night")
-							{
-								include("salaryCalculationN.php");
-							}
+                                if($shift == "Morning" || $shift == "Afternoon")
+                                {
+                                    include("salaryCalculationMF.php");
+                                }
+                                else if ($shift == "Night")
+                                {
+                                    include("salaryCalculationN.php");
+                                }
 
-						}
+                            }
+
+                            if($alert_count == 0)
+                            {
+                                $query_check = "INSERT INTO checkgenerator(no, year, month, status) VALUES (NULL,'$year','$month',1)";
+                                $result_check = mysqli_query($connect, $query_check);
+
+                                $query_his = "INSERT INTO history(no, date, category, description) VALUES (NULL,CURRENT_TIMESTAMP,'Salary Payroll','$month_name_array[$month] Salary Payroll is successfully generated')";
+                                $result_his = mysqli_query($connect, $query_his);
+
+                                $notification = "<div class='success'><p>Payroll generated successfully</p></div>";
+                            }
+                            else
+                            {
+                                $notification = "<div class='warning'><p>This Payroll is generated unsuccessfully</p></div>";
+
+                            }
+
+                        }
+                        else if ($found == true)
+                        {
+                            $query = "SELECT * from salary_past WHERE year='$year' and month='$month'";
+                            $result = mysqli_query($connect, $query);
+                            $row = mysqli_num_rows($result);
+                            $i = 0;
+                            
+                            while($row = mysqli_fetch_assoc($result))
+                            {
+                                $name = $row['name'];
+                                $shift_penalties = $row['shift_penalties'];
+                                $late_penalties = $row['late_penalties'];
+                                $bonus = $row['bonus'];
+                                $final_salary = $row['final_salary'];
+                                $i++;
+
+                                echo "<tr>
+                                    <td>".$name."</td>
+                                    <td>".$shift_penalties."</td>
+                                    <td>".$late_penalties."</td>
+                                    <td>".$bonus."</td>
+                                    <td>".$final_salary."</td>
+                                </tr>";
+                            }
+                        }
+
+
+						
 
 					?>
 	            </table>
+
         	</div>
+            <strong style='color:red;'>successfully</strong>
+
+            <?php
+                if($found == true)
+                {
+                    $notification = "<div class='warning'><p>This Payroll had been generated before</p></div>";
+                }
+
+                echo $notification;
+            ?>
         </div>
     </div>
 

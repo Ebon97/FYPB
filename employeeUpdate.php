@@ -12,7 +12,7 @@
 
 		// echo $empNo."<br>".$empName."<br>".$empPosition."<br>".$empSalary."<br>".$empSDate;
 
-		$query = "UPDATE `employee` SET `Name`='".$empName."',`position`='".$empPosition."', `salary`='".$empSalary."',`startDate`='".$empSDate."' WHERE EnNo='".$empNo."'";
+		$query = "UPDATE employee SET Name='$empName',position='$empPosition', salary='$empSalary',startDate='$empSDate' WHERE EnNo='$empNo'";
 
 		$result = mysqli_query($connect, $query);
 

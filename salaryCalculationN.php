@@ -216,6 +216,9 @@
 			else
 			{
 				$alert = "";
+				$query_past = "INSERT INTO salary_past(no, year, month,name,shift_penalties, late_penalties,  bonus, final_salary) VALUES (NULL,'$year','$month','$name','$total_shift_penalties','$total_late_penalties','$total_bonus','$final_salary')";
+	
+     			$result_past = mysqli_query($connect, $query_past);
 			}
 		}
 		else
@@ -227,6 +230,9 @@
 			else
 			{
 				$alert = "";
+				$query_past = "INSERT INTO salary_past(no, year, month,name,shift_penalties, late_penalties,  bonus, final_salary) VALUES (NULL,'$year','$month','$name','$total_shift_penalties','$total_late_penalties','$total_bonus','$final_salary')";
+	
+     			$result_past = mysqli_query($connect, $query_past);
 			}
 		}
 
@@ -234,6 +240,7 @@
 
 		<tr>
 			<td><?php echo $name; ?></td>
+			<td>RM <?php echo $salary; ?></td>
 			<td><?php echo $total_shift_penalties; ?></td>
 			<td><?php echo $total_late_penalties; ?></td>
 			<td><?php echo $total_bonus; ?></td>
@@ -249,6 +256,7 @@
 			<td style="padding:0;"><?php echo $alert; ?></td>
 		</tr>
 <?php
+     
 	//Reset Total Penalties
 	$total_shift_penalties = 0;
 	$total_bonus = 0;

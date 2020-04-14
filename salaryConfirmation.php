@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Rates</title>
+    <title>Salary Confirmation</title>
 
     <!-- Bootstrap CSS CDN -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
@@ -130,35 +130,6 @@
             </div>
 
             <ul class="list-unstyled components">
-               <!--  <li class="active">
-                    <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Home</a>
-                    <ul class="collapse list-unstyled" id="homeSubmenu">
-                        <li>
-                            <a href="#">Home 1</a>
-                        </li>
-                        <li>
-                            <a href="#">Home 2</a>
-                        </li>
-                        <li>
-                            <a href="#">Home 3</a>
-                        </li>
-                    </ul>
-                </li> -->
-               <!--  <li>
-                    <a href="#">About</a>
-                    <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Pages</a>
-                    <ul class="collapse list-unstyled" id="pageSubmenu">
-                        <li>
-                            <a href="#">Page 1</a>
-                        </li>
-                        <li>
-                            <a href="#">Page 2</a>
-                        </li>
-                        <li>
-                            <a href="#">Page 3</a>
-                        </li>
-                    </ul>
-                </li> -->
                 <li>
                     <a href="dashboard.php">Dashboard</a>
                 </li>
@@ -272,23 +243,30 @@
                         $query = "SELECT * FROM employee";
                         $result = mysqli_query($connect, $query);
                         $row = mysqli_num_rows($result);
-                        $i = 0;
 
+                        $table_row = 0;
+                        
                         while($row = mysqli_fetch_assoc($result))
                         {
                             $no = $row['No'];
                             $employee = $row['Name'];
                             $salary = $row['salary'];
+
                         
                             echo "<tr>
                                 <td>".$no."</td>
-                                <td>".$employee."</td>
+                                <td class='name'>".$employee."</td>
                                 <td>".$salary."</td>
                                 <td><input type='number' class='raise'></td>
                                 <td><input type='number' class='cut'></td>
                                 <td><span class='final'></span></td>
-                            </tr>"; 
-                        }
+                            </tr>";
+                            $table_row++;
+                       }
+
+                       echo $table_row;
+
+                       $_SESSION['row'] = $table_row;
 
                     ?>
 
@@ -296,10 +274,10 @@
 
                 <div id="salaryConfirmbutton">
                     <button onclick="add()">Add</button>
-                    <form action="salaryMonthlyGenerator.php" method="GET">
-                        <input type="hidden" value="<?php echo $year; ?>" name="year">
-                        <input type="hidden" value="<?php echo $month; ?>" name="month">
-                        <button type="submit" name="confirmsalary">Confirm</button>
+                    <form action="salaryMonthlyGenerator.php" method="GET" id="confirmSalaryForm">
+                        <input type="number" value="<?php echo $year; ?>" name="year" id="year">
+                        <input type="number" value="<?php echo $month; ?>" name="month" id="month">
+                        <button type="submit" name="confirmsalary" style="visibility: hidden" id="confirmsalary">Confirm</button>
                     </form>
                 </div>
 
@@ -337,27 +315,71 @@
             });
         });
 
+        var count = 0;
+        var namearray = [];
+
         function add()
         {
+            count++;
             var i;
             var table = document.getElementById("salaryRaise");
 
+            var n = document.getElementsByClassName("name");
             var r = document.getElementsByClassName("raise");
             var c = document.getElementsByClassName("cut");
             var f = document.getElementsByClassName("final");
 
+            var confirmButton = document.getElementById("confirmsalary");
+            var month = document.getElementById("month");
 
+            // alert(count);
             for (i = 1; i < table.rows.length; i++) 
             {
-
+                name = table.rows[i].cells[1].innerHTML;
                 initial = parseInt(table.rows[i].cells[2].innerHTML);
                 raise = Number(r[i-1].value);
                 cut  = Number(c[i-1].value);
-
+                namearray.push(name);
 
                 f[i-1].innerHTML = initial + raise - cut;
 
+                var inputN = document.createElement("input");
+                inputN.setAttribute("type","text");
+                inputN.setAttribute("value",name);
+                inputN.setAttribute("id","name"+[i]);
+                inputN.setAttribute("name","name"+[i]);
+
+                var input = document.createElement("input");
+                input.setAttribute("type","number");
+                input.setAttribute("value",f[i-1].innerHTML);
+                input.setAttribute("id","salary"+[i]);
+                input.setAttribute("name","salary"+[i]);
+
+                if(document.getElementById("input"+[i]) == null)
+                {
+                    month.appendChild(inputN);
+                    month.appendChild(input);
+                                      
+                }
+                else if(document.getElementById("input"+[i]) != null)
+                {
+                    console.log(f[i-1].innerHTML);
+                    var x = document.getElementById("input"+[i]);
+                    x.value = f[i-1].innerHTML;
+                }
+
+                console.log(namearray);
+
+                
+                
             }
+            
+            
+
+            
+
+            confirmButton.style.visibility = "visible";
+
         }
 
         function confirm()
@@ -385,6 +407,11 @@
         }
 
     </script>
+
+    <?php
+        echo"<script>console.log(obj);</script>";
+    ?>
 </body>
+
 
 </html>
