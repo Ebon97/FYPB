@@ -10,6 +10,7 @@
    		$no = $row['No'];
    		$emp_name = $row['Name'];
          $position = $row['position'];
+         $shift = $row['shift'];
          $salary = $row['salary'];
          $startDate = $row['startDate'];
 
@@ -18,6 +19,7 @@
             <td>".$no."</td>
             <td>".$emp_name."</td>
             <td>".$position."</td>
+            <td>".$shift."</td>
             <td>RM ".$salary."</td>
             <td>".$startDate."</td>
             <td>

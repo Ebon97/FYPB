@@ -136,39 +136,9 @@
 
                         if($found == false)
                         {
-                            $query_rates = "SELECT * FROM rates WHERE no=1";
-                            $result_rates = mysqli_query($connect, $query_rates);
-                            $row_rates = mysqli_num_rows($result_rates);
-
-                            if($row_rates == 1)
-                            {
-                                $row_rates = mysqli_fetch_assoc($result_rates);
-                                
-                                $no = $row_rates['no'];
-                                $bonus = $row_rates['overtime_bonus'];
-                                $late_penalties = $row_rates['late_penalties'];
-                                $shift_penalties = $row_rates['shift_penalties'];
-                            }
-
-                            $total_shift_penalties = 0;
-                            $total_late_penalties = 0;
-                            $total_bonus = 0;
-
-                            $morning_shift_late = strtotime('6:40:00');
-                            $afternoon_shift_late = strtotime('14:40:00');
-                            $night_shift_late = strtotime('21:40:00');
-
-                            $row_count = 0;
-                            $final_row_count = 0;
-                            $alert_count = 0;
-                            $missing_data_count = 0;
-                            $total_missing_data = 0;
-
                             $query = "SELECT * from employee";
                             $result = mysqli_query($connect, $query);
                             $row = mysqli_num_rows($result);
-
-                            $i = 1;
 
                             while($row = mysqli_fetch_assoc($result))
                             {
@@ -176,10 +146,18 @@
                                 $shift = $row['shift'];
                                 $salary = $row['salary'];
 
-                                 include("test.php");
+                                if($shift == "Morning" || $shift == "Afternoon")
+                                {
+                                    include("salaryCalculationMF.php");
+                                }
+                                else if ($shift == "Night")
+                                {
+                                    include("salaryCalculationN.php");
+                                }
+
                             }
 
-                            if($total_missing_data  == 0)
+                            if($alert_count == 0)
                             {
                                 $query_check = "INSERT INTO checkgenerator(no, year, month, status) VALUES (NULL,'$year','$month',1)";
                                 $result_check = mysqli_query($connect, $query_check);
@@ -202,7 +180,7 @@
                             $result = mysqli_query($connect, $query);
                             $row = mysqli_num_rows($result);
                             $i = 0;
-                          
+                            
                             while($row = mysqli_fetch_assoc($result))
                             {
                                 $name = $row['name'];
@@ -218,12 +196,8 @@
                                     <td>".$late_penalties."</td>
                                     <td>".$bonus."</td>
                                     <td>".$final_salary."</td>
-                                    <td>".$final_salary."</td>
-                                    <td></td>
-                                    <td></td>
                                 </tr>";
                             }
-                            
                         }
 
 
@@ -233,6 +207,7 @@
 	            </table>
 
         	</div>
+            <strong style='color:red;'>successfully</strong>
 
             <?php
                 if($found == true)

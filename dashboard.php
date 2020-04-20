@@ -63,21 +63,7 @@
                         </li>
                     </ul>
                 </li> -->
-               <!--  <li>
-                    <a href="#">About</a>
-                    <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Pages</a>
-                    <ul class="collapse list-unstyled" id="pageSubmenu">
-                        <li>
-                            <a href="#">Page 1</a>
-                        </li>
-                        <li>
-                            <a href="#">Page 2</a>
-                        </li>
-                        <li>
-                            <a href="#">Page 3</a>
-                        </li>
-                    </ul>
-                </li> -->
+                
                 <li>
                     <a href="dashboard.php">Dashboard</a>
                 </li>
@@ -88,7 +74,15 @@
                     <a href="#">Performance</a>
                 </li>
                 <li>
-                    <a href="salary.php">Salary Payroll</a>
+                    <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Salary</a>
+                    <ul class="collapse list-unstyled" id="pageSubmenu">
+                        <li>
+                            <a href="salary.php">Generate Payroll</a>
+                        </li>
+                        <li>
+                            <a href="#">Check & Update</a>
+                        </li>
+                    </ul>
                 </li>
                 <li>
                     <a href="rates.php">Rates</a>

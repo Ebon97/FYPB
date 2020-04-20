@@ -228,7 +228,7 @@
                     </tr>
                 </table>
 
-                 <h5>Salary Changes</h5>
+                 <h5>Salary Raise</h5>
                  <table id="salaryRaise">
                      <tr>
                          <th>No</th>
@@ -264,6 +264,7 @@
                             $table_row++;
                        }
 
+                       echo $table_row;
 
                        $_SESSION['row'] = $table_row;
 
@@ -274,8 +275,8 @@
                 <div id="salaryConfirmbutton">
                     <button onclick="add()">Add</button>
                     <form action="salaryMonthlyGenerator.php" method="GET" id="confirmSalaryForm">
-                        <input type="hidden" value="<?php echo $year; ?>" name="year" id="year">
-                        <input type="hidden" value="<?php echo $month; ?>" name="month" id="month">
+                        <input type="number" value="<?php echo $year; ?>" name="year" id="year">
+                        <input type="number" value="<?php echo $month; ?>" name="month" id="month">
                         <button type="submit" name="confirmsalary" style="visibility: hidden" id="confirmsalary">Confirm</button>
                     </form>
                 </div>
@@ -373,6 +374,10 @@
                 
             }
             
+            
+
+            
+
             confirmButton.style.visibility = "visible";
 
         }
