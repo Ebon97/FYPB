@@ -26,61 +26,40 @@
             </div>
 
             <ul class="list-unstyled components">
-               <!--  <li class="active">
-                    <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Home</a>
-                    <ul class="collapse list-unstyled" id="homeSubmenu">
-                        <li>
-                            <a href="#">Home 1</a>
-                        </li>
-                        <li>
-                            <a href="#">Home 2</a>
-                        </li>
-                        <li>
-                            <a href="#">Home 3</a>
-                        </li>
-                    </ul>
-                </li> -->
-               <!--  <li>
-                    <a href="#">About</a>
-                    <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Pages</a>
-                    <ul class="collapse list-unstyled" id="pageSubmenu">
-                        <li>
-                            <a href="#">Page 1</a>
-                        </li>
-                        <li>
-                            <a href="#">Page 2</a>
-                        </li>
-                        <li>
-                            <a href="#">Page 3</a>
-                        </li>
-                    </ul>
-                </li> -->
                 <li>
                     <a href="dashboard.php">Dashboard</a>
                 </li>
+
                  <li>
                     <a href="employee.php">Employee List</a>
                 </li>
+
                 <li>
-                    <a href="performance.php">Performance</a>
+                    <a href="#">Performance</a>
                 </li>
+
                 <li>
-                    <a href="salary.php">Salary Payroll</a>
+                    <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Salary</a>
+                    <ul class="collapse list-unstyled" id="pageSubmenu">
+                        <li>
+                            <a href="salary.php">Generate Payroll</a>
+                        </li>
+                        <li>
+                            <a href="salaryCheckUpdate.php">Check & Update</a>
+                        </li>
+                    </ul>
                 </li>
-                 <li>
+
+                <li>
                     <a href="rates.php">Rates</a>
                 </li>
+                
                 <li>
                     <a href="history.php">History</a>
                 </li>
 
-            </ul>
-
-            <ul class="list-unstyled icon">
                 <li>
                     <a href="settings.php" class="setting_icon"><img src="image/setting_icon.png"></a>
-                </li>
-                <li>
                     <a href="login.php" class="logout_icon"><img src="image/logout_icon.png"></a>
                 </li>
             </ul>

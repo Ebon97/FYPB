@@ -270,16 +270,15 @@
 {
     width: 16.5%;
     float:left;
-    margin-top: 100%;
-    margin-left: 23%;
+    margin-top: 8%;
+    margin-left: 27%;
 }
 
 .logout_icon img
 {
-    margin-top: 100%;
     width: 16%;
     float:left;
-    margin-left: 20%;
+    margin-left: 15%;
 }
 
 a, a:hover, a:focus {
@@ -378,9 +377,9 @@ a[data-toggle="collapse"] {
     transform: translateY(-50%);
 }
 
+/*Sub Categories*/
 ul ul a {
     font-size: 0.9em !important;
-    padding-left: 30px !important;
 }
 
 
@@ -1271,9 +1270,203 @@ ul ul a {
     cursor: pointer;
 }
 
+#checkSalaryForm
+{
+    color: #E35723;
+    font-family: Futura;
+    margin-top: 1%;
+    margin-bottom: 3%;
+    margin-left: 4%;
+    /*border: 1px solid black;*/
+    width: 50%;
+    display: block;
+    float: left;
+}
+
+#checkSalaryForm .row
+{
+    margin: 3vh auto;
+    /*padding-left: 1.5%;*/
+
+}
+
+#checkSalaryForm .row .title
+{
+    text-align: left;
+    width: 20%;
+    font-weight: bold;
+    padding-top: 0.8vh;
+}
+
+#checkSalaryForm .row .colon
+{
+    width:10%;
+    font-weight: bold;
+    padding-top: 0.8vh;
+}
+
+#checkSalaryForm input[type="text"]
+{
+    border: 1px solid #E35723;
+    border-radius: 10px;
+    color: #E35723;
+    width: 150%;
+}
+
+#checkSalaryForm input[type="date"]
+{
+    outline: none;
+    border: 1px solid #E35723 !important;
+    border-radius: 10px;
+    color: #E35723;
+    width: 143% !important;
+    padding: 0.7vh 1vh;
+    text-align: left;
+    font-weight: normal;
+}
+
+#checkSalaryForm select
+{
+    border: 1px solid #E35723;
+    border-radius: 10px;
+    color: #E35723;
+    width: 357%;
+    padding-bottom: 0.9vh;
+    padding-top: 0.9vh;
+    padding-left: 0.5vw;
+}
+
+#checkSalaryForm input[type=submit]
+{
+    color: white;
+    background-color: #E35723;
+    font-weight: bold;
+    outline: none;
+    border: none;
+    border-radius: 10px;
+    padding:1vh 3vw;
+    margin-top: 1%;
+    margin-left: 46%;
+}
+
+#checkSalaryForm input[type=submit]:hover
+{
+    opacity: 0.8;
+    cursor: pointer;
+}
+
+#checkUpdateTable
+{
+    margin-left: 5vw;
+    width: 92%;
+    font-family: Futura;
+    font-weight: bold;
+    color: #E35723 !important;
+}
+
+#checkUpdateTable tr th
+{
+    color: white;
+    background-color: #E35723;
+
+}
+
+#checkUpdateTable tr th:first-child
+{
+    border-top-left-radius: 10px;
+}
+
+#checkUpdateTable tr th:last-child
+{
+    background: white;
+}
+
+#checkUpdateTable tr th:nth-last-child(2)
+{
+    background: white;
+}
+
+#checkUpdateTable tr th:nth-last-child(3)
+{
+    border-top-right-radius: 10px;
+}
+
+#checkUpdateTable tr td
+{
+    border-bottom: 1px solid #E35723;
+}
+
+#checkUpdateTable tr td:last-child
+{
+    border-bottom: none;
+
+}
+#checkUpdateTable tr td:nth-last-child(2)
+{
+    border-bottom: none;
+    padding-left: 2%;
+}
+
+#checkUpdateTable input[type=text]
+{
+    outline: none;
+    /*border: 1px solid #E35723;*/
+    /*background: black;*/
+    border: none !important;
+    border-radius: 10px;
+    color: #E35723 !important;
+    text-align: center;
+    font-weight: bold;
+    padding-left: 0;
+    width: 70px;
+}
+
+#checkUpdateTable input[type=date], input[type=time]
+{
+    outline: none;
+    /*border: 1px solid #E35723;*/
+    border: none !important;
+    border-radius: 10px;
+    color: #E35723 !important;
+    width: 100%;
+    text-align: center;
+    font-weight: bold;
 
 
-            
+}
 
+#checkUpdateTable input[type=submit]
+{
+    color: white;
+    background-color: #E35723;
+    font-weight: bold;
+    outline: none;
+    border: none;
+    border-radius: 5px;
+    padding:0.3vh 1.5vw;
+}
 
+#checkUpdateTable input[type=submit]:hover
+{
+    opacity: 0.8;
+    cursor: pointer;
+}
 
+.checkMessageSuccess
+{
+    margin-top: 8.3%;
+}
+
+.checkMessageSuccess span 
+{
+    background-color: red;
+    padding: 2vh 5vw;
+    text-align: center;
+    background-color: #D0F0C0;
+    border: 1.5px solid green;
+    color: green;
+    border-radius: 10px;
+    font-family: Futura;
+    font-size: 1.2em;
+    display: fixed;
+}

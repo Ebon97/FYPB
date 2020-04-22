@@ -49,21 +49,6 @@
             </div>
 
             <ul class="list-unstyled components">
-               <!--  <li class="active">
-                    <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Home</a>
-                    <ul class="collapse list-unstyled" id="homeSubmenu">
-                        <li>
-                            <a href="#">Home 1</a>
-                        </li>
-                        <li>
-                            <a href="#">Home 2</a>
-                        </li>
-                        <li>
-                            <a href="#">Home 3</a>
-                        </li>
-                    </ul>
-                </li> -->
-                
                 <li>
                     <a href="dashboard.php">Dashboard</a>
                 </li>
@@ -80,7 +65,7 @@
                             <a href="salary.php">Generate Payroll</a>
                         </li>
                         <li>
-                            <a href="#">Check & Update</a>
+                            <a href="salaryCheckUpdate.php">Check & Update</a>
                         </li>
                     </ul>
                 </li>
@@ -90,16 +75,21 @@
                 <li>
                     <a href="history.php">History</a>
                 </li>
+
+                <li>
+                    <a href="settings.php" class="setting_icon"><img src="image/setting_icon.png"></a>
+                    <a href="login.php" class="logout_icon"><img src="image/logout_icon.png"></a>
+                </li>
             </ul>
 
-            <ul class="list-unstyled icon">
+            <!-- <ul class="list-unstyled icon">
                 <li>
                     <a href="settings.php" class="setting_icon"><img src="image/setting_icon.png"></a>
                 </li>
                 <li>
                     <a href="login.php" class="logout_icon"><img src="image/logout_icon.png"></a>
                 </li>
-            </ul>
+            </ul> -->
         </nav>
 
         <!-- Page Content Holder -->

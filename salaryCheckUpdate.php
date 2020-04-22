@@ -1,5 +1,6 @@
 <?php
     session_start();
+    
 ?>
 
 <!DOCTYPE html>
@@ -10,32 +11,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>History</title>
+    <title>Check & Update</title>
 
     <!-- Bootstrap CSS CDN -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 
     <link rel="stylesheet" href="style1.css">
-    <style>
-        .graph
-        {
-          width:90%;
-          display:block;
-          overflow:hidden;
-          margin:0 auto;
-          background:#fff;
-          border-radius:4px;
-          margin-top: 3%;
-        }
-
-        canvas
-        {
-          background:#fff;
-          height:250px;
-        }
-
-    </style>
 
 </head>
 
@@ -48,7 +30,6 @@
                 <img src="image/shell_logo2.png">
             </div>
 
-            
             <ul class="list-unstyled components">
                 <li>
                     <a href="dashboard.php">Dashboard</a>
@@ -91,45 +72,64 @@
 
         <!-- Page Content Holder -->
         <div id="content">
-             <div class="row title">
+
+            <div class="row title">
                 <div class="col-6 pageTitle">
-                    <h2>History</h2>
+                    <h2>Check & Update</h2>
                 </div>
             </div>
 
-            <div>
-                <table id="historyList">
-                    <tr>
-                        <th>Date</th>
-                        <th>Category</th>
-                        <th>Description</th>
-                    </tr>
-                    <?php
-                        $connect =  mysqli_connect("localhost", "root", "", "shellsbt") or die ("Connection Failed: ". mysqli_connect_error());   
+            <form id="checkSalaryForm" action="salaryCheckUpdate.php" method="GET">
+                <div class="form-group row">
+                    <label class="title">Name</label>
+                    <label class="colon">:</label>
+                    <div>
+                        <input type="text" class='form-control' name="checkName">
+                    </div>
+                </div>
 
-                        $query = "SELECT * FROM history";
-                        $result = mysqli_query($connect, $query);
-                        $row = mysqli_num_rows($result);
+                <div class="form-group row">
+                    <label class="title">Start Date</label>
+                    <label class="colon">:</label>
+                    <div>
+                        <input type="date" class='form-control' name="checkDate">
+                    </div>
+                </div>
 
-                        while($row = mysqli_fetch_assoc($result))
-                       {
-                            $date = $row['date'];
-                            $category = $row['category'];
-                            $description = $row['description'];
+                <div class="form-group row">
+                    <label class="title">Range</label>
+                    <label class="colon">:</label>
+                    <div>
+                        <select id="range" name="checkRange">
+                            <option value="1">1 day</option>
+                            <option value="3">3 days</option>
+                            <option value="7">7 days</option>
+                        </select>
+                    </div>
+                </div>
 
-                            echo 
-                             "<tr>
-                                <td>".$date."</td>
-                                <td>".$category."</td>
-                                <td>".$description."</td>
-                             </tr>";
-                       }
+                <input type="submit" name="check" value="CHECK" >
+            </form>
 
 
-                    ?>
-                </table>
-            </div>
-            
+
+            <table id="checkUpdateTable" >
+                <tr>
+                    <th>Name</th>
+                    <th>Shift</th>
+                    <th>Date</th>
+                    <th>Clock In</th>
+                    <th>Date</th>
+                    <th>Clock Out</th>
+                    <th>Action</th>
+                    <th>Alert</th>
+                </tr>
+
+                <?php
+                   include("salaryCheckUpdateCalculation.php");
+                ?>
+            </table>
+
         </div>
     </div>
 
@@ -147,6 +147,12 @@
                 $(this).toggleClass('active');
             });
         });
+
+        function closeModal()
+        {
+          document.getElementById('id01').style.display = 'none';
+        }
+
 
     </script>
 </body>

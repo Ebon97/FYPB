@@ -19,105 +19,7 @@
     <link rel="stylesheet" href="style1.css">
 </head>
     <style>
-        /* Float cancel and delete buttons and add an equal width */
-        .cancelbtn, .deletebtn 
-        {
-/*          float: left;
-          width: 50%;*/
-        }
 
-        /* Add a color to the cancel button */
-        .cancelbtn {
-          background-color: #ccc;
-          color: black;
-        }
-
-        /* Add a color to the delete button */
-        .deletebtn {
-          background-color: #f44336;
-        }
-
-        /* Add padding and center-align text to the container */
-        .container {
-          padding: 10px;
-          text-align: center;
-        }
-
-        /* The Modal (background) */
-        .modal {
-          display: none; /* Hidden by default */
-          position: fixed; /* Stay in place */
-          z-index: 1; /* Sit on top */
-          left: 0;
-          top: 0;
-          width: 100%; /* Full width */
-          height: 100%; /* Full height */
-          overflow: auto; /* Enable scroll if needed */
-          background-color: #E35723;
-          padding-top: 50px;
-          opacity: 0.95;
-        }
-
-        /* Modal Content/Box */
-        .modal-content {
-          background-color: #fefefe;
-          margin: 7% auto 15% auto; /* 7% from the top, 15% from the bottom and centered */
-          width: 70%; /* Could be more or less, depending on screen size */
-          border-radius: 10px;
-        }
-
-        /* Style the horizontal ruler */
-        hr {
-          border: 1px solid #f1f1f1;
-          margin-bottom: 25px;
-        }
-
-        /* The Modal Close Button (x) */
-        .close {
-          position: absolute;
-          right: 35px;
-          top: 15px;
-          font-size: 40px;
-          font-weight: bold;
-          color: white;
-        }
-
-        .close:hover,
-        .close:focus {
-          cursor: pointer;
-        }
-
-        /* Clear floats */
-        .clearfix::after {
-          content: "";
-          clear: both;
-          display: table;
-        }
-
-        .clearfix button
-        {
-            color: white;
-            background-color: #E35723;
-            outline: none;
-            border: 1px solid #E35723;
-            padding: 0.5vh 2vw;
-            font-weight: bold;
-            border-radius: 7px;
-            margin: 2vh 0;
-        }
-
-         .clearfix button:hover
-         {
-            opacity: 0.8;
-            cursor: pointer;
-         }
-
-        /* Change styles for cancel button and delete button on extra small screens */
-        @media screen and (max-width: 300px) {
-          .cancelbtn, .deletebtn {
-            width: 100%;
-          }
-        }
     </style>
 
 <body>
@@ -133,28 +35,37 @@
                 <li>
                     <a href="dashboard.php">Dashboard</a>
                 </li>
+
                  <li>
                     <a href="employee.php">Employee List</a>
                 </li>
+
                 <li>
                     <a href="#">Performance</a>
                 </li>
+
                 <li>
-                    <a href="salary.php">Salary Payroll</a>
+                    <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Salary</a>
+                    <ul class="collapse list-unstyled" id="pageSubmenu">
+                        <li>
+                            <a href="salary.php">Generate Payroll</a>
+                        </li>
+                        <li>
+                            <a href="salaryCheckUpdate.php">Check & Update</a>
+                        </li>
+                    </ul>
                 </li>
+
                 <li>
                     <a href="rates.php">Rates</a>
                 </li>
+                
                 <li>
                     <a href="history.php">History</a>
                 </li>
-            </ul>
 
-            <ul class="list-unstyled icon">
                 <li>
                     <a href="settings.php" class="setting_icon"><img src="image/setting_icon.png"></a>
-                </li>
-                <li>
                     <a href="login.php" class="logout_icon"><img src="image/logout_icon.png"></a>
                 </li>
             </ul>
@@ -279,20 +190,6 @@
                         <button type="submit" name="confirmsalary" style="visibility: hidden" id="confirmsalary">Confirm</button>
                     </form>
                 </div>
-
-                <div id="id01" class="modal">
-                <span onclick="closeModal()" class="close" title="Close Modal">&times;</span>
-
-                <form class="modal-content" action="/action_page.php" method="GET">
-                    <div class="container">
-                        <h5>You haven't add the latest salary</h5>
-
-                        <div class="clearfix">
-                            <button type="button" class="okbtn" data-dismiss="modal" onclick="closeModal()">OK</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
 
             </div>
             
