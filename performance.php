@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Salary</title>
+    <title>Performance</title>
 
     <!-- Bootstrap CSS CDN -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
@@ -26,55 +26,40 @@
             </div>
 
             <ul class="list-unstyled components">
-               <!--  <li class="active">
-                    <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Home</a>
-                    <ul class="collapse list-unstyled" id="homeSubmenu">
-                        <li>
-                            <a href="#">Home 1</a>
-                        </li>
-                        <li>
-                            <a href="#">Home 2</a>
-                        </li>
-                        <li>
-                            <a href="#">Home 3</a>
-                        </li>
-                    </ul>
-                </li> -->
-               <!--  <li>
-                    <a href="#">About</a>
-                    <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Pages</a>
-                    <ul class="collapse list-unstyled" id="pageSubmenu">
-                        <li>
-                            <a href="#">Page 1</a>
-                        </li>
-                        <li>
-                            <a href="#">Page 2</a>
-                        </li>
-                        <li>
-                            <a href="#">Page 3</a>
-                        </li>
-                    </ul>
-                </li> -->
                 <li>
                     <a href="dashboard.php">Dashboard</a>
                 </li>
+
                  <li>
                     <a href="employee.php">Employee List</a>
                 </li>
+
                 <li>
                     <a href="performance.php">Performance</a>
                 </li>
+
                 <li>
-                    <a href="salary.php">Salary</a>
+                    <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Salary</a>
+                    <ul class="collapse list-unstyled" id="pageSubmenu">
+                        <li>
+                            <a href="salary.php">Generate Payroll</a>
+                        </li>
+                        <li>
+                            <a href="salaryCheckUpdate.php">Check & Update</a>
+                        </li>
+                    </ul>
                 </li>
 
-            </ul>
+                <li>
+                    <a href="rates.php">Rates</a>
+                </li>
+                
+                <li>
+                    <a href="history.php">History</a>
+                </li>
 
-            <ul class="list-unstyled icon">
                 <li>
                     <a href="settings.php" class="setting_icon"><img src="image/setting_icon.png"></a>
-                </li>
-                <li>
                     <a href="login.php" class="logout_icon"><img src="image/logout_icon.png"></a>
                 </li>
             </ul>
@@ -82,30 +67,62 @@
 
         <!-- Page Content Holder -->
         <div id="content">
-
-            <!-- <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                <div class="container-fluid">
-
-                    <button type="button" id="sidebarCollapse" class="navbar-btn">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                    </button>
-                    <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                        <i class="fas fa-align-justify"></i>
-                    </button>
-
-                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul class="nav navbar-nav ml-auto">
-                            <li class="nav-item active">
-                                <a class="nav-link" href="#">Hi, John Wick</a>
-                            </li>
-                        </ul>
-                    </div>
+            <div class="row title">
+                <div class="col-6 pageTitle">
+                    <h2>Performance</h2>
                 </div>
-            </nav> -->
+                
+                <div class="col-4 search">
+                    <input type="text" id="searchInput" onkeyup="searchFunction()" placeholder="Search Names" title="Type in a name">
+                </div>
+            </div>
 
-    </div>
+            <table id="">
+                <tr>
+                    <th>No</th>
+                    <th>Employee Name</th>
+                    <th>Position</th>
+                    <th>Overall Performance</th>
+                </tr>
+
+                <?php
+                    $connect =  mysqli_connect("localhost", "root", "", "shellsbt") or die ("Connection Failed: ". mysqli_connect_error()); 
+
+                    $query = "SELECT * FROM employee group by Name order by No";
+                    $result = mysqli_query($connect, $query);
+                    $row = mysqli_num_rows($result);
+                    $i = 0;
+
+                    while($row = mysqli_fetch_assoc($result))
+                    {
+                        $no = $row['No'];
+                        $emp_name = $row['Name'];
+                        $position = $row['position'];
+
+                        $shift = $row['shift'];
+                        $salary = $row['salary'];
+                        $startDate = $row['startDate'];
+
+                        echo 
+                         "<tr>
+                            <td>".$no."</td>
+                            <form action='performanceDashboard.php' method='GET'>
+                                <td><input type='hidden' value='".$emp_name."' name='name".$i."'></td>
+                                <td><input type='submit' name='name".$i."' value=".$emp_name."></td>
+                            </form>
+                            <td>".$position."</td>
+                            <td></td>
+                         </tr>";
+
+                         $i++;
+                    }
+                    
+                ?>
+
+            </table>
+
+
+        </div>
 
     <!-- jQuery CDN - Slim version (=without AJAX) -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
@@ -121,6 +138,8 @@
                 $(this).toggleClass('active');
             });
         });
+
+
 
     </script>
 </body>

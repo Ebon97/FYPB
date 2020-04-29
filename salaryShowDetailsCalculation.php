@@ -2,6 +2,8 @@
 <?php
     for ($i = 1; $i < 32; $i++)
     {
+        $missing_data_count = 0;
+
         $day = $year."-".$month."-".$i;
         $query_in = "SELECT Name, date(DateTime),time(DateTime), DateTime 
                  FROM clock_in WHERE Name='$name' AND date(DateTime) ='$day'";
@@ -116,7 +118,7 @@
             $latep = "";
             $onshift_statusTime = "";
 
-            $missing_data_count = 1;
+            $missing_data_count++;
         }
         else
         {
@@ -142,114 +144,77 @@
             }
             else
             {
-                $bonus = 0;
+                $bonus = "";
             }
 
              // Checking Late Penalties
-                // Morning Shift
-                if(strtotime($time_in) > $morning_shift_late && strtotime($time_in) < strtotime('10:30:00'))
-                {
-                    $latep = round((strtotime($time_in) - $morning_shift_late)/60 * $late_penalties,2);
-                    $total_late_penalties = $total_late_penalties + $latep;
-                }
-                //Afternoon Shift
-                else if (strtotime($time_in) > $afternoon_shift_late && strtotime($time_in) < strtotime('18:30:00'))
-                {
-                    $latep = round((strtotime($time_in) - $afternoon_shift_late)/60 * $late_penalties,2);
-                    $total_late_penalties = $total_late_penalties + $latep;
-                }
-                //Night Shift
-                else if(strtotime($time_in) > $night_shift_late && strtotime($time_in) < strtotime('23:30:00'))
-                {
-                    $latep = round((strtotime($time_in) - $night_shift_late)/60 * $late_penalties,2);
-                    $total_late_penalties = $total_late_penalties + $latep;
-                }
-                else
-                {
-                    $latep = 0;
-                }
-
-                 //Checking if on shift 8 hours
-                if($hours >= 8 && $hours < 12)
-                {
-                    $onshift_status = "O";
-                }
-                else
-                {
-                    $onshift_status = "X";
-                }
-
-                 //Checking Penalities if not work full 8 Hours
-                if($minutes < 480)
-                {
-                    $penalties_min = 480 - $minutes;
-
-                    $shiftp = round($penalties_min * $shift_penalties,2);
-                    $total_shift_penalties = $total_shift_penalties + $shiftp;
-                }
-                else
-                {
-                    $shiftp = 0;
-                }
-
-                
-
-        }
-        
-        // echo "<tr>
-        //     <td>".$name_in."</td>
-        //     <td>".$day_in."</td>
-        //     <td>".$shift."</td>
-        //     <td>".$date_in."</td>
-        //     <td>".$time_in."</td>
-        //     <td>".$time_out."</td>
-        //     <td>".$hours." H ".$_remainder." M</td>
-        //     <td>".$bonus."</td>
-        //     <td>".$latep."</td>
-        //     <td>".$shiftp."</td>
-        // </tr>";
-    }
-
-            $final_salary = round($salary + $total_bonus - $total_shift_penalties - $total_late_penalties,2);
-
-            $total_missing_data = $total_missing_data + $missing_data_count;
-            
-
-            if($missing_data_count >= 1)
+            // Morning Shift
+            if(strtotime($time_in) > $morning_shift_late && strtotime($time_in) < strtotime('10:30:00'))
             {
-                 $alert = "<img src='image/alert_icon.png' class='alert_icon' alt='Missing Data'>";
+                $latep = round((strtotime($time_in) - $morning_shift_late)/60 * $late_penalties,2);
+                $total_late_penalties = $total_late_penalties + $latep;
+            }
+            //Afternoon Shift
+            else if (strtotime($time_in) > $afternoon_shift_late && strtotime($time_in) < strtotime('18:30:00'))
+            {
+                $latep = round((strtotime($time_in) - $afternoon_shift_late)/60 * $late_penalties,2);
+                $total_late_penalties = $total_late_penalties + $latep;
+            }
+            //Night Shift
+            else if(strtotime($time_in) > $night_shift_late && strtotime($time_in) < strtotime('23:30:00'))
+            {
+                $latep = round((strtotime($time_in) - $night_shift_late)/60 * $late_penalties,2);
+                $total_late_penalties = $total_late_penalties + $latep;
             }
             else
             {
-                $alert = "";
-                    $query_past = "INSERT INTO salary_past(no, year, month, name, init_salary, shift_penalties, late_penalties, bonus, final_salary) VALUES (NULL,'$year','$month','$name','$salary','$total_shift_penalties','$total_late_penalties','$total_bonus','$final_salary')";
-                    $result_past = mysqli_query($connect, $query_past);
+                $latep = "";
             }
 
-    ?>
+            // Checking if on shift 8 hours
+            if($hours >= 8 && $hours < 12)
+            {
+                // 
+                $onshift_statusTime = "<strong style='color:green'>".$hours." Hr ".$_remainder." Min</strong>";
+            }
+            else if($hours < 8)
+            {
+                $onshift_statusTime = "<strong style='color:red'>".$hours." Hr ".$_remainder." Min</strong>";
+            }
 
-        <tr>
-            <td><?php echo $name; ?></td>
-            <td>RM <?php echo $salary; ?></td>
-            <td><?php echo $total_shift_penalties; ?></td>
-            <td><?php echo $total_late_penalties; ?></td>
-            <td><?php echo $total_bonus; ?></td>
-            <td>RM <?php echo $final_salary; ?></td>
-            <td>
-                <form action="salaryShowDetails.php" method="GET">
-                    <input type="hidden" name="name" value="<?php echo $name; ?>">
-                    <input type="hidden" name="month" value="<?php echo $month; ?>">
-                    <input type="hidden" name="year" value="<?php echo $year; ?>">
-                    <button name="show">Show Details</button>
-                </form>
-            </td>
-            <td style="padding:0;"><?php echo $alert; ?></td>
-        </tr>
-<?php
+
+
+             //Checking Penalities if not work full 8 Hours
+            if($minutes < 480)
+            {
+                $penalties_min = 480 - $minutes;
+
+                $shiftp = round($penalties_min * $shift_penalties,2);
+                $total_shift_penalties = $total_shift_penalties + $shiftp;
+            }
+            else 
+            {
+                $shiftp = "";
+            }
+        }
+        
+        echo "<tr>
+            <td>".$name."</td>
+            <td>".$shift."</td>
+            <td>".$date_in."</td>
+            <td>".$time_in."</td>
+            <td>".$time_out."</td>
+            <td>".$onshift_statusTime."</td>
+            <td>".$latep."</td>
+            <td>".$shiftp."</td>
+            <td>".$bonus."</td>
+        </tr>";
+        
+    }
 
     //Reset Total Penalties
     $total_shift_penalties = 0;
     $total_bonus = 0;
     $total_late_penalties = 0;
-    $final_row_count = 0;
+    $final_row_count = 0; 
 ?>

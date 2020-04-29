@@ -218,7 +218,7 @@
 
 #update_setting #update_button
 {
-    margin-left: 35%;
+    margin-left: 33%;
 }
 
 #update_setting input[type=submit]
@@ -230,12 +230,12 @@
     border:none;
     border-radius: 10px;
     padding:1vh 3vw;
-    margin: 3% 0;
+    margin: 4% 0;
 }
 
 .sUpdate_warning, .sUpdate_success
 {
-    width: 57%;
+    width: 85%;
 }
 
 .sUpdate_warning p
@@ -247,7 +247,7 @@
     background-color: #FFCCCB;
     border: 1.5px solid red;
     color: red;
-    width: 40%;
+    width: 30%;
     font-family: Futura;
     font-size: 1.1em;
 }
@@ -261,7 +261,7 @@
     background-color: #D0F0C0;
     border: 1.5px solid green;
     color: green;
-    width: 35%;
+    width: 30%;
     font-family: Futura;
     font-size: 1.1em;
 }
@@ -270,16 +270,15 @@
 {
     width: 16.5%;
     float:left;
-    margin-top: 165%;
-    margin-left: 23%;
+    margin-top: 8%;
+    margin-left: 27%;
 }
 
 .logout_icon img
 {
-    margin-top: 156.5%;
     width: 16%;
     float:left;
-    margin-left: 20%;
+    margin-left: 15%;
 }
 
 a, a:hover, a:focus {
@@ -363,7 +362,6 @@ a, a:hover, a:focus {
 
 #sidebar ul li.active > a, a[aria-expanded="true"] {
     color: #fff;
-    background: #6d7fcc;
 }
 
 
@@ -379,10 +377,9 @@ a[data-toggle="collapse"] {
     transform: translateY(-50%);
 }
 
+/*Sub Categories*/
 ul ul a {
     font-size: 0.9em !important;
-    padding-left: 30px !important;
-    background: #6d7fcc;
 }
 
 
@@ -640,7 +637,8 @@ ul ul a {
 #attendance_sheet table tr th
 {
     background-color: #E35723;
-    color:white;
+    color: white;
+    text-align: center;
 }
 
 #attendance_sheet table tr th
@@ -661,6 +659,7 @@ ul ul a {
 #attendance_sheet table tr td
 {
     border-bottom: 1px solid #E35723;
+    text-align: center;
 }
 
 #attendance_sheet table tr td:nth-child(3)
@@ -720,11 +719,7 @@ ul ul a {
 #employeeList tr td
 {
     padding:1vh 0;
-}
-
-#employeeList tr td:last-child
-{
-    /*border-bottom: 1px solid white;*/
+    text-align: center !important;
 }
 
 #employeeList tr td img
@@ -738,7 +733,7 @@ ul ul a {
     cursor:pointer;
 }
 
-#editEmployeeForm
+#editEmployeeForm 
 {
     color:#E35723;
     font-family: Futura;
@@ -752,7 +747,7 @@ ul ul a {
     width: 80%;
 }
 
-#editEmployeeForm label
+#editEmployeeForm label 
 {
     width: 15%;
     font-weight: bold;
@@ -949,7 +944,7 @@ ul ul a {
 #salary_sheet table,td,th,td
 {
     padding: 0.6vh 1vw;
-    text-align: center;
+    text-align: center !important;
     color: #E35723;
 }
 
@@ -964,19 +959,19 @@ ul ul a {
     border-top-left-radius: 10px;
 }
 
-#salary_sheet table tr td:nth-child(2), td:nth-child(3)
+#salary_sheet table tr td:nth-child(3), td:nth-child(4)
 {
-    color:red;
-}
-
-#salary_sheet table tr td:nth-child(4)
-{
-    color:green;
+    color:red !important;
 }
 
 #salary_sheet table tr td:nth-child(5)
 {
-    color:blue;
+    color:green !important;
+}
+
+#salary_sheet table tr td:nth-child(6)
+{
+    color:blue !important;
 }
 
 #salary_sheet table th:nth-last-child(2)
@@ -1067,13 +1062,486 @@ ul ul a {
 #panel {
     display: none;
   }
+#ratesForm
+{
+    color: #E35723;
+    font-family: Futura;
+    padding-top: 3%;
+}
+
+#ratesForm .row
+{
+    margin: 3vh auto;
+    padding-left: 1.5%;
+}
+
+#ratesForm .row .title
+{
+    text-align: left;
+    width:17%;
+    font-weight: bold;
+}
+
+#ratesForm .row .colon
+{
+    width:6%;
+    font-weight: bold;
+}
+
+#ratesForm input[type=text]
+{
+    outline:none;
+    border: 1px solid #E35723;
+    border-radius: 10px;
+    color: #E35723;
+    width: 200%;
+}
+
+#ratesForm button
+{
+    color: white;
+    background-color: #E35723;
+    font-weight: bold;
+    outline: none;
+    border:none;
+    border-radius: 10px;
+    padding:1vh 3vw;
+    margin-top: 3%;
+    margin-left: 37.5%;
+    margin-bottom: 3%;
+}
+
+#ratesForm button:hover
+{
+    opacity: 0.7;
+    cursor: pointer;
+}
+
+.rUpdate_warning, .rUpdate_success
+{
+    width: 87%;
+}
+
+.rUpdate_warning p
+{
+    margin: 1vh auto;
+    padding: 1vh 0;
+    border-radius: 10px;
+    text-align: center;
+    background-color: #FFCCCB;
+    border: 1.5px solid red;
+    color: red;
+    width: 30%;
+    font-family: Futura;
+    font-size: 1.1em;
+}
+
+.rUpdate_success p
+{
+    margin: 1vh auto;
+    padding: 1vh 0;
+    border-radius: 10px;
+    text-align: center;
+    background-color: #D0F0C0;
+    border: 1.5px solid green;
+    color: green;
+    width: 30%;
+    font-family: Futura;
+    font-size: 1.1em;
+}
+
+.rUpdate_success a
+{
+    color: blue;
+    text-decoration: underline;
+
+}
+
+#ratesConfirm
+{
+    margin-left: 6%;
+    width: 90%;
+    color: #E35723;
+    font-family: Futura;
+    font-weight: bold;
+}
+
+#ratesConfirm h5
+{
+    margin-top: 3%;
+}
+
+#ratesConfirm table
+{
+    width:97%;
+}
+
+#ratesConfirm table th
+{
+    background-color: #E35723;
+    padding: 0.6vh 1vw;
+    text-align: center !important;
+    color: white;
+}
+
+#ratesConfirm table th:first-child
+{
+    border-top-left-radius: 10px;
+}
+
+#ratesConfirm table th:last-child
+{
+    border-top-right-radius: 10px;
+}
+
+#ratesConfirm table td
+{
+    color: #E35723;
+}
+
+#ratesConfirm table td
+{
+    border-bottom: 1px solid #E35723;
+    text-align: center !important;
+}
+
+#historyList
+{
+    width: 90%;
+    margin-left: 6%;
+    margin-top: 3%;
+}
+
+#historyList tr th
+{
+    background-color: #E35723;
+    color:white;
+    text-align: center !important;
+}
+
+#historyList tr th:first-child
+{
+    border-top-left-radius: 10px;
+}
+
+#historyList tr th:last-child
+{
+    border-top-right-radius: 10px;
+}
+
+#historyList tr td
+{
+    border-bottom: 1px solid #E35723;
+    text-align: center !important;
+}
+
+#historyList tr td:last-child
+{
+    text-align: left;
+}
+
+#salaryRaise tr td:nth-child(4) input, td:nth-child(5) input
+{
+    border-radius: 7px;
+    outline: none;
+    border: 1px solid #E35723;
+    color: #E35723;
+    text-align: center !important;
+}
+
+#salaryConfirmbutton
+{
+    width: 97%;
+    text-align: right;
+}
+
+#salaryConfirmbutton button
+{
+    outline: none;
+    border: 1px solid #E35723;
+    color: white;
+    border-radius: 7px;
+    background-color: #E35723;
+    font-weight: bold;
+    font-size: 1em;
+    padding: 0.5vh 2vw;
+    margin-top: 2%;
+}
+
+#salaryConfirmbutton button:hover
+{
+    opacity: 0.8;
+    cursor: pointer;
+}
+
+#checkSalaryForm
+{
+    color: #E35723;
+    font-family: Futura;
+    margin-top: 1%;
+    margin-bottom: 3%;
+    margin-left: 4%;
+    /*border: 1px solid black;*/
+    width: 50%;
+    display: block;
+    float: left;
+}
+
+#checkSalaryForm .row
+{
+    margin: 3vh auto;
+    /*padding-left: 1.5%;*/
+
+}
+
+#checkSalaryForm .row .title
+{
+    text-align: left;
+    width: 20%;
+    font-weight: bold;
+    padding-top: 0.8vh;
+}
+
+#checkSalaryForm .row .colon
+{
+    width:10%;
+    font-weight: bold;
+    padding-top: 0.8vh;
+}
+
+#checkSalaryForm input[type="text"]
+{
+    border: 1px solid #E35723;
+    border-radius: 10px;
+    color: #E35723;
+    width: 150%;
+}
+
+#checkSalaryForm input[type="date"]
+{
+    outline: none;
+    border: 1px solid #E35723 !important;
+    border-radius: 10px;
+    color: #E35723;
+    width: 143% !important;
+    padding: 0.7vh 1vh;
+    text-align: left;
+    font-weight: normal;
+}
+
+#checkSalaryForm select
+{
+    border: 1px solid #E35723;
+    border-radius: 10px;
+    color: #E35723;
+    width: 357%;
+    padding-bottom: 0.9vh;
+    padding-top: 0.9vh;
+    padding-left: 0.5vw;
+}
+
+#checkSalaryForm input[type=submit]
+{
+    color: white;
+    background-color: #E35723;
+    font-weight: bold;
+    outline: none;
+    border: none;
+    border-radius: 10px;
+    padding:1vh 3vw;
+    margin-top: 1%;
+    margin-left: 46%;
+}
+
+#checkSalaryForm input[type=submit]:hover
+{
+    opacity: 0.8;
+    cursor: pointer;
+}
+
+#checkUpdateTable
+{
+    margin-left: 5vw;
+    width: 92%;
+    font-family: Futura;
+    font-weight: bold;
+    color: #E35723 !important;
+}
+
+#checkUpdateTable tr th
+{
+    color: white;
+    background-color: #E35723;
+
+}
+
+#checkUpdateTable tr th:first-child
+{
+    border-top-left-radius: 10px;
+}
+
+#checkUpdateTable tr th:last-child
+{
+    background: white;
+}
+
+#checkUpdateTable tr th:nth-last-child(2)
+{
+    background: white;
+}
+
+#checkUpdateTable tr th:nth-last-child(3)
+{
+    border-top-right-radius: 10px;
+}
+
+#checkUpdateTable tr td
+{
+    border-bottom: 1px solid #E35723;
+}
+
+#checkUpdateTable tr td:last-child
+{
+    border-bottom: none;
+
+}
+#checkUpdateTable tr td:nth-last-child(2)
+{
+    border-bottom: none;
+    padding-left: 2%;
+}
+
+#checkUpdateTable input[type=text]
+{
+    outline: none;
+    /*border: 1px solid #E35723;*/
+    /*background: black;*/
+    border: none !important;
+    border-radius: 10px;
+    color: #E35723 !important;
+    text-align: center;
+    font-weight: bold;
+    padding-left: 0;
+    width: 70px;
+}
+
+#checkUpdateTable input[type=date], input[type=time]
+{
+    outline: none;
+    /*border: 1px solid #E35723;*/
+    border: none !important;
+    border-radius: 10px;
+    color: #E35723 !important;
+    width: 100%;
+    text-align: center;
+    font-weight: bold;
 
 
+}
 
+#checkUpdateTable input[type=submit]
+{
+    color: white;
+    background-color: #E35723;
+    font-weight: bold;
+    outline: none;
+    border: none;
+    border-radius: 5px;
+    padding:0.3vh 1.5vw;
+}
 
+#checkUpdateTable input[type=submit]:hover
+{
+    opacity: 0.8;
+    cursor: pointer;
+}
 
+.checkMessageSuccess
+{
+    margin-top: 8.3%;
+}
 
-            
+.checkMessageSuccess span 
+{
+    background-color: red;
+    padding: 2vh 5vw;
+    text-align: center;
+    background-color: #D0F0C0;
+    border: 1.5px solid green;
+    color: green;
+    border-radius: 10px;
+    font-family: Futura;
+    font-size: 1.2em;
+    display: fixed;
+}
 
+.info_container
+{
+    margin-top: 2%;
+    margin-left: 6%;
+    font-family: Futura;
+}
 
+.info_container .row .box
+{
+    border: 1px solid #E35723 !important;
+    border-radius: 10px;
+}
 
+.info_container .row .penaltiesH
+{
+    border: 1px solid #E35723 !important;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.info_container .row .penaltiesH p 
+{
+    margin-top: 5%;
+    font-weight: bold;
+    color: #E35723 !important;
+}
+
+.info_container .row .penaltiesH span
+{
+    color: red;
+    font-size: 1.7em;
+    font-weight: bold;
+    display: block;
+    margin: 1.5vh 0;
+} 
+
+.info_container .row .bonusH
+{
+    border: 1px solid green !important;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.info_container .row .bonusH p 
+{
+    margin-top: 5%;
+    font-weight: bold;
+    color: green !important;
+}
+
+.info_container .row .bonusH span
+{
+    color: green;
+    font-size: 1.7em;
+    font-weight: bold;
+    display: block;
+    margin: 1.5vh 0;
+}
+
+#performance_info
+{
+    font-weight: bold;
+}
+
+#performance_info tr th, td
+{
+    font-size: 1.1em;
+    text-align: left; 
+    color: #E35723 !important;
+}

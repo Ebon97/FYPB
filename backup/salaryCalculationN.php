@@ -1,6 +1,20 @@
 <?php
 
-	$penalties_per_minutes = 4.86 / 60;
+	$query_rates = "SELECT * FROM rates WHERE no=1";
+    $result_rates = mysqli_query($connect, $query_rates);
+    $row_rates = mysqli_num_rows($result_rates);
+
+    if($row_rates == 1)
+    {
+    	$row_rates = mysqli_fetch_assoc($result_rates);
+    	
+    	$no = $row_rates['no'];
+    	$bonus = $row_rates['overtime_bonus'];
+    	$late_penalties = $row_rates['late_penalties'];
+    	$shift_penalties = $row_rates['shift_penalties'];
+    }
+
+	// $penalties_per_minutes = 4.86 / 60;
 
 	$total_shift_penalties = 0;
 	$total_late_penalties = 0;
@@ -77,7 +91,7 @@
 		    {
 		    	$penalties_min = 480 - $minutes;
 
-		    	$penalties = round($penalties_min * $penalties_per_minutes,2);
+		    	$penalties = round($penalties_min * $shift_penalties,2);
 		    }
 		    else
 		    {
@@ -124,7 +138,7 @@
 			{
 				$late = "1";
 
-				$i = round((strtotime($time_in) - $night_shift_late)/60 * $penalties_per_minutes,2);
+				$i = round((strtotime($time_in) - $night_shift_late)/60 * $late_penalties,2);
 				$total_late_penalties = $total_late_penalties + $i;
 			}
 			else
@@ -202,6 +216,9 @@
 			else
 			{
 				$alert = "";
+				$query_past = "INSERT INTO salary_past(no, year, month,name,shift_penalties, late_penalties,  bonus, final_salary) VALUES (NULL,'$year','$month','$name','$total_shift_penalties','$total_late_penalties','$total_bonus','$final_salary')";
+	
+     			$result_past = mysqli_query($connect, $query_past);
 			}
 		}
 		else
@@ -213,6 +230,9 @@
 			else
 			{
 				$alert = "";
+				$query_past = "INSERT INTO salary_past(no, year, month,name,shift_penalties, late_penalties,  bonus, final_salary) VALUES (NULL,'$year','$month','$name','$total_shift_penalties','$total_late_penalties','$total_bonus','$final_salary')";
+	
+     			$result_past = mysqli_query($connect, $query_past);
 			}
 		}
 
@@ -220,6 +240,7 @@
 
 		<tr>
 			<td><?php echo $name; ?></td>
+			<td>RM <?php echo $salary; ?></td>
 			<td><?php echo $total_shift_penalties; ?></td>
 			<td><?php echo $total_late_penalties; ?></td>
 			<td><?php echo $total_bonus; ?></td>
@@ -235,6 +256,7 @@
 			<td style="padding:0;"><?php echo $alert; ?></td>
 		</tr>
 <?php
+     
 	//Reset Total Penalties
 	$total_shift_penalties = 0;
 	$total_bonus = 0;

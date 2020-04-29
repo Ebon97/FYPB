@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Individual Salary Generator</title>
+    <title>Employee List</title>
 
     <!-- Bootstrap CSS CDN -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
@@ -28,47 +28,65 @@
             <div class="sidebar-header">
                 <img src="image/shell_logo2.png">
             </div>
-            
+
             <ul class="list-unstyled components">
+               <!--  <li class="active">
+                    <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Home</a>
+                    <ul class="collapse list-unstyled" id="homeSubmenu">
+                        <li>
+                            <a href="#">Home 1</a>
+                        </li>
+                        <li>
+                            <a href="#">Home 2</a>
+                        </li>
+                        <li>
+                            <a href="#">Home 3</a>
+                        </li>
+                    </ul>
+                </li> -->
+               <!--  <li>
+                    <a href="#">About</a>
+                    <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Pages</a>
+                    <ul class="collapse list-unstyled" id="pageSubmenu">
+                        <li>
+                            <a href="#">Page 1</a>
+                        </li>
+                        <li>
+                            <a href="#">Page 2</a>
+                        </li>
+                        <li>
+                            <a href="#">Page 3</a>
+                        </li>
+                    </ul>
+                </li> -->
                 <li>
                     <a href="dashboard.php">Dashboard</a>
                 </li>
-
                  <li>
                     <a href="employee.php">Employee List</a>
                 </li>
-
                 <li>
-                    <a href="performance.php">Performance</a>
+                    <a href="#">Performance</a>
                 </li>
-
                 <li>
-                    <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Salary</a>
-                    <ul class="collapse list-unstyled" id="pageSubmenu">
-                        <li>
-                            <a href="salary.php">Generate Payroll</a>
-                        </li>
-                        <li>
-                            <a href="salaryCheckUpdate.php">Check & Update</a>
-                        </li>
-                    </ul>
+                    <a href="salary.php">Salary</a>
                 </li>
-
-                <li>
+                 <li>
                     <a href="rates.php">Rates</a>
                 </li>
-                
                 <li>
                     <a href="history.php">History</a>
                 </li>
-
-                <li>
-                    <a href="settings.php" class="setting_icon"><img src="image/setting_icon.png"></a>
-                    <a href="login.php" class="logout_icon"><img src="image/logout_icon.png"></a>
-                </li>
             </ul>
 
-
+           <!--  <ul class="list-unstyled CTAs">
+                <li>
+                    <a href="https://bootstrapious.com/tutorial/files/sidebar.zip" class="download">Download source</a>
+                </li>
+                <li>
+                    <a href="https://bootstrapious.com/p/bootstrap-sidebar" class="article">Back to article</a>
+                </li>
+            </ul> -->
         </nav>
 
         <!-- Page Content Holder -->

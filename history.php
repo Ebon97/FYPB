@@ -1,12 +1,5 @@
 <?php
     session_start();
-
-    if(isset($_GET['show']))
-    {
-        $name = $_GET['name'];
-        $year = $_GET['year'];
-        $month = $_GET['month'];
-    }
 ?>
 
 <!DOCTYPE html>
@@ -17,7 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Details</title>
+    <title>History</title>
 
     <!-- Bootstrap CSS CDN -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
@@ -55,7 +48,8 @@
                 <img src="image/shell_logo2.png">
             </div>
 
-           <ul class="list-unstyled components">
+            
+            <ul class="list-unstyled components">
                 <li>
                     <a href="dashboard.php">Dashboard</a>
                 </li>
@@ -97,81 +91,44 @@
 
         <!-- Page Content Holder -->
         <div id="content">
-
              <div class="row title">
                 <div class="col-6 pageTitle">
-                    <h2><?php echo $name;?>'s Details</h2>
+                    <h2>History</h2>
                 </div>
             </div>
 
-
-             <div id="salary_detail">
-                <table>
+            <div>
+                <table id="historyList">
                     <tr>
-                        <th>Name</th>
-                        <th>Shift</th>
                         <th>Date</th>
-                        <th>In</th>
-                        <th>Out</th>
-                        <th>Hours</th>                        
-                        <th>Late Penalties</th>
-                        <th>Shift Penalties</th>
-                        <th>Bonus</th>
-                       
+                        <th>Category</th>
+                        <th>Description</th>
                     </tr>
-                   <?php
-                        $connect =  mysqli_connect("localhost", "root", "", "shellsbt") or die ("Connection Failed: ". mysqli_connect_error());
-                        $query_rates = "SELECT * FROM rates WHERE no=1";
-                        $result_rates = mysqli_query($connect, $query_rates);
-                        $row_rates = mysqli_num_rows($result_rates);
+                    <?php
+                        $connect =  mysqli_connect("localhost", "root", "", "shellsbt") or die ("Connection Failed: ". mysqli_connect_error());   
 
-                        if($row_rates == 1)
-                        {
-                            $row_rates = mysqli_fetch_assoc($result_rates);
-                            
-                            $no = $row_rates['no'];
-                            $bonus = $row_rates['overtime_bonus'];
-                            $late_penalties = $row_rates['late_penalties'];
-                            $shift_penalties = $row_rates['shift_penalties'];
-                        }
+                        $query = "SELECT * FROM history";
+                        $result = mysqli_query($connect, $query);
+                        $row = mysqli_num_rows($result);
 
-                        $total_shift_penalties = 0;
-                        $total_late_penalties = 0;
-                        $total_bonus = 0;
+                        while($row = mysqli_fetch_assoc($result))
+                       {
+                            $date = $row['date'];
+                            $category = $row['category'];
+                            $description = $row['description'];
 
-                        $morning_shift_late = strtotime('6:40:00');
-                        $afternoon_shift_late = strtotime('14:40:00');
-                        $night_shift_late = strtotime('21:40:00');
+                            echo 
+                             "<tr>
+                                <td>".$date."</td>
+                                <td>".$category."</td>
+                                <td>".$description."</td>
+                             </tr>";
+                       }
 
-                        $row_count = 0;
-                        $final_row_count = 0;
-                        $alert_count = 0;
 
-                        if(isset($_GET['show']))
-                        {
-                            $name = $_GET['name'];
-                            $year = $_GET['year'];
-                            $month = $_GET['month'];
-                            // echo $name." ".$year." ".$month."<br>";
-
-                            $query = "SELECT * from employee where Name='".$name."'";
-                            $result = mysqli_query($connect, $query);
-                            $row = mysqli_num_rows($result);
-
-                            while($row = mysqli_fetch_assoc($result))
-                            {
-                                $name = $row['Name'];
-                                $shift = $row['shift'];
-                                $salary = $row['salary'];
-
-                                include("salaryShowDetailsCalculation.php");
-
-                            }
-                        }            
                     ?>
                 </table>
             </div>
-
             
         </div>
     </div>
@@ -190,8 +147,6 @@
                 $(this).toggleClass('active');
             });
         });
-
-    
 
     </script>
 </body>

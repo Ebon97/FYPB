@@ -3,7 +3,7 @@
 
     $morning_shift_late = strtotime('6:40:00');
     $afternoon_shift_late = strtotime('14:40:00');
-    $night_shift_late = strtotime('21:40:00');
+    $night_shift_late = strtotime('22:40:00');
 
     $time_array = [];
     $late_array= [];
@@ -13,6 +13,10 @@
     $late_count = 0;
     $overtime_count = 0;
     $notOnShift_count = 0;
+
+    $total_late_count = 0;
+    $total_ot_count = 0;
+    $total_nos_count = 0;
 
     if(isset($_GET['apply']))
     {
@@ -24,7 +28,7 @@
         array_push($time_array, $startDate);
 
         //86400 = 1 day
-        for($i = 0; $i < 6; $i++)
+        for($i = 0; $i < 7; $i++)
         {
             $start = $start + 86400;
             // echo date("l",$start);
@@ -34,161 +38,114 @@
 
             // array_push($time_array, $new_date.",".$day);
             array_push($time_array, $new_date);
-        }
-        
 
-        $query = "SELECT employee.Name, employee.shift, DateTime,date(clock_in.DateTime), time(clock_in.DateTime) 
-                from clock_in join employee on employee.Name = clock_in.Name
-                where date(DateTime) between '$time_array[0]' and '$time_array[6]'";
-        $result = mysqli_query($connect, $query);
-        $row = mysqli_num_rows($result);
-        $night = "";
+            $query = "SELECT clock_in.Name, date(clock_in.DateTime), time(clock_in.DateTime), clock_in.Shift, clock_in.DateTime as dateTimeIN, 
+                        clock_out.Name, date(clock_out.DateTime), time(clock_out.DateTime), clock_out.Shift, clock_out.NightFix, clock_out.DateTime as dateTimeOUT 
+                        from clock_in inner join clock_out on date(clock_in.DateTime) = date(clock_out.NightFix) and clock_in.Name = clock_out.Name 
+                        where date(clock_in.DateTime) = '$time_array[$i]'";
 
-        while($row = mysqli_fetch_assoc($result))
-        {
-            $name = $row['Name'];
-            $shift = $row['shift'];
-            $date_in = $row['date(clock_in.DateTime)'];
-            $time_in = $row['time(clock_in.DateTime)'];
-            $in = $row['DateTime'];
+            // echo "<br>".$query;
+            $result = mysqli_query($connect, $query);
+            $row = mysqli_num_rows($result);
 
-            $d1 = date_create($date_in);
-            date_add($d1, date_interval_create_from_date_string('1 days'));
-            $next_day1 = date_format($d1, 'Y-m-d');
-
-            if(strtotime($time_in) > $morning_shift_late && strtotime($time_in) < strtotime('10:30:00'))
+            while($row = mysqli_fetch_assoc($result))
             {
-                $late_count++;
-            }
+                $name = $row['Name'];
+                $shift = $row['Shift'];
 
-            if(strtotime($time_in) > $afternoon_shift_late && strtotime($time_in) < strtotime('15:30:00'))
-            {
-                $late_count++;
-            }
+                $dateTimeIN = $row['dateTimeIN'];
+                $date_in = $row['date(clock_in.DateTime)'];
+                $time_in = $row['time(clock_in.DateTime)'];
 
-            if(strtotime($time_in) > $night_shift_late && strtotime($time_in) < strtotime('23:30:00'))
-            {
-                $late_count++;
-            }
+                $dateTimeOUT = $row['dateTimeOUT'];
+                $date_out = $row['date(clock_out.DateTime)'];
+                $time_out = $row['time(clock_out.DateTime)'];
 
-            $array_next = [];
 
-            if($shift == "Night")
-            {
-                $night = "1";
-
-                $query_out = "SELECT date(DateTime), time(DateTime), DateTime FROM clock_out WHERE date(DateTime) = '$next_day1' AND Name='$name'";
-                $result_out = mysqli_query($connect, $query_out);
-                $row_out = mysqli_num_rows($result_out);
-
-                while($row_out = mysqli_fetch_assoc($result_out))
+                //Late
+                if($shift == "Morning")
                 {
-                    $out = $row_out['DateTime'];
-                    $date_out = $row_out['date(DateTime)'];
-                    $time_out = $row_out['time(DateTime)']; 
-
-                    if(strtotime($in)  > strtotime($out))
+                    if(strtotime($time_in) > $morning_shift_late && strtotime($time_in) < strtotime('10:30:00'))
                     {
-                        $interval = strtotime($in) - strtotime($out);
+                        $late_count = 1;
                     }
-                    else
+                }
+                else if($shift == "Afternoon")
+                {
+                    if(strtotime($time_in) > $afternoon_shift_late && strtotime($time_in) < strtotime('15:30:00'))
                     {
-                        $interval = strtotime($out) - strtotime($in);
-                    }
-
-                    $minutes = floor($interval/60);
-                    $hours = floor($interval/3600);
-                    $_remainder = $minutes % 60;
-
-                    if($hours >= 8)
-                    {
-                        $overtime_count++;
+                        $late_count = 1;
                     }
 
-                    if($hours < 8)
+                }
+                else if($shift == "Night")
+                {
+                    if(strtotime($time_in) > $night_shift_late && strtotime($time_in) < strtotime('23:30:00'))
                     {
-                        $notOnShift_count++;
+                        $late_count = 1;
                     }
-
-                  // echo "<tr>
-                  //       <td>".$name."</td>
-                  //       <td>".$shift."</td>
-                  //       <td>".$date_in."</td>
-                  //       <td>".$time_in."</td>
-                  //       <td>".$date_out."</td>
-                  //       <td>".$time_out."</td>
-                  //       <td>".$hours." H ".$_remainder." M</td>
-                  //       <td>".$notOnShift_count."</td>
-                  //   </tr>";
-
-                    array_push($late_array, $late_count);
-                    array_push($notOnShift_array, $notOnShift_count);
-                    array_push($overtime_array, $overtime_count);
+                }
+                else
+                {
+                    $late_count = 0;
                 }
 
-                $late_count = 0;
-                $overtime_count = 0;
-                $notOnShift_count = 0;
-            }
-            else 
-            {
+                // OverTime
+                $interval = strtotime($dateTimeOUT) - strtotime($dateTimeIN);
+                $minutes = floor($interval/60);
+                $hours = floor($interval/3600);
+                $_remainder = $minutes % 60;
 
-                $query_out = "SELECT date(DateTime), time(DateTime) FROM clock_out WHERE date(DateTime) = '$date_in' AND Name='$name'";
-                $result_out = mysqli_query($connect, $query_out);
-                $row_out  = mysqli_num_rows($result_out );
-
-                while($row_out = mysqli_fetch_assoc($result_out))
+                if($hours > 8)
                 {
-                    $date_out = $row_out['date(DateTime)'];
-                    $time_out = $row_out['time(DateTime)']; 
+                    $overtime_count = 1;
+                }
 
-                    $interval = strtotime($time_out) - strtotime($time_in);
+                //Not On Shift
+                if($hours < 8)
+                {
+                    $notOnShift_count = 1;
+                }
 
-                    $minutes = floor($interval/60);
-                    $hours = floor($interval/3600);
-                    $_remainder = $minutes % 60;
+                $total_late_count = $total_late_count + $late_count;
+                $total_ot_count = $total_ot_count + $overtime_count;
+                $total_nos_count = $total_ot_count + $notOnShift_count;
 
-                    if($hours > 8)
-                    {
-                        $overtime_count++;
-                    }
+                // echo $name." ".$date_in." ".$time_in." ".$date_out." ".$time_out." ".$hours."H".$_remainder."M"."<br>";
 
-                    if($hours < 8)
-                    {
-                        $notOnShift_count++;
-                        $overtime_count = 0;
-                    }
-
-
-                     // echo "<tr>
-                     //        <td>".$name."</td>
-                     //        <td>".$shift."</td>
-                     //        <td>".$date_in."</td>
-                     //        <td>".$time_in."</td>
-                     //        <td>".$date_out."</td>
-                     //        <td>".$time_out."</td>
-                     //        <td>".$hours." H ".$_remainder." M</td>
-                     //        <td>".$notOnShift_count."</td>
-                     //        </tr>";
-
-
-                } 
+            
             }
+
+            array_push($late_array, $total_late_count);
+            array_push($overtime_array, $total_ot_count);
+            array_push($notOnShift_array, $total_nos_count);
+
+            $total_late_count = 0;
+            $total_ot_count = 0;
+            $total_nos_count = 0;
+            
+
         }
 
-        array_push($overtime_array, $overtime_count);
-        array_push($notOnShift_array, $notOnShift_count);
+        $dates = json_encode($time_array);
+        $late_data = json_encode($late_array);
+        $overtime_data = json_encode($overtime_array);
+        $notOnShift_data = json_encode($notOnShift_array);
 
-
-         $dates = json_encode($time_array);
-         $late_data = json_encode($late_array);
-         $overtime_data = json_encode($overtime_array);
-         $notOnShift_data = json_encode($notOnShift_array);
-    
+        // echo "<br>Dates Array: ", $dates;
+        // echo "<br>Late Array: ", $late_data;
+        // echo "<br>OverTime Array: ", $overtime_data;
+        // echo "<br>NotOnShift Array: ", $notOnShift_data;
+        
     }
-
     else
     {
+
+        $time_array = ["2020-04-01","2020-04-02","2020-04-03","2020-04-04","2020-04-05","2020-04-06","2020-04-07"];
+        $late_array= [0,0,0,0,0,0,0];
+        $overtime_array = [0,0,0,0,0,0,0];
+        $notOnShift_array=[0,0,0,0,0,0,0];
+        
         $dates = json_encode($time_array);
         $late_data = json_encode($late_array);
         $overtime_data = json_encode($overtime_array);

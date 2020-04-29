@@ -12,8 +12,6 @@
     <!-- Bootstrap CSS CDN -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
-
-
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 
     <!-- Our Custom CSS -->
@@ -31,55 +29,42 @@
                 <img src="image/shell_logo2.png">
             </div>
 
+            
             <ul class="list-unstyled components">
-               <!--  <li class="active">
-                    <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Home</a>
-                    <ul class="collapse list-unstyled" id="homeSubmenu">
-                        <li>
-                            <a href="#">Home 1</a>
-                        </li>
-                        <li>
-                            <a href="#">Home 2</a>
-                        </li>
-                        <li>
-                            <a href="#">Home 3</a>
-                        </li>
-                    </ul>
-                </li> -->
-               <!--  <li>
-                    <a href="#">About</a>
-                    <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Pages</a>
-                    <ul class="collapse list-unstyled" id="pageSubmenu">
-                        <li>
-                            <a href="#">Page 1</a>
-                        </li>
-                        <li>
-                            <a href="#">Page 2</a>
-                        </li>
-                        <li>
-                            <a href="#">Page 3</a>
-                        </li>
-                    </ul>
-                </li> -->
                 <li>
                     <a href="dashboard.php">Dashboard</a>
                 </li>
+
                  <li>
                     <a href="employee.php">Employee List</a>
                 </li>
+
                 <li>
                     <a href="performance.php">Performance</a>
                 </li>
-                <li>
-                    <a href="salary.php">Salary</a>
-                </li>
-            </ul>
 
-            <ul class="list-unstyled icon">
+                <li>
+                    <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Salary</a>
+                    <ul class="collapse list-unstyled" id="pageSubmenu">
+                        <li>
+                            <a href="salary.php">Generate Payroll</a>
+                        </li>
+                        <li>
+                            <a href="salaryCheckUpdate.php">Check & Update</a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="rates.php">Rates</a>
+                </li>
+
+                <li>
+                    <a href="history.php">History</a>
+                </li>
+
                 <li>
                     <a href="settings.php" class="setting_icon"><img src="image/setting_icon.png"></a>
-                </li>
-                <li>
                     <a href="login.php" class="logout_icon"><img src="image/logout_icon.png"></a>
                 </li>
             </ul>
@@ -87,29 +72,6 @@
 
         <!-- Page Content Holder -->
         <div id="content">
-
-            <!-- <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                <div class="container-fluid">
-
-                    <button type="button" id="sidebarCollapse" class="navbar-btn">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                    </button>
-                    <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                        <i class="fas fa-align-justify"></i>
-                    </button>
-
-                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul class="nav navbar-nav ml-auto">
-                            <li class="nav-item active">
-                                <a class="nav-link" href="#">Hi, John Wick</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </nav> -->
-
             <div class="row title">
                 <div class="col-6 pageTitle">
                     <h2>Employee List</h2>
@@ -195,23 +157,6 @@
             }
         }
 
-        // var modal = document.getElementById("myModal");
-
-        // function showModal(no)
-        // {
-        //     document.getElementById("empNo").value = no;
-
-        //     modal.style.display = "block";
-        // }
-
-        // function hideModal()
-        // {
-        //     modal.style.display = "none";
-        // }
-
-
-
-        
 
     </script>
 </body>
