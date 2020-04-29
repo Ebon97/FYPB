@@ -1064,6 +1064,9 @@ ul ul a {
     color:green;
 }
 
+#panel {
+    display: none;
+  }
 
 
 

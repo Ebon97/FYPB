@@ -122,9 +122,11 @@
 
             <table id="employeeList">
                 <tr>
-                    <th>No.</th>
+                    <th>No</th>
+                    <th>Employee ID</th>
                     <th>Employee Name</th>
                     <th>Position</th>
+                    <th>Shift</th>
                     <th>Salary</th>
                     <th>Joined Since</th>
                     <th>Action</th>
