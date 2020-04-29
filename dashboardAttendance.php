@@ -1,5 +1,6 @@
 <?php
     $connect =  mysqli_connect("localhost", "root", "", "shellsbt") or die ("Connection Failed: ". mysqli_connect_error()); 
+    $i = 0;
 
     $query = "SELECT clock_in.EnNo, clock_in.Name, date(clock_in.DateTime), time(clock_in.DateTime), time(clock_out.DateTime), clock_in.Shift from clock_in INNER JOIN clock_out ON clock_in.EnNo = clock_out.EnNo AND date(clock_in.DateTime) = clock_out.NightFix AND clock_in.Shift = clock_out.Shift ORDER BY clock_in.DateTime DESC";
     $result = mysqli_query($connect, $query);
