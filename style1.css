@@ -637,7 +637,8 @@ ul ul a {
 #attendance_sheet table tr th
 {
     background-color: #E35723;
-    color:white;
+    color: white;
+    text-align: center;
 }
 
 #attendance_sheet table tr th
@@ -658,6 +659,7 @@ ul ul a {
 #attendance_sheet table tr td
 {
     border-bottom: 1px solid #E35723;
+    text-align: center;
 }
 
 #attendance_sheet table tr td:nth-child(3)
@@ -717,6 +719,7 @@ ul ul a {
 #employeeList tr td
 {
     padding:1vh 0;
+    text-align: center !important;
 }
 
 #employeeList tr td:last-child
@@ -946,7 +949,7 @@ ul ul a {
 #salary_sheet table,td,th,td
 {
     padding: 0.6vh 1vw;
-    text-align: center;
+    text-align: center !important;
     color: #E35723;
 }
 
@@ -961,19 +964,19 @@ ul ul a {
     border-top-left-radius: 10px;
 }
 
-#salary_sheet table tr td:nth-child(2), td:nth-child(3)
+#salary_sheet table tr td:nth-child(3), td:nth-child(4)
 {
-    color:red;
-}
-
-#salary_sheet table tr td:nth-child(4)
-{
-    color:green;
+    color:red !important;
 }
 
 #salary_sheet table tr td:nth-child(5)
 {
-    color:blue;
+    color:green !important;
+}
+
+#salary_sheet table tr td:nth-child(6)
+{
+    color:blue !important;
 }
 
 #salary_sheet table th:nth-last-child(2)
@@ -990,7 +993,7 @@ ul ul a {
 
 #salary_sheet table tr
 {
-    border-bottom: 1px solid #E35723 ;
+    border-bottom: 1px solid #E35723;
 }
 
 #salary_sheet table tr td button
@@ -1179,7 +1182,7 @@ ul ul a {
 {
     background-color: #E35723;
     padding: 0.6vh 1vw;
-    text-align: center;
+    text-align: center !important;
     color: white;
 }
 
@@ -1201,6 +1204,7 @@ ul ul a {
 #ratesConfirm table td
 {
     border-bottom: 1px solid #E35723;
+    text-align: center !important;
 }
 
 #historyList
@@ -1214,6 +1218,7 @@ ul ul a {
 {
     background-color: #E35723;
     color:white;
+    text-align: center !important;
 }
 
 #historyList tr th:first-child
@@ -1229,6 +1234,7 @@ ul ul a {
 #historyList tr td
 {
     border-bottom: 1px solid #E35723;
+    text-align: center !important;
 }
 
 #historyList tr td:last-child
@@ -1242,7 +1248,7 @@ ul ul a {
     outline: none;
     border: 1px solid #E35723;
     color: #E35723;
-    text-align: center;
+    text-align: center !important;
 }
 
 #salaryConfirmbutton
@@ -1469,4 +1475,75 @@ ul ul a {
     font-family: Futura;
     font-size: 1.2em;
     display: fixed;
+}
+
+.info_container
+{
+    margin-top: 2%;
+    margin-left: 6%;
+    font-family: Futura;
+}
+
+.info_container .row .box
+{
+    border: 1px solid #E35723 !important;
+    border-radius: 10px;
+}
+
+.info_container .row .penaltiesH
+{
+    border: 1px solid #E35723 !important;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.info_container .row .penaltiesH p 
+{
+    margin-top: 5%;
+    font-weight: bold;
+    color: #E35723 !important;
+}
+
+.info_container .row .penaltiesH span
+{
+    color: red;
+    font-size: 1.7em;
+    font-weight: bold;
+    display: block;
+    margin: 1.5vh 0;
+} 
+
+.info_container .row .bonusH
+{
+    border: 1px solid green !important;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.info_container .row .bonusH p 
+{
+    margin-top: 5%;
+    font-weight: bold;
+    color: green !important;
+}
+
+.info_container .row .bonusH span
+{
+    color: green;
+    font-size: 1.7em;
+    font-weight: bold;
+    display: block;
+    margin: 1.5vh 0;
+}
+
+#performance_info
+{
+    font-weight: bold;
+}
+
+#performance_info tr th, td
+{
+    font-size: 1.1em;
+    text-align: left; 
+    color: #E35723 !important;
 }

@@ -39,7 +39,7 @@
                     <a href="employee.php">Employee List</a>
                 </li>
                 <li>
-                    <a href="#">Performance</a>
+                    <a href="performance.php">Performance</a>
                 </li>
                 <li>
                     <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Salary</a>
@@ -83,25 +83,25 @@
 					$message = "";
 					$link = ""; 
 
-					if(isset($_GET['No']))
+					if(isset($_GET['ID']))
 					{
-						$no = $_GET['No'];
+						$id = $_GET['ID'];
 
-						$query = "SELECT * FROM `employee` WHERE No = ".$no." group by No";
+						$query = "SELECT * FROM employee WHERE ID= '$id'";
 
 						$result = mysqli_query($connect, $query);
 						$row  = mysqli_num_rows($result);
 
 						 while($row = mysqli_fetch_assoc($result))
 						 {
-						 	$no = $row['No'];
+						 	$id = $row['ID'];
 					   		$emp_name = $row['Name'];
-					        $position = $row['position'];
-					        $salary = $row['salary'];
+					        $position = $row['Position'];
+					        $salary = $row['Salary'];
 					        $startDate = $row['startDate'];
 
 				?>
-						<input type="hidden" value="<?php echo $no; ?>" name="empNo">
+						<input type="hidden" value="<?php echo $id; ?>" name="empNo">
 						<div class='form-group row'>
 							<label class="">Name</label>
 							<label>:</label>

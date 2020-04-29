@@ -1,45 +1,46 @@
 <?php
     $connect =  mysqli_connect("localhost", "root", "", "shellsbt") or die ("Connection Failed: ". mysqli_connect_error()); 
-    $i = 0;
 
-    $query = "SELECT clock_in.Name, employee.shift,date(clock_in.DateTime), time(clock_in.DateTime) from clock_in join employee where clock_in.Name = employee.Name order by date(DateTime) DESC LIMIT 0,6";
-    $result = mysqli_query($connect, $query);
-    $row = mysqli_num_rows($result);
+    $query1 = "SELECT No, Name, Shift, date(DateTime), time(DateTime) FROM clock_in ORDER BY DateTime DESC LIMIT 0,6";
+    $result1 = mysqli_query($connect, $query1);
+    $row1 = mysqli_num_rows($result1);
 
-    while($row = mysqli_fetch_assoc($result))
+    $late_count = 0;
+
+    while($row1 = mysqli_fetch_assoc($result1))
     {
-        $name = $row['Name'];
-        $shift = $row['shift'];
-        $date = $row['date(clock_in.DateTime)'];
-        $time = $row['time(clock_in.DateTime)'];
-        $i++;
 
-        $morning_shift_late = strtotime('6:40:00');
+        $no = $row1['No'];
+        $name = $row1['Name'];
+        $shift = $row1['Shift'];
+        $date = $row1['date(DateTime)'];
+        $time = $row1['time(DateTime)'];
+
+        $morning_shift_late = strtotime('06:40:00');
         $afternoon_shift_late = strtotime('14:40:00');
-        $night_shift_late = strtotime('21:40:00');
+        $night_shift_late = strtotime('22:40:00');
 
-
-        if(strtotime($time) > $morning_shift_late && strtotime($time) < strtotime('10:30:00'))
+        if($shift == "Morning")
         {
-            $late = "<span style='color:red'>LATE</span>";
+            if(strtotime($time) > $morning_shift_late && strtotime($time) < strtotime('10:30:00'))
+            {
+                $late = "<span style='color:red'>LATE</span>";
+            }
+            
         }
-        else
+        else if($shift == "Afternoon")
         {
-            $late = "<span style='color:green'>PUNCTUAL</span>";
+            if(strtotime($time) > $afternoon_shift_late && strtotime($time) < strtotime('15:30:00'))
+            {
+                $late = "<span style='color:red'>LATE</span>";
+            }
         }
-
-        if(strtotime($time) > $afternoon_shift_late && strtotime($time) > strtotime('10:30:00'))
+        else if($shift == "Night")
         {
-            $late = "<span style='color:red'>LATE</span>";
-        }
-        else
-        {
-            $late = "<span style='color:green'>PUNCTUAL</span>";
-        }
-
-        if(strtotime($time) > $night_shift_late && strtotime($time) < strtotime('23:30:00'))
-        {
-            $late = "<span style='color:red'>LATE</span>";
+            if(strtotime($time) > $night_shift_late && strtotime($time) < strtotime('23:30:00'))
+            {
+                $late = "<span style='color:red'>LATE</span>";
+            }
         }
         else
         {
@@ -49,7 +50,7 @@
          
         ?>
             <tr>
-                <td><?php echo $i; ?></td>
+                <td><?php echo $no; ?></td>
                 <td><?php echo $name; ?></td>
                 <td><?php echo $date; ?></td>
                 <td><?php echo $time; ?></td>

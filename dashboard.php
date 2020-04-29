@@ -56,7 +56,7 @@
                     <a href="employee.php">Employee List</a>
                 </li>
                 <li>
-                    <a href="#">Performance</a>
+                    <a href="performance.php">Performance</a>
                 </li>
                 <li>
                     <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Salary</a>
@@ -82,40 +82,10 @@
                 </li>
             </ul>
 
-            <!-- <ul class="list-unstyled icon">
-                <li>
-                    <a href="settings.php" class="setting_icon"><img src="image/setting_icon.png"></a>
-                </li>
-                <li>
-                    <a href="login.php" class="logout_icon"><img src="image/logout_icon.png"></a>
-                </li>
-            </ul> -->
         </nav>
 
         <!-- Page Content Holder -->
         <div id="content">
-
-           <!--  <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                <div class="container-fluid">
-                    <button type="button" id="sidebarCollapse" class="navbar-btn">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                    </button>
-                    <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                        <i class="fas fa-align-justify"></i>
-                    </button>
-
-                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul class="nav navbar-nav ml-auto">
-                            <li class="nav-item active">
-                                <a class="nav-link" href="#">Hi, John Wick</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </nav> -->
-
              <div class="row title">
                 <div class="col-6 pageTitle">
                     <h2>Dashboard</h2>
@@ -123,7 +93,7 @@
 
                 <div class="col-4 datepicker" style="text-align: right;">
                     <form action="dashboard.php" method="GET">
-                        <input type="date" name="start_date" value="2019-10-01">
+                        <input type="date" name="start_date" value="2020-04-01">
                         <!-- <span class="tooltiptext">Tooltip text</span> -->
                         <input type="submit" name="apply" value="APPLY" class="apply">
                     </form>
@@ -155,7 +125,7 @@
                         <th>No</th>
                         <th>Name</th>
                         <th>Date</th>
-                        <th>Time</th>
+                        <th>Clock In Time</th>
                         <th>Punctuality</th>
                     </tr>
                         <?php
@@ -164,14 +134,12 @@
                             $username = $_SESSION['username'];
                             $hashed_password = $_SESSION['hashed_password'];
 
-                            if(empty($username) || empty($hashed_password))
+                            if(empty($username) || empty($hashed_password))                                             
                             {
                                 $message = "";
                                 header("Location: login.php");
                             }
 
-
-                            // echo $username." ".$hashed_password;
                         ?>
                 </table>
             </div>
@@ -199,7 +167,7 @@
         var myChart = new Chart(ctx, {
             type: 'bar',
             data: {
-                labels: <?php echo $dates; ?>,
+                labels: <?php echo $dates; ?>,                                                                                                                                                                                  
                 datasets: [{
                     label: 'NotOnShift',
                     backgroundColor: "#066C81",

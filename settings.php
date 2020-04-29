@@ -39,7 +39,7 @@
                 </li>
 
                 <li>
-                    <a href="#">Performance</a>
+                    <a href="performance.php">Performance</a>
                 </li>
 
                 <li>

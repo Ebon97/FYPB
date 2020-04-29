@@ -72,7 +72,7 @@
                 </li>
 
                 <li>
-                    <a href="#">Performance</a>
+                    <a href="performance.php">Performance</a>
                 </li>
 
                 <li>
@@ -124,6 +124,15 @@
                         <input type="number" class="form-control" name="year" value="2019">
 
                         <select class="form-control" name="month">
+                            <option value="1">January</option>
+                            <option value="2">February</option>
+                            <option value="3">March</option>
+                            <option value="4">April</option>
+                            <option value="5">May</option>
+                            <option value="6">June</option>
+                            <option value="7">July</option>
+                            <option value="8">August</option>
+                            <option value="8">September</option>
                             <option value="10">October</option>
                             <option value="11">November</option>
                             <option value="12">December</option>

@@ -41,7 +41,7 @@
                 </li>
 
                 <li>
-                    <a href="#">Performance</a>
+                    <a href="performance.php">Performance</a>
                 </li>
 
                 <li>
@@ -159,13 +159,13 @@
                         
                         while($row = mysqli_fetch_assoc($result))
                         {
-                            $no = $row['No'];
+                            $id = $row['ID'];
                             $employee = $row['Name'];
-                            $salary = $row['salary'];
+                            $salary = $row['Salary'];
 
                         
                             echo "<tr>
-                                <td>".$no."</td>
+                                <td>".$id."</td>
                                 <td class='name'>".$employee."</td>
                                 <td>".$salary."</td>
                                 <td><input type='number' class='raise'></td>

@@ -40,7 +40,7 @@
                 </li>
 
                 <li>
-                    <a href="#">Performance</a>
+                    <a href="performance.php">Performance</a>
                 </li>
 
                 <li>
@@ -92,19 +92,15 @@
                     <label class="title">Start Date</label>
                     <label class="colon">:</label>
                     <div>
-                        <input type="date" class='form-control' name="checkDate">
+                        <input type="date" class='form-control' name="checkStartDate">
                     </div>
                 </div>
 
                 <div class="form-group row">
-                    <label class="title">Range</label>
+                    <label class="title">End Date</label>
                     <label class="colon">:</label>
                     <div>
-                        <select id="range" name="checkRange">
-                            <option value="1">1 day</option>
-                            <option value="3">3 days</option>
-                            <option value="7">7 days</option>
-                        </select>
+                        <input type="date" class='form-control' name="checkEndDate">
                     </div>
                 </div>
 
