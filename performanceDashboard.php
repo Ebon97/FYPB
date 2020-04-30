@@ -77,22 +77,25 @@
 
                 	$connect =  mysqli_connect("localhost", "root", "", "shellsbt") or die ("Connection Failed: ". mysqli_connect_error()); 
 
-                    $query = "SELECT * FROM employee group by Name order by No";
+                    $query = "SELECT * FROM employee";
                     $result = mysqli_query($connect, $query);
-                    $row = mysqli_num_rows($result);
+                    $row_num = mysqli_num_rows($result);
+                    // $row = mysqli_fetch_assoc($result);
 
                     $arrayInfo = [];
 
+                    // echo $row_num."<br>";
+
                     // echo $row."<br>";
                     
-                    for($num = 0; $num < $row; $num++)
+                    for($num = 0; $num < $row_num; $num++)
                     {
-                    	if(isset($_GET['name'.$num]))
+                    	if(isset($_GET['check'.$num]))
                     	{
-                    		$name[$num] = $_GET['name'.$num];
+                    		$name = $_GET['name'.$num];
                     		// echo $name[$num];
 
-                            $query_info = "SELECT * FROM employee WHERE Name='$name[$num]'";
+                            $query_info = "SELECT * FROM employee WHERE Name='$name'";
                             $result_info = mysqli_query($connect, $query_info);
                             $row_count_info = mysqli_num_rows($result_info);
                             $row_info = mysqli_fetch_assoc($result_info);
@@ -102,9 +105,9 @@
                                 // echo "Found";
 
                                 $name_info = $row_info['Name'];
-                                $position_info = $row_info['position'];
-                                $shift_info = $row_info['shift'];
-                                $salary_info = $row_info['salary'];
+                                $position_info = $row_info['Position'];
+                                $shift_info = $row_info['Shift'];
+                                $salary_info = $row_info['Salary'];
 
                                 // echo $name_info." ".$position_info." ".$shift_info." ".$salary_info."<br>";
 
@@ -161,8 +164,8 @@
                                         $penaltiesH = 0;
                                         $bonusH = 0;
 
-                                        $arraySalary = [];
-                                        $arrayMonthSalary  = [];
+                                        $arraySalary = ["October"];
+                                        $arrayMonthSalary  = ["2000"];
                                         $month_name_array = ["NULL","January","February","March","April","May","June","July","August","September","October","November","December"];
 
                                         while($row_hp = mysqli_fetch_assoc($result_hp))

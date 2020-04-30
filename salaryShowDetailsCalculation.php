@@ -1,220 +1,187 @@
 
 <?php
-    for ($i = 1; $i < 32; $i++)
-    {
-        $missing_data_count = 0;
-
-        $day = $year."-".$month."-".$i;
-        $query_in = "SELECT Name, date(DateTime),time(DateTime), DateTime 
-                 FROM clock_in WHERE Name='$name' AND date(DateTime) ='$day'";
-        $result_in = mysqli_query($connect, $query_in);
-        $row_num_in = mysqli_num_rows($result_in);
-        $row_in = mysqli_fetch_assoc($result_in);
 
 
-        if($row_num_in == 0)
-        {
-            $name_in = "";
-            $dateTime_in = "";
-            $date_in = $day;
-            $time_in = "N/A";
-            $day_in = "";
-            $shift = "";
 
-        }
-        else if($row_num_in == 1)
-        {
-            $name_in = $row_in['Name'];
-            $dateTime_in = $row_in['DateTime'];
-            $date_in = $row_in['date(DateTime)'];
-            $time_in = $row_in['time(DateTime)'];
-            $day_in = date("l",strtotime($row_in['date(DateTime)']));
-        }
+    // while($row_em = mysqli_fetch_assoc($result_em))
+    // {
+    //     $id = $row_em['ID'];
+    //     $name = $row_em['Name'];
+    //     $shift = $row_em['Shift'];
+    //     $salary = $row_em['Salary'];
 
-        // Define the shift 
-        // 0500AM - 0630AM - 1030AM
-        if(strtotime($time_in) > strtotime('05:00:00') &&  strtotime($time_in) < strtotime('10:30:00'))
-        {
-            $shift = "Morning";
-        }
-        //1300 - 1430 - 1830
-        else if (strtotime($time_in) > strtotime('13:00:00') &&  strtotime($time_in) < strtotime('18:30:00'))
-        {
-            $shift = "Afternoon";
-        }
-        //2000 - 2130 - 0130am
-        else if(strtotime($time_in) > strtotime('20:00:00') &&  strtotime($time_in) < strtotime('23:59:00'))
-        {
-            $shift = "Night";
-        }
-        else if (strtotime(null))
-        {
-            $shift = "Part Time";
-        }
-        else
-        {
-            $shift="";
-        }
+    //      // include("salaryCalculation.php");
 
-        if($shift == "Night")
-        {
-            $nextday = $year."-".$month."-".($i+1);
-            $query_out = "SELECT Name, date(DateTime),time(DateTime), DateTime 
-                 FROM clock_out WHERE Name='$name' AND date(DateTime) ='$nextday'";
+    //     $query = "SELECT clock_in.Name, date(clock_in.DateTime), time(clock_in.DateTime), clock_in.Shift, clock_in.DateTime as dateTimeIN, 
+    //                 clock_out.Name, date(clock_out.DateTime), time(clock_out.DateTime), clock_out.Shift, clock_out.NightFix, clock_out.DateTime as dateTimeOUT 
+    //                 from clock_in inner join clock_out 
+    //                 on date(clock_in.DateTime) = date(clock_out.NightFix) and clock_in.Name = clock_out.Name 
+    //                 where month(clock_in.DateTime) = '$month' and clock_in.Name = '$name'";
+    //     $result = mysqli_query($connect, $query);
+    //     $row_num = mysqli_num_rows($result);
 
-            $result_out = mysqli_query($connect, $query_out);
-            $row_num_out = mysqli_num_rows($result_out);
-            $row_out = mysqli_fetch_assoc($result_out);
+    //     // echo $row_num;
 
-            if(($i+1) == 32)
-            {
-                $next_month_day = $year."-".($month+1)."-01";
-                $query_out = "SELECT Name, date(DateTime),time(DateTime), DateTime  
-                     FROM clock_out WHERE Name='$name' AND date(DateTime) ='$next_month_day'";
+    //     while($row = mysqli_fetch_assoc($result))
+    //     {
+    //         $name = $row['Name'];
+    //         $shift = $row['Shift'];
+
+    //         $dateTimeIN = $row['dateTimeIN'];
+    //         $date_in = $row['date(clock_in.DateTime)'];
+    //         $time_in = $row['time(clock_in.DateTime)'];
+
+    //         $dateTimeOUT = $row['dateTimeOUT'];
+    //         $date_out = $row['date(clock_out.DateTime)'];
+    //         $time_out = $row['time(clock_out.DateTime)'];
+
+    //         // echo $name." ".$shift." ".$dateTimeIN." ".$dateTimeOUT."<br>";
+
+    //         $interval = strtotime($dateTimeOUT) - strtotime($dateTimeIN);
+    //         $minutes = floor($interval/60);
+    //         $hours = floor($interval/3600);
+    //         $_remainder = $minutes % 60;
+
+
+    //         //Late Status
+    //         if($shift == "Morning")
+    //         {
+    //             // echo "HI<br>";
+    //             if(strtotime($time_in) > $morning_shift_late)
+    //             {
+    //                 $late = "Late";
+    //                 $diff = strtotime($time_in) - $morning_shift_late;
+    //             }
+    //              else
+    //             {
+    //                 $late = "O";
+    //                 $diff = 0;
+    //             }
+
+    //         }
             
-                $result_out = mysqli_query($connect, $query_out);
-                $row_num_out = mysqli_num_rows($result_out);
-                $row_out = mysqli_fetch_assoc($result_out);
-            }
-        }   
-        else
-        {
-            $nextday = $year."-".$month."-".$i;
-            $query_out = "SELECT Name, date(DateTime),time(DateTime) , DateTime 
-                 FROM clock_out WHERE Name='$name' AND date(DateTime) ='$nextday'";
+    //         if ($shift == "Afternoon")
+    //         {
+    //             if(strtotime($time_in) > $afternoon_shift_late)
+    //             {
+    //                 $late = "Late";
+    //                 $diff = strtotime($time_in) - $afternoon_shift_late;
+    //             }
+    //              else
+    //             {
+    //                 $late = "O";
+    //                 $diff = 0;
+    //             }
+
+    //         }
+
+    //         if ($shift == "Night")
+    //         {
+    //             if(strtotime($time_in) > $night_shift_late)
+    //             {
+    //                 $late = "Late";
+    //                 $diff = strtotime($time_in) - $night_shift_late;
+    //             }
+    //             else
+    //             {
+    //                 $late = "O";
+    //                 $diff = 0;
+    //             }
+    //         }
+
+    //         $l_minutes = floor($diff/60);
+    //         $l_hours = floor($diff/3600);
+    //         $l_remainder = $l_minutes % 60;
+    //         $latep = round($l_minutes * $late_penalties, 2);
+
+    //         //Shift Status
+    //         if($hours < 8)
+    //         {
+    //             $shift = "X";
+    //             $shift_diff = 480 - $minutes;
+    //             $shiftp = $shift_diff * $shift_penalties;
+    //         }
+    //         else
+    //         {
+    //             $shift = "O";
+    //             $shift_diff = 0;
+    //             $shiftp = 0;
+    //         }
+
+    //         if($hours > 8)
+    //         {
+    //             $_bonus = ($hours - 8) * $bonus;
+    //         }
+    //         else
+    //         {
+    //             $_bonus = 0;
+    //         }
+            
+
+    //         echo "<tr>
+    //             <td>".$name."</td>
+    //             <td>".$shift."</td>
+    //             <td>".$date_in."</td>
+    //             <td>".$time_in."</td>
+    //             <td>".$date_out."</td>
+    //             <td>".$time_out."</td>
+    //             <td>".$hours." Hr ".$_remainder." Min</td>
+    //             <td>".$late."</td>
+    //             <td>".$latep."</td>
+    //             <td>".$shift."</td>
+    //             <td>".$shiftp."</td>
+    //             <td>".$_bonus."</td>
+    //         </tr>";
+
+    //         $row_count  =  1;
+
+    //         $total_late_penalties = $total_late_penalties + $latep;
+    //         $total_shift_penalties = $total_shift_penalties + $shiftp;
+    //         $total_bonus = $total_bonus + $_bonus;
+    //         $total_row_count = $total_row_count + $row_count;
+
+            
+    //         // echo $row_count."<br>";
+    //     }
+
+    //     $final_salary = round($salary - $total_shift_penalties - $total_late_penalties + $total_bonus, 2);
+
+    //     if($total_row_count < 26 )
+    //     {
+    //         $alert = "<img src='image/alert_icon.png' class='alert_icon' alt='Missing Data'>";
+    //     }
+    //     else
+    //     {
+    //         $alert = "";
+    //         $query_past = "INSERT INTO salary_past(no, year, month, name, init_salary, shift_penalties, late_penalties, bonus, final_salary) VALUES (NULL,'$year','$month','$name','$salary','$total_shift_penalties','$total_late_penalties','$total_bonus','$final_salary')";
+    //         $result_past = mysqli_query($connect, $query_past);
+    //     }
+
+    //      // echo "<tr>
+    //      //        <td>".$name."</td>
+    //      //        <td>RM ".$salary."</td>
+    //      //        <td>".$total_late_penalties."</td>
+    //      //        <td>".$total_shift_penalties."</td>
+    //      //        <td>".$total_bonus."</td>
+    //      //        <td>RM ".$final_salary."</td>
+    //      //        <td>
+    //      //            <form action='salaryShowDetails.php' method='GET'>
+    //      //                <input type='hidden' name='name' value='".$name."'>
+    //      //                <input type='hidden' name='month' value='".$month."'>
+    //      //                <input type='hidden' name='year' val ue='".$year."'>
+    //      //                <button name='show'>Show Details</button>
+    //      //            </form>
+    //      //        </td>
+    //      //        <td style='padding:0;'>".$alert."</td>
+                
+    //      //    </tr>";
+
+    //         $total_late_penalties = 0;
+    //         $total_shift_penalties = 0;
+    //         $total_bonus = 0;
+    //         $total_row_count = 0;
 
 
-            $result_out = mysqli_query($connect, $query_out);
-            $row_num_out = mysqli_num_rows($result_out);
-            $row_out = mysqli_fetch_assoc($result_out);
-        }
+    // }
 
-
-        if($row_num_out == 0)
-        {
-            $name_out = "";
-            $date_out = $day;
-            $time_out = "N/A";
-            $dateTime_out = "";
-        }
-        else if($row_num_out == 1)
-        {
-            $name_out = $row_out['Name'];
-            $dateTime_out = $row_out['DateTime'];
-            $date_out = $row_out['date(DateTime)'];
-            $time_out = $row_out['time(DateTime)'];
-
-        }
-
-        //Calculation
-        if($time_in == "N/A" || $time_out == "N/A")
-        {
-            $interval = "";
-            $minutes = "";
-            $hours = "";
-            $_remainder = "";
-            $bonus = "";   
-            $shiftp = "";
-            $latep = "";
-            $onshift_statusTime = "";
-
-            $missing_data_count++;
-        }
-        else
-        {
-            $interval = strtotime($dateTime_out) - strtotime($dateTime_in);
-            $minutes = floor($interval/60);
-            $hours = floor($interval/3600);
-            $_remainder = $minutes % 60;
-
-             //Checking if excedd 8 hours, bonus added
-            //Calculate by hours
-            if($hours > 8)
-            {
-                if($hours >= 12)
-                {
-                    $bonus = 4 * 4.86;
-                }
-                else
-                {
-                    $overtime_hours = $hours - 8;
-                    $bonus = $overtime_hours * 4.86;
-                    $total_bonus = $total_bonus + $bonus;
-                }
-            }
-            else
-            {
-                $bonus = "";
-            }
-
-             // Checking Late Penalties
-            // Morning Shift
-            if(strtotime($time_in) > $morning_shift_late && strtotime($time_in) < strtotime('10:30:00'))
-            {
-                $latep = round((strtotime($time_in) - $morning_shift_late)/60 * $late_penalties,2);
-                $total_late_penalties = $total_late_penalties + $latep;
-            }
-            //Afternoon Shift
-            else if (strtotime($time_in) > $afternoon_shift_late && strtotime($time_in) < strtotime('18:30:00'))
-            {
-                $latep = round((strtotime($time_in) - $afternoon_shift_late)/60 * $late_penalties,2);
-                $total_late_penalties = $total_late_penalties + $latep;
-            }
-            //Night Shift
-            else if(strtotime($time_in) > $night_shift_late && strtotime($time_in) < strtotime('23:30:00'))
-            {
-                $latep = round((strtotime($time_in) - $night_shift_late)/60 * $late_penalties,2);
-                $total_late_penalties = $total_late_penalties + $latep;
-            }
-            else
-            {
-                $latep = "";
-            }
-
-            // Checking if on shift 8 hours
-            if($hours >= 8 && $hours < 12)
-            {
-                // 
-                $onshift_statusTime = "<strong style='color:green'>".$hours." Hr ".$_remainder." Min</strong>";
-            }
-            else if($hours < 8)
-            {
-                $onshift_statusTime = "<strong style='color:red'>".$hours." Hr ".$_remainder." Min</strong>";
-            }
-
-
-
-             //Checking Penalities if not work full 8 Hours
-            if($minutes < 480)
-            {
-                $penalties_min = 480 - $minutes;
-
-                $shiftp = round($penalties_min * $shift_penalties,2);
-                $total_shift_penalties = $total_shift_penalties + $shiftp;
-            }
-            else 
-            {
-                $shiftp = "";
-            }
-        }
-        
-        echo "<tr>
-            <td>".$name."</td>
-            <td>".$shift."</td>
-            <td>".$date_in."</td>
-            <td>".$time_in."</td>
-            <td>".$time_out."</td>
-            <td>".$onshift_statusTime."</td>
-            <td>".$latep."</td>
-            <td>".$shiftp."</td>
-            <td>".$bonus."</td>
-        </tr>";
-        
-    }
-
-    //Reset Total Penalties
-    $total_shift_penalties = 0;
-    $total_bonus = 0;
-    $total_late_penalties = 0;
-    $final_row_count = 0; 
 ?>

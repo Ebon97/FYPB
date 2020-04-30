@@ -722,6 +722,11 @@ ul ul a {
     text-align: center !important;
 }
 
+#employeeList tr td:last-child
+{
+    /*border-bottom: 1px solid white;*/
+}
+
 #employeeList tr td img
 {
     width: 27px;
@@ -733,7 +738,7 @@ ul ul a {
     cursor:pointer;
 }
 
-#editEmployeeForm 
+#editEmployeeForm, 
 {
     color:#E35723;
     font-family: Futura;
@@ -1018,7 +1023,7 @@ ul ul a {
 
 #salary_detail table
 {
-    width:93%;
+    width: 96%;
 }
 
 #salary_detail table,td,th,td
@@ -1026,12 +1031,14 @@ ul ul a {
     padding: 0.6vh 1vw;
     text-align: center;
     color: #E35723;
+    font-weight: bold;
 }
 
 #salary_detail table th
 {
     background-color: #E35723;
     color: white;
+
 }
 
 #salary_detail table th:first-child
@@ -1056,12 +1063,9 @@ ul ul a {
 
 #salary_detail td:nth-child(9)
 {
-    color:green;
+    color: green !important;
 }
 
-#panel {
-    display: none;
-  }
 #ratesForm
 {
     color: #E35723;
@@ -1545,3 +1549,59 @@ ul ul a {
     text-align: left; 
     color: #E35723 !important;
 }
+
+#performanceList
+{
+    /*background-color: black;*/
+    margin-left: 5%;
+    font-weight: bold;
+    font-family: Futura;
+    width: 93%;
+}
+
+#performanceList tr th
+{
+    background-color: #E35723;
+    color: white;
+}
+
+#performanceList tr th:first-child
+{
+    border-top-left-radius: 10px;
+}
+
+#performanceList tr th:last-child
+{
+    border-top-right-radius: 10px;
+}
+
+#performanceList tr td
+{
+    border-bottom: 1px solid  #E35723;
+    color: #E35723 !important;
+}
+
+#performanceList tr td:last-child
+{
+    border-bottom: none;
+}
+
+#performanceList input[type="text"]
+{
+    outline: none;
+    border: none;
+    text-align: center;
+    font-family: Futura;
+    font-weight: bold;
+    color: #E35723;
+}
+
+#performanceList input[type="submit"]
+{
+    background-color: #E35723;
+    color: white;
+    font-family: Futura;
+    font-weight: bold;
+    padding: 0.2vh 1.4vw;
+}
+

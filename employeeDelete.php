@@ -1,10 +1,10 @@
 <?php
 	$connect =  mysqli_connect("localhost", "root", "", "shellsbt") or die ("Failed");
 
-	if(isset($_GET['ID']))
+	if(isset($_GET['EnNo']))
 	{
-		$emp_id = $_GET['ID'];
-		$query = "DELETE FROM employee where ID = '".$emp_id."'";
+		$no = $_GET['EnNo'];
+		$query = "DELETE FROM employee where EnNo = '".$no."'";
 		$result = mysqli_query($connect, $query);
 
 		echo "Success";
@@ -12,7 +12,7 @@
 	}
 	else
 	{
-		echo "Failed to get ID";
+		echo "Failed to get EnNo";
 	}
 
 ?>

@@ -193,6 +193,7 @@
                             $alert_count = 0;
                             $missing_data_count = 0;
                             $total_missing_data = 0;
+                            $total_row_count = 0;
 
                             // $late = "";
                             // $diff = 0;
@@ -317,10 +318,6 @@
                                     }
                                     
 
-                                    //OverTime
-                                    //Bonus
-                                    //Shift P
-
                                     // echo "<tr>
                                     //     <td>".$name."</td>
                                     //     <td>".$shift."</td>
@@ -336,16 +333,20 @@
                                     //     <td>".$_bonus."</td>
                                     // </tr>";
 
+                                    $row_count  =  1;
+
                                     $total_late_penalties = $total_late_penalties + $latep;
                                     $total_shift_penalties = $total_shift_penalties + $shiftp;
                                     $total_bonus = $total_bonus + $_bonus;
+                                    $total_row_count = $total_row_count + $row_count;
 
-                                    $row ++;
+                                    
+                                    // echo $row_count."<br>";
                                 }
 
                                 $final_salary = round($salary - $total_shift_penalties - $total_late_penalties + $total_bonus, 2);
 
-                                if($row < 26 )
+                                if($total_row_count < 26 )
                                 {
                                     $alert = "<img src='image/alert_icon.png' class='alert_icon' alt='Missing Data'>";
                                 }
@@ -367,21 +368,21 @@
                                             <form action='salaryShowDetails.php' method='GET'>
                                                 <input type='hidden' name='name' value='".$name."'>
                                                 <input type='hidden' name='month' value='".$month."'>
-                                                <input type='hidden' name='year' value='".$year."'>
+                                                <input type='hidden' name='year' val ue='".$year."'>
                                                 <button name='show'>Show Details</button>
                                             </form>
                                         </td>
-                                        <td style='padding:0;'>".$alert."</td>
+                                        <td style='padding:0;'>".$alert."</td>                                      
                                     </tr>";
 
                                     $total_late_penalties = 0;
                                     $total_shift_penalties = 0;
                                     $total_bonus = 0;
-
+                                    $total_row_count = 0;
 
                             }
 
-                            if($total_missing_data  == 0)
+                            if($total_missing_data  > 26)
                             {
                                 $query_check = "INSERT INTO checkgenerator(no, year, month, status) VALUES (NULL,'$year','$month',1)";
                                 $result_check = mysqli_query($connect, $query_check);
@@ -424,13 +425,8 @@
                                     <td></td>
                                     <td></td>
                                 </tr>";
-                            }
-                            
+                            }                     
                         }
-
-
-						
-
 					?>
 	            </table>
 

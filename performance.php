@@ -77,41 +77,40 @@
                 </div>
             </div>
 
-            <table id="">
+            <table id="performanceList">
                 <tr>
                     <th>No</th>
                     <th>Employee Name</th>
                     <th>Position</th>
-                    <th>Overall Performance</th>
+                    <!-- <th>Overall Performance</th> -->
                 </tr>
 
                 <?php
                     $connect =  mysqli_connect("localhost", "root", "", "shellsbt") or die ("Connection Failed: ". mysqli_connect_error()); 
 
-                    $query = "SELECT * FROM employee group by Name order by No";
+                    $query = "SELECT * FROM employee";
                     $result = mysqli_query($connect, $query);
                     $row = mysqli_num_rows($result);
                     $i = 0;
 
                     while($row = mysqli_fetch_assoc($result))
                     {
-                        $no = $row['No'];
+                        $id = $row['ID'];
                         $emp_name = $row['Name'];
-                        $position = $row['position'];
+                        $position = $row['Position'];
 
-                        $shift = $row['shift'];
-                        $salary = $row['salary'];
+                        $shift = $row['Shift'];
+                        $salary = $row['Salary'];
                         $startDate = $row['startDate'];
 
                         echo 
                          "<tr>
-                            <td>".$no."</td>
+                            <td>".$id."</td>
                             <form action='performanceDashboard.php' method='GET'>
-                                <td><input type='hidden' value='".$emp_name."' name='name".$i."'></td>
-                                <td><input type='submit' name='name".$i."' value=".$emp_name."></td>
+                                <td><input type='text' value='".$emp_name."' name='name".$i."'></td>
+                                <td>".$position."</td>
+                                <td><input type='submit' name='check".$i."' value='CHECK'></td>
                             </form>
-                            <td>".$position."</td>
-                            <td></td>
                          </tr>";
 
                          $i++;

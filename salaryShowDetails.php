@@ -102,6 +102,10 @@
                 <div class="col-6 pageTitle">
                     <h2><?php echo $name;?>'s Details</h2>
                 </div>
+
+                 <div class="col-5 search" style="padding-right: 4.5%; ">
+                    <input type="text" id="searchInput" onkeyup="searchFunction()" placeholder="Search Dates" title="">
+                </div>
             </div>
 
 
@@ -141,10 +145,14 @@
 
                         $morning_shift_late = strtotime('6:40:00');
                         $afternoon_shift_late = strtotime('14:40:00');
-                        $night_shift_late = strtotime('21:40:00');
+                        $night_shift_late = strtotime('22:40:00');
 
                         $row_count = 0;
                         $final_row_count = 0;
+                        $alert_count = 0;
+                        $missing_data_count = 0;
+                        $total_missing_data = 0;
+                        $total_row_count = 0;
                         $alert_count = 0;
 
                         if(isset($_GET['show']))
@@ -154,17 +162,157 @@
                             $month = $_GET['month'];
                             // echo $name." ".$year." ".$month."<br>";
 
-                            $query = "SELECT * from employee where Name='".$name."'";
-                            $result = mysqli_query($connect, $query);
-                            $row = mysqli_num_rows($result);
+                            $query_em = "SELECT * from employee where Name='".$name."'";
+                            $result_em = mysqli_query($connect, $query_em);
+                            $row_em = mysqli_num_rows($result_em);
 
-                            while($row = mysqli_fetch_assoc($result))
+                            while($row_em = mysqli_fetch_assoc($result_em))
                             {
-                                $name = $row['Name'];
-                                $shift = $row['shift'];
-                                $salary = $row['salary'];
+                                $id = $row_em['ID'];
+                                $name = $row_em['Name'];
+                                $shift = $row_em['Shift'];
+                                $salary = $row_em['Salary'];
 
-                                include("salaryShowDetailsCalculation.php");
+                                $query = "SELECT clock_in.Name, date(clock_in.DateTime), time(clock_in.DateTime), clock_in.Shift, clock_in.DateTime as dateTimeIN, 
+                                    clock_out.Name, date(clock_out.DateTime), time(clock_out.DateTime), clock_out.Shift, clock_out.NightFix, clock_out.DateTime as dateTimeOUT 
+                                    from clock_in inner join clock_out 
+                                    on date(clock_in.DateTime) = date(clock_out.NightFix) and clock_in.Name = clock_out.Name 
+                                    where month(clock_in.DateTime) = '$month' and clock_in.Name = '$name'";
+                                $result = mysqli_query($connect, $query);
+                                $row_num = mysqli_num_rows($result);
+
+                                // echo $row_num;
+                                // echo "HI";
+
+                                while($row = mysqli_fetch_assoc($result))
+                                {
+                                    $name = $row['Name'];
+                                    $shift = $row['Shift'];
+
+                                    $dateTimeIN = $row['dateTimeIN'];
+                                    $date_in = $row['date(clock_in.DateTime)'];
+                                    $time_in = $row['time(clock_in.DateTime)'];
+
+                                    $dateTimeOUT = $row['dateTimeOUT'];
+                                    $date_out = $row['date(clock_out.DateTime)'];
+                                    $time_out = $row['time(clock_out.DateTime)'];
+
+                                    // echo $name." ".$shift." ".$dateTimeIN." ".$dateTimeOUT."<br>";
+
+                                    $interval = strtotime($dateTimeOUT) - strtotime($dateTimeIN);
+                                    $minutes = floor($interval/60);
+                                    $hours = floor($interval/3600);
+                                    $_remainder = $minutes % 60;
+
+                                    //Late Status
+                                    if($shift == "Morning")
+                                    {
+                                        // echo "HI<br>";
+                                        if(strtotime($time_in) > $morning_shift_late)
+                                        {
+                                            $late_status = "Late";
+                                            $diff = strtotime($time_in) - $morning_shift_late;
+                                        }
+                                         else
+                                        {
+                                            $late_status = "O";
+                                            $diff = 0;
+                                        }
+
+                                    }
+
+                                    if ($shift == "Afternoon")
+                                    {
+                                        if(strtotime($time_in) > $afternoon_shift_late)
+                                        {
+                                            $late_status = "Late";
+                                            $diff = strtotime($time_in) - $afternoon_shift_late;
+                                        }
+                                         else
+                                        {
+                                            $late_status = "O";
+                                            $diff = 0;
+                                        }
+
+                                    }
+
+                                    if ($shift == "Night")
+                                    {
+                                        if(strtotime($time_in) > $night_shift_late)
+                                        {
+                                            $late_status = "Late";
+                                            $diff = strtotime($time_in) - $night_shift_late;
+                                        }
+                                        else
+                                        {
+                                            $late_status = "O";
+                                            $diff = 0;
+                                        }
+                                    }
+
+                                    $l_minutes = floor($diff/60);
+                                    $l_hours = floor($diff/3600);
+                                    $l_remainder = $l_minutes % 60;
+
+                                    // Late Penalties
+                                    $latep = round($l_minutes * $late_penalties, 2);
+
+                                    if($latep == 0 )
+                                    {
+                                        $latep = "";
+                                    }
+                                    else
+                                    {
+                                        $latep = $latep;
+                                    }
+
+                                    //Shift Status
+                                    if($hours < 8)
+                                    {
+                                        $shift_status = "X";
+                                        $shift_diff = 480 - $minutes;
+
+                                        //Shift Penalties
+                                        $shiftp = $shift_diff * $shift_penalties;
+                                    }
+                                    else
+                                    {
+                                        $shift_status = "O";
+                                        $shift_diff = 0;
+                                        $shiftp = "";
+                                    }
+
+                                    if($hours > 8)
+                                    {
+                                        $_bonus = ($hours - 8) * $bonus;
+                                    }
+                                    else
+                                    {
+                                        $_bonus = "";
+                                    }
+
+                                    // Shift Time Color
+                                    if($hours >= 8)
+                                    {
+                                        $shift_time = "<strong style='color:green'>".$hours." Hr ".$_remainder." Min</strong>";
+                                    }
+                                    else
+                                    {
+                                        $shift_time = "<strong style='color:red'>".$hours." Hr ".$_remainder." Min</strong>";
+                                    }
+
+                                    echo "<tr>
+                                        <td>".$name."</td>
+                                        <td>".$shift."</td>
+                                        <td>".$date_in."</td>
+                                        <td>".$time_in."</td>
+                                        <td>".$time_out."</td>
+                                        <td>".$shift_time."</td>
+                                        <td>".$latep."</td>
+                                        <td>".$shiftp."</td>
+                                        <td>".$_bonus."</td>
+                                    </tr>";
+                                }
 
                             }
                         }            
@@ -190,6 +338,34 @@
                 $(this).toggleClass('active');
             });
         });
+
+        function searchFunction() 
+        {
+            var input, filter, table, tr, td, i, txtValue;
+
+            input = document.getElementById("searchInput");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("salary_detail");
+            tr = table.getElementsByTagName("tr");
+
+            for (i = 0; i < tr.length; i++) 
+            {
+                td = tr[i].getElementsByTagName("td")[2];
+
+                if (td) 
+                {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) 
+                    {
+                        tr[i].style.display = "";
+                    } 
+                    else 
+                    {
+                        tr[i].style.display = "none";
+                    }
+                }       
+            }
+        }
 
     
 

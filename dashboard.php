@@ -114,47 +114,30 @@
                     <h5>Attendance Sheet</h5>
                 </div>
 
-                 <div id="flip" class="col-3 upload">
-                    <button>SELECT FILE</button>
+                 <div class="col-3 upload">
+                    <button>UPLOAD FILE</button>
                 </div>
-            </div>
-
-            <div id="panel">
-
-                <form class="form-inline" action="uploads.php" method="post" enctype="multipart/form-data">
-                    <div class="form-group">
-                        <label for="clockinfile">Clock In Log File:</label>
-                        <input type="file" id="clockinfile" name="clockinfile">
-                    </div>
-                    <div class="form-group">
-                        <label for="clockoutfile">Clock Out Log File:</label>
-                        <input type="file" id="clockoutfile" name="clockoutfile">
-                    </div>
-                    <button type="submit" class="btn btn-default">UPLOAD</button>
-                </form>
             </div>
 
             <div id="attendance_sheet">
                 <table id="attendance">
                     <tr>
                         <th>No</th>
-                        <th>ID</th>
                         <th>Name</th>
                         <th>Date</th>
-                        <th>Time In</th>
-                        <th>Time Out</th>
-                        <th>Shift</th>
+                        <th>Clock In Time</th>
                         <th>Punctuality</th>
                     </tr>
                         <?php
                             include("dashboardAttendance.php");
 
-                            
+                            $username = $_SESSION['username'];
+                            $hashed_password = $_SESSION['hashed_password'];
 
                             if(empty($username) || empty($hashed_password))                                             
                             {
                                 $message = "";
-                               
+                                header("Location: login.php");
                             }
 
                         ?>
@@ -165,72 +148,12 @@
         </div>
     </div>
 
-    <!-- jQuery CDN - Slim version -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <!-- jQuery CDN - Slim version (=without AJAX) -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <!-- Popper.JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
     <!-- Bootstrap JS -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
-
-    <script> 
-        $(document).ready(function(){
-            $("#flip").click(function(){
-                $("#panel").slideToggle("slow");
-            });
-        });
-    </script>
-
-<style>
-.form-inline {  
-  display: flex;
-  flex-flow: row wrap;
-  align-items: center;
-  padding-left: 112px;
-  padding-right: 112px;
-  padding-top: 20px;
-  padding-bottom: 20px;
-}
-
-.form-inline label {
-    font-family: Futura;
-    font-weight: bold;
-    color: #E35723;
-    margin: 5px 10px 5px 0;
-}
-
-.form-inline input {
-  vertical-align: middle;
-  margin: 5px 10px 5px 0;;
-  padding-left:6px;
-}
-
-.form-inline button {
-    color: white;
-    background-color: #E35723;
-    font-family: Futura;
-    font-weight: bold;
-    outline: none;
-    border:none;
-    border-radius: 7px;
-    padding:0.5vh 1vw;
-}
-
-.form-inline button:hover {
-    cursor: pointer;
-    opacity: 0.7;
-}
-  
-@media (max-width: 800px) {
-  .form-inline input {
-    margin: 10px 0;
-  }
-  
-  .form-inline {
-    flex-direction: column;
-    align-items: stretch;
-  }
-}
-</style>
 
     <script type="text/javascript">
         $(document).ready(function () {
