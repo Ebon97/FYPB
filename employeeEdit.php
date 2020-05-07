@@ -85,25 +85,26 @@
 
 					if(isset($_GET['ID']))
 					{
-						$id = $_GET['ID'];
+						$emp_id = $_GET['ID'];
 
-						$query = "SELECT * FROM employee WHERE ID= '$id'";
+						$query = "SELECT * FROM `employee` WHERE ID = ".$emp_id."";
 
 						$result = mysqli_query($connect, $query);
 						$row  = mysqli_num_rows($result);
 
 						 while($row = mysqli_fetch_assoc($result))
 						 {
-						 	$id = $row['ID'];
+						 	$emp_id = $row['ID'];
 					   		$emp_name = $row['Name'];
-					        $position = $row['Position'];
+                            $position = $row['Position'];
+                            $shift = $row['Shift'];
 					        $salary = $row['Salary'];
 					        $startDate = $row['startDate'];
 
 				?>
-						<input type="hidden" value="<?php echo $id; ?>" name="empNo">
+						<input type="hidden" value="<?php echo $emp_id; ?>" name="empID">
 						<div class='form-group row'>
-							<label class="">Name</label>
+							<label>Name</label>
 							<label>:</label>
 							<div>
 								<input type='text' class='form-control' value="<?php echo $emp_name; ?>" name="empName">
@@ -115,6 +116,14 @@
 							<label>:</label>
 							<div>
 								<input type='text' class='form-control' value="<?php echo $position; ?>" name="empPosition">
+							</div>
+						</div>
+
+                        <div class='form-group row'>
+							<label>Shift</label>
+							<label>:</label>
+							<div>
+								<input type='text' class='form-control' value="<?php echo $shift; ?>" name="empShift">
 							</div>
 						</div>
 						

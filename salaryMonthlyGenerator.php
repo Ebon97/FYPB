@@ -142,26 +142,6 @@
 	        			<th>Final Salary</th>
 	        			<th colspan="2">Action</th>
 	        		</tr>
-                    <!-- <tr>
-                        <th></th>
-                    </tr>
-                    <tr>
-                        <th>Name</th>
-                        <th>Shift</th>
-                        <th>Date In</th>
-                        <th>Time In</th>
-                        <th>Date Out</th>
-                        <th>Time Out</th>
-                        <th>Duration</th>
-                        <th>Late Status</th>
-                        <th>Late Penalties</th>
-                        <th>Shift Status</th>
-                        <th>Shift Penalties</th>
-                        <th>Bonus</th>
-                        <th></th>
-                        
-                    </tr> -->
-
 		 			<?php 
 
                         if($found == false)
@@ -193,7 +173,6 @@
                             $alert_count = 0;
                             $missing_data_count = 0;
                             $total_missing_data = 0;
-                            $total_row_count = 0;
 
                             // $late = "";
                             // $diff = 0;
@@ -318,6 +297,10 @@
                                     }
                                     
 
+                                    //OverTime
+                                    //Bonus
+                                    //Shift P
+
                                     // echo "<tr>
                                     //     <td>".$name."</td>
                                     //     <td>".$shift."</td>
@@ -333,20 +316,16 @@
                                     //     <td>".$_bonus."</td>
                                     // </tr>";
 
-                                    $row_count  =  1;
-
                                     $total_late_penalties = $total_late_penalties + $latep;
                                     $total_shift_penalties = $total_shift_penalties + $shiftp;
                                     $total_bonus = $total_bonus + $_bonus;
-                                    $total_row_count = $total_row_count + $row_count;
 
-                                    
-                                    // echo $row_count."<br>";
+                                    $row ++;
                                 }
 
                                 $final_salary = round($salary - $total_shift_penalties - $total_late_penalties + $total_bonus, 2);
 
-                                if($total_row_count < 26 )
+                                if($row < 26 )
                                 {
                                     $alert = "<img src='image/alert_icon.png' class='alert_icon' alt='Missing Data'>";
                                 }
@@ -368,21 +347,30 @@
                                             <form action='salaryShowDetails.php' method='GET'>
                                                 <input type='hidden' name='name' value='".$name."'>
                                                 <input type='hidden' name='month' value='".$month."'>
-                                                <input type='hidden' name='year' val ue='".$year."'>
+                                                <input type='hidden' name='year' value='".$year."'>
                                                 <button name='show'>Show Details</button>
                                             </form>
                                         </td>
-                                        <td style='padding:0;'>".$alert."</td>                                      
+                                        <td style='padding:0;'>".$alert."</td>
                                     </tr>";
 
                                     $total_late_penalties = 0;
                                     $total_shift_penalties = 0;
                                     $total_bonus = 0;
-                                    $total_row_count = 0;
+
+                                    echo "<form action='salaryShowDetails.php' method='GET'>
+                                                <input type='hidden' name='name' value='".$name."'>
+                                                <input type='hidden' name='month' value='".$month."'>
+                                                <input type='hidden' name='year' value='".$year."'>
+                                                <button name='show'>Show Details</button>
+                                            </form>";
+
+
+
 
                             }
 
-                            if($total_missing_data  > 26)
+                            if($row > 25)
                             {
                                 $query_check = "INSERT INTO checkgenerator(no, year, month, status) VALUES (NULL,'$year','$month',1)";
                                 $result_check = mysqli_query($connect, $query_check);
@@ -391,6 +379,7 @@
                                 $result_his = mysqli_query($connect, $query_his);
 
                                 $notification = "<div class='success'><p>Payroll generated successfully</p></div>";
+                                echo $row;
                             }
                             else
                             {
@@ -425,8 +414,13 @@
                                     <td></td>
                                     <td></td>
                                 </tr>";
-                            }                     
+                            }
+                            
                         }
+
+
+						
+
 					?>
 	            </table>
 
