@@ -1605,3 +1605,28 @@ ul ul a {
     padding: 0.2vh 1.4vw;
 }
 
+#hidden_payroll
+{
+    text-align: right;
+    margin-top: 1%;
+    margin-right: 5%;
+}
+
+#hidden_payroll input[type="submit"]
+{
+    background-color: #E35723;
+    outline: none;
+    color: white;
+    border-radius: 7px;
+    border: none;
+    font-family: Futura;
+    font-weight: bold;
+    padding: 0.6vh 1.4vw;
+}
+
+#hidden_payroll input[type="submit"]:hover
+{
+    opacity: 0.7;
+    cursor: pointer;
+}
+

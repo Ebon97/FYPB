@@ -21,7 +21,7 @@
             $message = "<div class='sUpdate_success'><p>Update successfully</p></div>";
         }
 
-        echo $message;
+        echo "HI";
     }
     else
     {

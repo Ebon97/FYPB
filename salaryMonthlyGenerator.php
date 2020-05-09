@@ -171,8 +171,15 @@
                             $row_count = 0;
                             $final_row_count = 0;
                             $alert_count = 0;
-                            $missing_data_count = 0;
-                            $total_missing_data = 0;
+
+                            $name_array = [];
+                            $salary_array = [];
+                            $sp_array = [];
+                            $lp_array = [];
+                            $bn_array = [];
+                            $fsalary_array = [];
+
+                            $info = array(array());
 
                             // $late = "";
                             // $diff = 0;
@@ -323,18 +330,24 @@
                                     $row ++;
                                 }
 
+                                $final_row_count++;
+
+
                                 $final_salary = round($salary - $total_shift_penalties - $total_late_penalties + $total_bonus, 2);
 
                                 if($row < 26 )
                                 {
                                     $alert = "<img src='image/alert_icon.png' class='alert_icon' alt='Missing Data'>";
+                                    $alert_count ++;
                                 }
                                 else
                                 {
                                     $alert = "";
-                                    $query_past = "INSERT INTO salary_past(no, year, month, name, init_salary, shift_penalties, late_penalties, bonus, final_salary) VALUES (NULL,'$year','$month','$name','$salary','$total_shift_penalties','$total_late_penalties','$total_bonus','$final_salary')";
-                                    $result_past = mysqli_query($connect, $query_past);
+                                    // $query_past = "INSERT INTO salary_past(no, year, month, name, init_salary, shift_penalties, late_penalties, bonus, final_salary) VALUES (NULL,'$year','$month','$name','$salary','$total_shift_penalties','$total_late_penalties','$total_bonus','$final_salary')";
+                                    // $result_past = mysqli_query($connect, $query_past);
                                 }
+
+                                
 
                                  echo "<tr>
                                         <td>".$name."</td>
@@ -354,19 +367,16 @@
                                         <td style='padding:0;'>".$alert."</td>
                                     </tr>";
 
+                                    array_push($name_array, $name);
+                                    array_push($salary_array, $salary);
+                                    array_push($sp_array, $total_shift_penalties);
+                                    array_push($lp_array, $total_late_penalties);
+                                    array_push($bn_array, $total_bonus);
+                                    array_push($fsalary_array, $final_salary);
+
                                     $total_late_penalties = 0;
                                     $total_shift_penalties = 0;
                                     $total_bonus = 0;
-
-                                    echo "<form action='salaryShowDetails.php' method='GET'>
-                                                <input type='hidden' name='name' value='".$name."'>
-                                                <input type='hidden' name='month' value='".$month."'>
-                                                <input type='hidden' name='year' value='".$year."'>
-                                                <button name='show'>Show Details</button>
-                                            </form>";
-
-
-
 
                             }
 
@@ -386,6 +396,8 @@
                                 $notification = "<div class='warning'><p>This Payroll is generated unsuccessfully</p></div>";
 
                             }
+                            // echo $final_row_count;
+                
 
                         }
                         else if ($found == true)
@@ -394,46 +406,121 @@
                             $result = mysqli_query($connect, $query);
                             $row = mysqli_num_rows($result);
                             $i = 0;
-                          
+                            $alert_count = 0;
+                            $final_row_count = 0;
+
                             while($row = mysqli_fetch_assoc($result))
                             {
                                 $name = $row['name'];
+                                $salary = $row['init_salary'];
                                 $shift_penalties = $row['shift_penalties'];
                                 $late_penalties = $row['late_penalties'];
                                 $bonus = $row['bonus'];
                                 $final_salary = $row['final_salary'];
                                 $i++;
+                                
 
                                 echo "<tr>
                                     <td>".$name."</td>
-                                    <td>".$shift_penalties."</td>
-                                    <td>".$late_penalties."</td>
-                                    <td>".$bonus."</td>
-                                    <td>".$final_salary."</td>
-                                    <td>".$final_salary."</td>
+                                    <td>RM ".$salary."</td>
+                                    <td>RM ".$shift_penalties."</td>
+                                    <td>RM ".$late_penalties."</td>
+                                    <td>RM ".$bonus."</td>
+                                    <td>RM ".$final_salary."</td>
                                     <td></td>
                                     <td></td>
                                 </tr>";
                             }
                             
                         }
-
-
-						
-
 					?>
 	            </table>
 
         	</div>
 
-            <?php
-                if($found == true)
-                {
-                    $notification = "<div class='warning'><p>This Payroll had been generated before</p></div>";
-                }
+                        
+                        <form id="hidden_payroll" action="" method="GET">
+                <?php
+                        if($alert_count > 1)
+                        {
+                            $button = "FORCE GENERATE";
+                            $visibility = "visible";
 
-                echo $notification;
-            ?>
+                        }
+                        else if ( $alert_count  == 0)
+                        {
+                            if ($found == true)
+                            {
+                                $visibility = "hidden";
+                            }
+                            else
+                            {
+                                $button = "SAVE";
+                                $visibility = "visible";
+                            }
+                            
+                        }
+                        
+                        // echo $alert_count;
+
+                        for($a = 0; $a < $final_row_count; $a++)
+                        {
+                                echo "<input type='hidden' value=".$name_array[$a].">";
+                                echo "<input type='hidden' value=".$salary_array[$a].">";
+                                echo "<input type='hidden' value=".$sp_array[$a].">";
+                                echo "<input type='hidden' value=".$lp_array[$a].">";
+                                echo "<input type='hidden' value=".$bn_array[$a].">";
+                                echo "<input type='hidden' value=".$fsalary_array[$a].">";
+                        }
+                ?>
+                            <input type="submit" value="<?php echo $button; ?>" name="force" style="visibility:<?php echo $visibility; ?>">
+                        </form>
+                <?php
+
+                    if($found == true)
+                    {
+                        $notification = "<div class='warning'><p>This Payroll had been generated before</p></div>";
+                    }
+                    else if(isset($_GET['force']))
+                    {
+                        for($a = 0; $a < $final_row_count; $a++)
+                        {
+                           $query_check = "SELECT * FROM salary_past WHERE year='$year' AND month='$month' AND name='$name_array[$a]'";
+                           $check_result = mysqli_query($connect, $query_check);
+                           $check_row = mysqli_num_rows($check_result);
+
+                           if($check_row == 0)
+                           {
+                                $query_past = "INSERT INTO salary_past (no, year, month, name, init_salary, shift_penalties, late_penalties, bonus, final_salary) VALUES (NULL,'$year','$month','$name_array[$a]','$salary_array[$a]','$sp_array[$a]','$lp_array[$a]','$bn_array[$a]','$fsalary_array[$a]')";
+                           }
+                           else
+                           {
+                                $query_past = "UPDATE salary_past SET init_salary='$salary_array[$a]',
+                                                shift_penalties = '$sp_array[$a]', 
+                                                late_penalties = '$lp_array[$a]',
+                                                bonus = '$bn_array[$a]',
+                                                final_salary = '$fsalary_array[$a]' 
+                                                WHERE WHERE year='$year' AND month='$month' AND name='$name_array[$a]'";
+                                $query_check_generate = "INSERT INTO checkgenerator (no, year, month, status) VALUES (NULL,'$year','$month','1')";                
+                           }
+
+                            $past_result = mysqli_query($connect, $query_past);
+
+                            // echo $query_past."<br>";
+                           $notification = "<div class='success'><p>This Payroll is <strong style='color:green; font-weight:bold;'>successfully</strong> generated </p></div>";                      
+                        }
+
+                        $query_check_generate = "INSERT INTO checkgenerator (no, year, month, status) VALUES (NULL,'$year','$month','1')";
+
+                        $query_history = "INSERT INTO history (no, dateTime, category, description) VALUES (NULL,CURRENT_TIMESTAMP,'Salary','$month_name_array[$month] Salary Payroll is successfully generated')";
+
+                        $check_generate = mysqli_query($connect, $query_check_generate);
+                        $history = mysqli_query($connect, $query_history);
+                    }
+
+                    echo $notification;
+
+                ?>
         </div>
     </div>
 

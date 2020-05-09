@@ -121,7 +121,7 @@
                  <div id="month_form1" style="display:block">
                     <form id="monthly_form" action="salary.php" method="GET">
 
-                        <input type="number" class="form-control" name="year" value="2019">
+                        <input type="number" class="form-control" name="year" value="2020">
 
                         <select class="form-control" name="month">
                             <option value="1">January</option>

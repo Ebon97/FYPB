@@ -68,7 +68,7 @@
         <!-- Page Content Holder -->
         <div id="content">
             <div class="row title">
-                <div class="col-6 pageTitle">
+                <div class="col-5 pageTitle">
                     <h2>Performance</h2>
                 </div>
                 
