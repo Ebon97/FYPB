@@ -17,25 +17,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 
     <link rel="stylesheet" href="style1.css">
-    <style>
-        .graph
-        {
-          width:90%;
-          display:block;
-          overflow:hidden;
-          margin:0 auto;
-          background:#fff;
-          border-radius:4px;
-          margin-top: 3%;
-        }
 
-        canvas
-        {
-          background:#fff;
-          height:250px;
-        }
-
-    </style>
 
 </head>
 
@@ -92,8 +74,17 @@
         <!-- Page Content Holder -->
         <div id="content">
              <div class="row title">
-                <div class="col-6 pageTitle">
+                <div class="col-9 pageTitle">
                     <h2>History</h2>
+                </div>
+
+                 <div class="col-2 search">
+                    <select class="form-control" onchange="myFunction()" name="range" id="category">
+                        <option value="all">All</option>
+                        <option value="sal">Salary</option>
+                        <option value="rate">Rates</option>
+                        <option value="emp">Employee</option>
+                    </select>
                 </div>
             </div>
 
@@ -101,25 +92,30 @@
                 <table id="historyList">
                     <tr>
                         <th>Date</th>
+                        <th>Time</th>
                         <th>Category</th>
                         <th>Description</th>
                     </tr>
                     <?php
                         $connect =  mysqli_connect("localhost", "root", "", "shellsbt") or die ("Connection Failed: ". mysqli_connect_error());   
 
-                        $query = "SELECT * FROM history";
+                        $query = "SELECT *, time(DateTime),date(DateTime) FROM history ORDER BY dateTime DESC";
                         $result = mysqli_query($connect, $query);
                         $row = mysqli_num_rows($result);
 
                         while($row = mysqli_fetch_assoc($result))
                        {
-                            $date = $row['date'];
+                            $date = $row['date(DateTime)'];
+                            $time = $row['time(DateTime)'];
                             $category = $row['category'];
                             $description = $row['description'];
+
+                            $newtime = date("g:i a", strtotime($time));
 
                             echo 
                              "<tr>
                                 <td>".$date."</td>
+                                <td>".$newtime."</td>
                                 <td>".$category."</td>
                                 <td>".$description."</td>
                              </tr>";
@@ -147,6 +143,36 @@
                 $(this).toggleClass('active');
             });
         });
+
+        function myFunction() 
+        {
+            var input, filter, table, tr, td, i;
+
+            input = document.getElementById("category");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("historyList");
+            tr = table.getElementsByTagName("tr");
+
+            for (i = 0; i < tr.length; i++) 
+            {
+                td = tr[i].getElementsByTagName("td")[2];
+
+                if (td) 
+                {
+                    if (td.innerHTML.toUpperCase().indexOf(filter) > -1 || filter === "ALL") 
+                    {
+                        tr[i].style.display = "";
+                    }
+                    else 
+                    {
+                        tr[i].style.display = "none";
+                        // alert(td.innerHTML.toUpperCase().indexOf(filter));
+                    }
+                }    
+            }
+
+
+        }
 
     </script>
 </body>

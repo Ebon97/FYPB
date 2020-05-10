@@ -101,207 +101,82 @@
 
         <!-- Page Content Holder -->
         <div id="content">
-
-        	<table>
-        		<tr>
-        			<th>Name</th>
-        			<th>Date In</th>
-        			<th>Time In</th>
-        			<th>Date Out</th>
-        			<th>Time Out</th>
-        			<th>MATCH?</th>
-        		</tr>
- 			<?php 
-
-				$query = "SELECT * from employee";
-				$result = mysqli_query($connect, $query);
-				$row = mysqli_num_rows($result);
-
-				while($row = mysqli_fetch_assoc($result))
-				{
-					$name = $row['Name'];
-					$shift = $row['shift'];
+			<h2>My Customers</h2>
+			<select id="mylist" onchange="myFunction()" class='form-control'>
+			<option>A</option>
+			<option>b</option>
+			<option>c</option>
+			</select>
 
 
-					if($shift == "Morning" || $shift == "Afternoon")
-					{
-						// echo $name." ".$shift." query1<br>";
-
-						$query_in = "SELECT Name, date(DateTime),time(DateTime) FROM clock_in WHERE Name='".$name."' AND date(DateTime) BETWEEN '2019-10-01' and '2019-10-31'";
-						$query_out = "SELECT Name, date(DateTime),time(DateTime) FROM clock_out WHERE Name='".$name."' AND date(DateTime) BETWEEN '2019-10-01' and '2019-10-31'";
-
-						// echo "<br>".$query_in."<br>".$query_out;
-
-						$result_in = mysqli_query($connect, $query_in);
-						$result_out = mysqli_query($connect, $query_out);
-
-						while(($row_in = mysqli_fetch_assoc($result_in)) && ($row_out = mysqli_fetch_assoc($result_out)))
-						{
-							$name_in = $row_in['Name'];
-							$date_in = $row_in['date(DateTime)'];
-							$time_in = $row_in['time(DateTime)'];
-
-							$name_out = $row_out['Name'];
-							$date_out = $row_out['date(DateTime)'];
-							$time_out = $row_out['time(DateTime)'];
-
-							if($date_in == $date_out)
-							{
-								$match = "MATCH";
-							}
-							else
-							{
-								$match = "NOT MATCH";
-
-								// Checkin $in_date in clockout table
-								$checkClockOut_query = "SELECT * from clock_out WHERE date(dateTime) = ".$date_in."";
-								$checkClockOut_result = mysqli_query($connect, $checkClockOut_query);
-								$checkClockOut_row = mysqli_num_rows($checkClockOut_result);
-
-								// Check $out_date in clockin table
-								$checkClockIn_query = "SELECT * from clock_in WHERE date(dateTime) = ".$date_out."";
-								$checkClockIn_result = mysqli_query($connect, $checkClockIn_query);
-								$checkClockIn_row = mysqli_num_rows($checkClockIn_result);
-
-								if($checkClockOut_row == 0)
-								{
-									echo "Missing data of ".$in_date;
-									echo "<br>";
-
-									// $update_query_in = "INSERT INTO `clock_out`(`No`, `Mchn`, `EnNo`, `Name`, `Mode`, `IOMd`, `DateTime`) 
-									// 					VALUES ('null',1,1,'david',1,1,'".$in_date." 00:00:00')";
-
-									// $update_result_in = mysqli_query($connect, $update_query_in);
-
-								}
-								else if ($checkClockIn_row == 0)
-								{
-									echo "<br>";
-									echo "Missing data of ".$out_date2;
-
-									// $update_query_out = "INSERT INTO `clock_in`(`No`, `Mchn`, `EnNo`, `Name`, `Mode`, `IOMd`, `DateTime`) 
-									// 								VALUES ('',1,1,'david',1,1,'".$out_date2." 00:00:00')";
-									// $update_result_out = mysqli_query($connect, $update_query_in);
-
-								}
-
-							}
-
-							echo 
-							"<tr>
-								<td>".$name_in."</td>
-								<td>".$date_in."</td>
-								<td>".$time_in."</td>
-								<td>".$date_out."</td>
-								<td>".$time_out."</td>
-								<td>".$match."</td>
-							</tr>";
-						}
-
-					}
-					else if ($shift == "Night")
-					{
-						$query_in = "SELECT Name, date(DateTime),time(DateTime) FROM clock_in WHERE Name='".$name."' AND date(DateTime) BETWEEN '2019-10-01' and '2019-10-31'";
-						$query_out = "SELECT Name, date(DateTime),time(DateTime) FROM clock_out WHERE Name='".$name."' AND date(DateTime) BETWEEN '2019-10-02' and '2019-11-01'";
-
-						// echo "<br>".$query_in."<br>".$query_out;
-
-						$result_in = mysqli_query($connect, $query_in);
-						$result_out = mysqli_query($connect, $query_out);
-
-
-						while(($row_in = mysqli_fetch_assoc($result_in)) && ($row_out = mysqli_fetch_assoc($result_out)))
-						{
-							$name_in = $row_in['Name'];
-							$date_in = $row_in['date(DateTime)'];
-							$time_in = $row_in['time(DateTime)'];
-
-							$name_out = $row_out['Name'];
-							$date_out = $row_out['date(DateTime)'];
-							$time_out = $row_out['time(DateTime)'];
-							
-							$diff = round((strtotime($date_out) - strtotime($date_in))/3600/24,1);
-							if($diff == 1)
-							{
-								$match = "MATCH";
-							}
-							else if ($diff == 0 || $diff > 1)
-							{
-								$match = "NOT MATCH";
-
-								// Checkin $in_date in clockout table
-								$checkClockOut_query = "SELECT * from clock_out WHERE date(dateTime) = ".$date_in."";
-								$checkClockOut_result = mysqli_query($connect, $checkClockOut_query);
-								$checkClockOut_row = mysqli_num_rows($checkClockOut_result);
-
-								// Check $out_date in clockin table
-								$checkClockIn_query = "SELECT * from clock_in WHERE date(dateTime) = ".$date_out."";
-								$checkClockIn_result = mysqli_query($connect, $checkClockIn_query);
-								$checkClockIn_row = mysqli_num_rows($checkClockIn_result);
-
-								if($checkClockOut_row == 0)
-								{
-									echo "Missing data of ".$in_date;
-									echo "<br>";
-
-									// $update_query_in = "INSERT INTO `clock_out`(`No`, `Mchn`, `EnNo`, `Name`, `Mode`, `IOMd`, `DateTime`) 
-									// 					VALUES ('null',1,1,'david',1,1,'".$in_date." 00:00:00')";
-
-									// $update_result_in = mysqli_query($connect, $update_query_in);
-
-								}
-								else if ($checkClockIn_row == 0)
-								{
-									echo "<br>";
-									echo "Missing data of ".$out_date2;
-
-									// $update_query_out = "INSERT INTO `clock_in`(`No`, `Mchn`, `EnNo`, `Name`, `Mode`, `IOMd`, `DateTime`) 
-									// 								VALUES ('',1,1,'david',1,1,'".$out_date2." 00:00:00')";
-									// $update_result_out = mysqli_query($connect, $update_query_in);
-
-								}
-							}
-									
-							echo 
-							"<tr>
-								<td>".$name_in."</td>
-								<td>".$date_in."</td>
-								<td>".$time_in."</td>
-								<td>".$date_out."</td>
-								<td>".$time_out."</td>
-								<td>".$match."</td>
-								<td>".$diff."</td>
-							</tr>";
-						}
-					}
-
-				}
-
-			?>
-            
+			<table id="myTable">
+			  <tr class="header">
+			    <th style="width:60%;">Name</th>
+			    <th style="width:40%;">Country</th>
+			  </tr>
+			  <tr>
+			    <td>Alfreds Futterkiste</td>
+			    <td>Germany</td>
+			  </tr>
+			  <tr>
+			    <td>Berglunds snabbkop</td>
+			    <td>Sweden</td>
+			  </tr>
+			  <tr>
+			    <td>Island Trading</td>
+			    <td>UK</td>
+			  </tr>
+			  <tr>
+			    <td>Koniglich Essen</td>
+			    <td>Germany</td>
+			  </tr>
+			  <tr>
+			    <td>Laughing Bacchus Winecellars</td>
+			    <td>Canada</td>
+			  </tr>
+			  <tr>
+			    <td>Magazzini Alimentari Riuniti</td>
+			    <td>Italy</td>
+			  </tr>
+			  <tr>
+			    <td>North/South</td>
+			    <td>UK</td>
+			  </tr>
+			  <tr>
+			    <td>Paris specialites</td>
+			    <td>France</td>
+			  </tr>
+			</table>
         </div>
     </div>
 		
-
-
-
-		<!-- $query = "SELECT Name, date(DateTime),time(DateTime) from clock_in WHERE Name='david' ORDER BY date(DateTime)";
-			$query2 = "SELECT Name, date(DateTime),time(DateTime) from clock_out WHERE Name='david' ORDER BY date(DateTime)";
-
-
-			$result = mysqli_query($connect, $query);
-			$result2 = mysqli_query($connect, $query2);
-
-			while(($row = $result->fetch_assoc()) && ($row2 = $result2->fetch_assoc()))
-			{
-				$name = $row['Name'];
-				$in_date = $row['date(DateTime)'];
-				$in_time = $row['time(DateTime)'];
-
-				$name2 = $row2['Name'];
-				$out_date2 = $row2['date(DateTime)'];
-				$out_time2 = $row2['time(DateTime)'];
-			} -->
 		<br>
 	</body>
+	<script type="text/javascript">
+		function myFunction() {
+			var input, filter, table, tr, td, i;
+
+			input = document.getElementById("mylist");
+			filter = input.value.toUpperCase();
+			table = document.getElementById("myTable");
+			tr = table.getElementsByTagName("tr");
+
+			for (i = 0; i < tr.length; i++) 
+			{
+				td = tr[i].getElementsByTagName("td")[0];
+				if (td) 
+				{
+					if (td.innerHTML.toUpperCase().indexOf(filter) > -1) 
+					{
+						tr[i].style.display = "";
+					} 
+					else 
+					{
+						tr[i].style.display = "none";
+					}
+				}       
+			}
+		}
+
+	</script>
 </html>

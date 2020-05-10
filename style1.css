@@ -526,8 +526,16 @@ ul ul a {
     outline: none;
     color: #E35723;
     border:1px solid #E35723;
+}
 
-
+.search select
+{
+    outline: none !important;
+    border:1px solid #E35723;
+    color: #E35723 !important;
+    font-size: 1.1em;
+    font-family: Futura;
+    border-radius: 5px;
 }
 
 ::placeholder
@@ -1213,7 +1221,7 @@ ul ul a {
 {
     width: 90%;
     margin-left: 6%;
-    margin-top: 3%;
+
 }
 
 #historyList tr th
@@ -1237,6 +1245,7 @@ ul ul a {
 {
     border-bottom: 1px solid #E35723;
     text-align: center !important;
+    color: #E35723 !important;
 }
 
 #historyList tr td:last-child

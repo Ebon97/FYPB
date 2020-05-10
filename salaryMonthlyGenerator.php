@@ -388,12 +388,12 @@
                                 $query_his = "INSERT INTO history(no, date, category, description) VALUES (NULL,CURRENT_TIMESTAMP,'Salary Payroll','$month_name_array[$month] Salary Payroll is successfully generated')";
                                 $result_his = mysqli_query($connect, $query_his);
 
-                                $notification = "<div class='success'><p>Payroll generated successfully</p></div>";
+                                $notification = "<div class='success'><p>Payroll generated <strong style='color:green;'>successfully</strong></p></div>";
                                 echo $row;
                             }
                             else
                             {
-                                $notification = "<div class='warning'><p>This Payroll is generated unsuccessfully</p></div>";
+                                $notification = "<div class='warning'><p>This Payroll is generated <strong style='color:red;'>unsuccessfully</strong></p></div>";
 
                             }
                             // echo $final_row_count;

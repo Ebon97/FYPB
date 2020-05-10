@@ -18,7 +18,7 @@
             $result = mysqli_query($connect, $query);
 
             //Insert History of Changing
-            $query2 = "INSERT INTO history (no,date, category, description) VALUES 
+            $query2 = "INSERT INTO history (no,dateTime, category, description) VALUES 
                         (NULL,CURRENT_TIMESTAMP,'Rates','$username had changed the rates.Overtime = $bonus, Late Penalties = $late, Shift Penalties = $shift')";
             $result2 = mysqli_query($connect, $query2);
 
