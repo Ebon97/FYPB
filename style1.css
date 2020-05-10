@@ -1338,7 +1338,7 @@ ul ul a {
     border: 1px solid #E35723;
     border-radius: 10px;
     color: #E35723;
-    width: 357%;
+    width: 287%;
     padding-bottom: 0.9vh;
     padding-top: 0.9vh;
     padding-left: 0.5vw;
@@ -1352,9 +1352,10 @@ ul ul a {
     outline: none;
     border: none;
     border-radius: 10px;
-    padding:1vh 3vw;
+    padding: 0.5vh 2vw;
     margin-top: 1%;
-    margin-left: 43%;
+    margin-left: 45%;
+    font-size: 1em;
 }
 
 #checkSalaryForm input[type=submit]:hover
@@ -1369,14 +1370,13 @@ ul ul a {
     width: 92%;
     font-family: Futura;
     font-weight: bold;
-    color: #E35723 !important;
+    color: #E35723;
 }
 
 #checkUpdateTable tr th
 {
     color: white;
     background-color: #E35723;
-
 }
 
 #checkUpdateTable tr th:first-child
@@ -1391,12 +1391,12 @@ ul ul a {
 
 #checkUpdateTable tr th:nth-last-child(2)
 {
-    background: white;
+    border-top-right-radius: 10px;
 }
 
-#checkUpdateTable tr th:nth-last-child(3)
+#checkUpdateTable tr th:last-child
 {
-    border-top-right-radius: 10px;
+    background-color: white !important;
 }
 
 #checkUpdateTable tr td
@@ -1407,12 +1407,14 @@ ul ul a {
 #checkUpdateTable tr td:last-child
 {
     border-bottom: none;
+    padding-left: 2%;
 
 }
-#checkUpdateTable tr td:nth-last-child(2)
+
+#checkUpdateTable tr:last-child td
 {
-    border-bottom: none;
-    padding-left: 2%;
+    border-bottom: none !important;
+    padding-top: 3%;
 }
 
 #checkUpdateTable input[type=text]
@@ -1439,8 +1441,6 @@ ul ul a {
     width: 100%;
     text-align: center;
     font-weight: bold;
-
-
 }
 
 #checkUpdateTable input[type=submit]
@@ -1450,8 +1450,9 @@ ul ul a {
     font-weight: bold;
     outline: none;
     border: none;
-    border-radius: 5px;
-    padding:0.3vh 1.5vw;
+    border-radius: 10px;
+    padding:0.5vh 2vw;
+    font-size: 1em;
 }
 
 #checkUpdateTable input[type=submit]:hover
@@ -1460,19 +1461,31 @@ ul ul a {
     cursor: pointer;
 }
 
-.checkMessageSuccess
+.checkMessageSuccess, .checkMessageWarning
 {
-    margin-top: 8.3%;
+    margin-top: 7%;
 }
 
 .checkMessageSuccess span 
 {
-    background-color: red;
     padding: 2vh 5vw;
     text-align: center;
     background-color: #D0F0C0;
     border: 1.5px solid green;
     color: green;
+    border-radius: 10px;
+    font-family: Futura;
+    font-size: 1.2em;
+    display: fixed;
+}
+
+.checkMessageWarning span 
+{
+    background-color: #FFCCCB;
+    padding: 2vh 5vw;
+    text-align: center;
+    border: 1.5px solid red;
+    color: red;
     border-radius: 10px;
     font-family: Futura;
     font-size: 1.2em;

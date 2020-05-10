@@ -90,10 +90,22 @@
                 <div class="col-6 pageTitle">
                     <h2>Dashboard</h2>
                 </div>
+                <?php
+                    // echo  CURRENT_TIMESTAMP();
+                    date_default_timezone_set('UTC');
+
+                    $currentmonth = date("m");
+                    $currentyear = date("Y");
+
+                    $prefix_date = $currentyear."-".$currentmonth."-01";
+
+                    // echo $prefix_date;
+
+                ?>
 
                 <div class="col-4 datepicker" style="text-align: right;">
                     <form action="dashboard.php" method="GET">
-                        <input type="date" name="start_date" value="2020-04-01">
+                        <input type="date" name="start_date" value="<?php echo $prefix_date?>">
                         <!-- <span class="tooltiptext">Tooltip text</span> -->
                         <input type="submit" name="apply" value="APPLY" class="apply">
                     </form>
@@ -148,8 +160,6 @@
                     </tr>
                         <?php
                             include("dashboardAttendance.php");
-
-                            
 
                             if(empty($username) || empty($hashed_password))                                             
                             {

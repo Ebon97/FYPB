@@ -97,10 +97,15 @@
                 </div>
 
                 <div class="form-group row">
-                    <label class="title">End Date</label>
+                    <label class="title">Range</label>
                     <label class="colon">:</label>
                     <div>
-                        <input type="date" class='form-control' name="checkEndDate">
+                         <select class="form-control" name="range">
+                            <option value="1">1 day</option>
+                            <option value="3">3 days</option>
+                            <option value="7">7 days</option>
+                            <option value="10">10 days</option>
+                        </select>
                     </div>
                 </div>
 
@@ -117,12 +122,122 @@
                     <th>Clock In</th>
                     <th>Date</th>
                     <th>Clock Out</th>
-                    <th>Action</th>
                     <th>Alert</th>
                 </tr>
 
                 <?php
-                   include("salaryCheckUpdateCalculation.php");
+                    $connect =  mysqli_connect("localhost", "root", "", "shellsbt") or die ("Connection Failed: ". mysqli_connect_error()); 
+                   if(isset($_GET['check']))
+                   {
+                        $name = $_GET['checkName'];
+                        $startdate = $_GET['checkStartDate'];
+                        $range = $_GET['range'];
+
+                        if(empty($name) || $startdate == null)
+                        {
+                             echo "<div class='checkMessageWarning'>
+                                <span>Missing Input</span>
+                            </div>";
+                        }
+                        else
+                        {
+
+                            $day = date("d", strtotime($startdate));
+                            $month = date("m", strtotime($startdate));
+                            $year = date("Y", strtotime($startdate));
+
+
+
+                            $query = "SELECT * FROM employee WHERE Name='$name'";
+                            $result = mysqli_query($connect, $query);
+                            $row_num = mysqli_num_rows($result);
+                            $row = mysqli_fetch_assoc($result);
+
+                            $name = $row['Name'];
+                            $shift = $row['Shift']; 
+
+                           for($a = 0; $a < $range; $a++)
+                            {
+                               $new_date = date('Y-m-d', strtotime("+$a days", strtotime($startdate)));
+
+                               $query_check_in = "SELECT date(DateTime), time(DateTime) FROM clock_in WHERE date(DateTime) = '$new_date' AND Name='$name'";
+                               // echo $query_check_in."<br>";
+                               $check_result_in = mysqli_query($connect, $query_check_in);
+                               $row_num_check_in = mysqli_num_rows($check_result_in);
+
+                               $row_check_in = mysqli_fetch_assoc($check_result_in);
+                               
+                               // $time_in = $row_check['time(DateTime)'];
+
+                               if($row_num_check_in == 1)
+                               {
+                                    $time_in = $row_check_in['time(DateTime)'];
+                               }
+                               else
+                               {
+                                    $time_in = "NOT FOUND";
+                               }
+
+                               $query_check_out = "SELECT date(DateTime), time(DateTime), NightFix FROM clock_out WHERE NightFix = '$new_date' AND Name='$name'";
+                               // echo $query_check_out."<br>";
+                               $check_result_out = mysqli_query($connect, $query_check_out);
+                               $row_num_check_out = mysqli_num_rows($check_result_out);
+
+                               $row_check_out = mysqli_fetch_assoc($check_result_out);
+
+
+                               if($row_num_check_out == 1)
+                               {
+                                    $date_out = $row_check_out['date(DateTime)'];
+                                    $time_out = $row_check_out['time(DateTime)'];
+                               }
+                               else
+                               {
+                                    $time_out = "";
+                                    $date_out = "";
+
+                               }
+
+                               if($shift == "Afternoon" || $shift == "Morning")
+                               {
+                                    $date_out = $new_date;
+                               }
+                               else
+                               {
+                                    $date_out = date('Y-m-d', strtotime("+1 days", strtotime($new_date)));
+                               }
+
+                               if($time_in == null || $time_out == null)
+                               {
+                                    $alert = $alert_icon = "<img src='image/alert_icon.png' class='alert_icon'>";
+                               }
+                               else
+                               {
+                                    $alert = "";
+                               }
+
+                                echo "<tr>
+                                    <td><input type='text' value='".$name."' readonly ></td>
+                                    <td>".$shift."</td>
+                                    <td><input type='date' value='".$new_date."'></td>
+                                    <td><input type='time' value='".$time_in."'></td>
+                                    <td><input type='date' value='".$date_out."'></td>
+                                    <td><input type='time' value='".$time_out."'></td>
+                                    <td>".$alert."</td>
+                                </tr>";
+                            }
+
+                            echo "<tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td><input type='submit' value='UPDATE' name='update'></td>
+                                    <td></td>
+                                </tr>";
+                        }
+                   }
                 ?>
             </table>
 

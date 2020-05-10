@@ -141,7 +141,20 @@
     else
     {
 
-        $time_array = ["2020-04-01","2020-04-02","2020-04-03","2020-04-04","2020-04-05","2020-04-06","2020-04-07"];
+        // echo $prefix_date;
+
+        $currentday = 0;
+
+        for($a = 0; $a < 7; $a++)
+        {
+            $currentday = $currentday + 1;
+
+            $prefix_date = $currentyear."-".$currentmonth."-0".$currentday;
+            // echo $prefix_date."<br>";
+
+            array_push($time_array, $prefix_date);
+        }
+        
         $late_array= [0,0,0,0,0,0,0];
         $overtime_array = [0,0,0,0,0,0,0];
         $notOnShift_array=[0,0,0,0,0,0,0];
