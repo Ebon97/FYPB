@@ -108,6 +108,7 @@
                             <td>".$id."</td>
                             <form action='performanceDashboard.php' method='GET'>
                                 <td><input type='text' value='".$emp_name."' name='name'></td>
+                                <input type='hidden' value='0' name='quarter'>
                                 <td>".$position."</td>
                                 <td><input type='submit' name='check' value='CHECK'></td>
                             </form>

@@ -77,31 +77,32 @@
 
                     $nameArray = [];
 
-                    if(isset($_GET['check']) || isset($_GET['perf']))
-                    {
-                    	$name = $_GET['name'];
-                        // $quarter = $_GET['quarter'];
-                    	// echo $name[$num];
+                    // if(isset($_GET['check']) || isset($_GET['perf']))
+                    // {
+                    // 	$name = $_GET['name'];
+                    //     // $quarter = $_GET['quarter'];
+                    // 	// echo $name[$num];
 
-                        $query_info = "SELECT * FROM employee WHERE Name='$name'";
-                        $result_info = mysqli_query($connect, $query_info);
-                        $row_count_info = mysqli_num_rows($result_info);
-                        $row_info = mysqli_fetch_assoc($result_info);
+                    //     $query_info = "SELECT * FROM employee WHERE Name='$name'";
+                    //     $result_info = mysqli_query($connect, $query_info);
+                    //     $row_count_info = mysqli_num_rows($result_info);
+                    //     $row_info = mysqli_fetch_assoc($result_info);
 
-                        $name = $row_info['Name'];
-                        $position = $row_info['Position'];
-                        $shift = $row_info['Shift'];
-                        $salary = $row_info['Salary'];
-                        $startDate = $row_info['startDate'];
+                    //     $name = $row_info['Name'];
+                    //     $position = $row_info['Position'];
+                    //     $shift = $row_info['Shift'];
+                    //     $salary = $row_info['Salary'];
+                    //     $startDate = $row_info['startDate'];
 
-                        $query_salp = "SELECT * FROM salary_past WHERE Name='$name'";
-                        $result_salp = mysqli_query($connect, $query_info);
-                        $row_count_salp = mysqli_num_rows($result_info);
-                        $row_salp = mysqli_fetch_assoc($result_info);
+                    //     $query_salp = "SELECT * FROM salary_past WHERE Name='$name'";
+                    //     $result_salp = mysqli_query($connect, $query_info);
+                    //     $row_count_salp = mysqli_num_rows($result_info);
+                    //     $row_salp = mysqli_fetch_assoc($result_info);
 
-                    }
+                    // }
+                    $quarter = 0;
 
-                    if(isset($_GET['perf']))
+                    if(isset($_GET['perf']) || isset($_GET['check']))
                     {
                         $name = $_GET['name'];
                         $quarter = $_GET['quarter'];
@@ -136,6 +137,11 @@
                         $overtime_array = [];
                         $notonShift_array = [];
 
+                        $total_init_salary = 0;
+                        $total_shiftp = 0;
+                        $total_latep = 0;
+                        $total_bonus = 0;
+
                         $late_count = 0;
                         $overtime_count = 0;
                         $notonShift_count = 0;
@@ -151,11 +157,160 @@
 
 
                     //Checking Quarters
-                        if($quarter == "All")
+                        if($quarter == "All" || isset($_GET['check']))
                         {
+                            $total_salary = 0;
                             // $query_salp = "SELECT * FROM salary_past WHERE Name='$name'";
-                            array_push($month, "Overall");
+                            array_push($month, "Overall Salary");
                             $timeline = "Overall";
+
+                            $query_salp = "SELECT * FROM salary_past WHERE Name='$name'";
+                            $result_salp = mysqli_query($connect, $query_salp);
+                            $row_count_salp = mysqli_num_rows($result_salp);
+
+                            while($row_salp = mysqli_fetch_assoc($result_salp))
+                            {
+                                $isalary = $row_salp['init_salary'];
+                                $shiftp = $row_salp['shift_penalties'];
+                                $latep = $row_salp['late_penalties'];
+                                $bonus = $row_salp['bonus'];
+                                $fsalary = $row_salp['final_salary'];
+
+                                if($bonus > $highest_bonus)
+                                {
+                                    $highest_bonus = $bonus;
+                                }
+
+                                if($shiftp > $latep)
+                                {
+                                    $highest_penalties = $shiftp;
+                                }
+                                else if ($latep > $shiftp)
+                                {
+                                    $highest_penalties = $latep;
+                                }
+
+                                $total_init_salary = $total_salary + $isalary;
+                                $total_shiftp = $total_shiftp + $shiftp;
+                                $total_latep = $total_latep + $latep;
+                                $total_bonus = $total_bonus + $bonus;
+
+                            }
+
+                            array_push($bonusH, $highest_bonus);
+                            array_push($penaltiesH, $highest_penalties);
+
+                            array_push($initArray, $total_init_salary/3);
+                            array_push($penaltiesArray, $total_latep + $total_shiftp/3);
+                            array_push($bonusArray, $total_bonus/3);
+
+                            $init_salary_data = json_encode($initArray);
+                            $init_salary_data = json_encode($initArray);
+                            $penalties_data = json_encode($penaltiesArray);
+                            $bonus_data = json_encode($bonusArray);
+
+                            // echo $bonusH[0];
+
+                            $query_status = "SELECT clock_in.Name, time(clock_in.DateTime), clock_in.Shift, clock_in.DateTime as dateTimeIN, clock_out.Name, date(clock_out.DateTime), time(clock_out.DateTime), clock_out.Shift, clock_out.NightFix, clock_out.DateTime as dateTimeOUT from clock_in inner join clock_out on date(clock_in.DateTime) = date(clock_out.NightFix) and clock_in.Name = clock_out.Name where clock_in.Name = '$name'";
+                            $result_status = mysqli_query($connect, $query_status);
+                            $row_count_status = mysqli_num_rows($result_status);
+
+                            while($row_status = mysqli_fetch_assoc($result_status))
+                            {  
+                                // Late
+                                $time_in = $row_status['time(clock_in.DateTime)'];
+
+                                // Not on Shift & Bonus
+                                $shift = $row_status['Shift'];
+                                $dateTimeIN = $row_status['dateTimeIN'];
+                                $dateTimeOUT = $row_status['dateTimeOUT'];
+
+                                $interval = strtotime($dateTimeOUT) - strtotime($dateTimeIN);
+                                $minutes = floor($interval/60);
+                                $hours = floor($interval/3600);
+                                $_remainder = $minutes % 60;
+
+
+                                //Late Count
+                                if($shift == "Morning")
+                                {
+                                    // echo "HI<br>";
+                                    if(strtotime($time_in) > $morning_shift_late)
+                                    {
+                                        $late_count++;
+                                        $diff = strtotime($time_in) - $morning_shift_late;
+                                    }
+
+                                }
+                                
+                                if ($shift == "Afternoon")
+                                {
+                                    if(strtotime($time_in) > $afternoon_shift_late)
+                                    {
+                                        $late_count++;
+                                        $diff = strtotime($time_in) - $afternoon_shift_late;
+                                    }
+
+                                }
+
+                                if ($shift == "Night")
+                                {
+                                    if(strtotime($time_in) > $night_shift_late)
+                                    {
+                                        $late_count++;
+                                        $diff = strtotime($time_in) - $night_shift_late;
+                                    }
+                                }
+
+                                //Overtime
+                                if($hours > 8)
+                                {
+                                    $overtime_count ++;
+                                }
+                                else if ($hours < 8)
+                                {
+                                    $notonShift_count ++;
+                                }
+                                
+                            }
+
+                            $quarter_penalties = $late_count + $notonShift_count; 
+
+                            $total_quarter_penalties = $total_quarter_penalties + $quarter_penalties;
+
+                            // echo $total_quarter_penalties;
+
+                            $final_percentage = round($total_quarter_penalties/78 * 100, 2);
+
+                            if($final_percentage >= 80)
+                            {
+                                array_push($overall_colour_array, "green");
+                            }
+                            else if ($final_percentage >= 60 && $final_percentage < 80)
+                            {
+                                array_push($overall_colour_array, "orange");
+                            }
+                            else
+                            {
+                                array_push($overall_colour_array, "red");
+                            }
+
+                            array_push($late_array, $late_count);
+                            array_push($overtime_array, $overtime_count);
+                            array_push($notonShift_array, $notonShift_count);
+
+                            array_push($overall_array, $final_percentage);
+                            array_push($overall_array, 100-$final_percentage);
+
+                            //Dougnut Chart
+                            $overall_data = json_encode($overall_array);
+                            $overall_colour_data = json_encode($overall_colour_array);
+
+                            //Line Chart Become Bar Chart
+                            $late_data = json_encode($late_array);
+                            $overtime_data = json_encode($overtime_array);
+                            $notonShift_data = json_encode($notonShift_array);
+                                
 
                             // echo $month[0];
 
@@ -166,19 +321,19 @@
 
                             if($iquarter == 1)
                             {
-                                $timeline = "First Quarter";
+                                $timeline = "First Quarter's";
                             }
                             else if ($iquarter == 4)
                             {
-                                $timeline = "Second Quarter";
+                                $timeline = "Second Quarter's";
                             }
                             else if ($iquarter == 7)
                             {
-                                $timeline = "Third Quarter";
+                                $timeline = "Third Quarter's";
                             }
                             else if ($iquarter == 9)
                             {
-                                $timeline = "Fourth Quarter";
+                                $timeline = "Fourth Quarter's";
                             }
                             else
                             {
@@ -212,7 +367,6 @@
 
                                     if($bonus > $highest_bonus)
                                     {
-
                                         $highest_bonus = $bonus;
                                     }
 
@@ -360,7 +514,7 @@
                         $overall_data = json_encode($overall_array);
                         $overall_colour_data = json_encode($overall_colour_array);
 
-                        echo $overall_data." ".$overall_colour_data;
+                        // echo $overall_data." ".$overall_colour_data;
 
                     }
                
@@ -368,7 +522,7 @@
                 ?>
                 <!--  -->
                 <div class="row title">
-                    <div class="col-6 pageTitle">
+                    <div class="col-7 pageTitle">
                         <h2><?php echo $timeline; ?> Performance</h2>
                     </div>
                 </div>
@@ -523,27 +677,34 @@
 
             //Bar Chart
             var bar = document.getElementById("barChart");
+
+            var bar_data1 = {
+                    label: 'Initial Salary',
+                    backgroundColor: "#066C81",
+                    borderColor: "#066C81",
+                    data: <?php echo $init_salary_data; ?>,
+                };
+
+            var bar_data2 = {
+                    label: 'Bonus',
+                    backgroundColor: "#FAB418",
+                    borderColor: "#FAB418",
+                    data: <?php echo $penalties_data; ?>,
+                };
+
+            var bar_data3 = {
+                    label: 'Penalties',
+                    backgroundColor: "#DA3530",
+                    borderColor: "#DA3530",
+                    data: <?php echo $bonus_data; ?>,
+                };
+
             var barChart = new Chart(bar, {
               type: 'bar',
               data: {
                 labels: <?php echo $month_data?>,
 
-               datasets: [{
-                    label: 'Initial Salary',
-                    backgroundColor: "#066C81",
-                    borderColor: "#066C81",
-                    data: <?php echo $init_salary_data; ?>,
-                }, {
-                    label: 'Bonus',
-                    backgroundColor: "#FAB418",
-                    borderColor: "#FAB418",
-                    data: <?php echo $penalties_data; ?>,
-                }, {
-                    label: 'Penalties',
-                    backgroundColor: "#DA3530",
-                    borderColor: "#DA3530",
-                    data: <?php echo $bonus_data; ?>,
-                }],
+               datasets: [bar_data1, bar_data2, bar_data3],
             },
               options: {
                 legend: { 
@@ -583,6 +744,7 @@
             //Line Chart
             var line = document.getElementById("lineChart");
 
+
             var dataFirst = {
                 label: "Late",
                 data: <?php echo $late_data?>,
@@ -611,7 +773,7 @@
           };
 
             var lineData = {
-              labels: <?php echo $month_data; ?>,
+              labels: <?php if($timeline == "Overall"){echo "['Overall Performance']";}else if ($timeline != "Overall"){echo $month_data;}?>,
               datasets: [dataFirst, dataSecond, dataThird]
             };
 
@@ -655,7 +817,7 @@
             };
 
             var lineChart = new Chart(line, {
-              type: 'line',
+              type: '<?php if($timeline == "Overall"){echo "bar";}else{echo "line";}?>',
               data: lineData,
               options: chartOptions
             });
