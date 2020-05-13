@@ -66,82 +66,235 @@
 
             <!-- Page Content Holder -->
             <div id="content">
-                <div class="row title">
-                    <div class="col-6 pageTitle">
-                        <h2>Performance</h2>
-                    </div>
-                </div>
-
                 <?php
                 	session_start();
 
-                	$connect =  mysqli_connect("localhost", "root", "", "shellsbt") or die ("Connection Failed: ". mysqli_connect_error()); 
+                	$connect =  mysqli_connect("localhost", "root", "", "shellsbt") or die ("Connection Failed: ". mysqli_connect_error());
 
-                    $query = "SELECT * FROM employee";
-                    $result = mysqli_query($connect, $query);
-                    $row_num = mysqli_num_rows($result);
-                    // $row = mysqli_fetch_assoc($result);
+                    $month_name_array = ["NULL","January","February","March","April","May","June","July","August","September","October","November","December"];
 
-                    $arrayInfo = [];
+                    $timeline = "Overall";
 
-                    // echo $row_num."<br>";
+                    $nameArray = [];
 
-                    // echo $row."<br>";
-                    
-                    for($num = 0; $num < $row_num; $num++)
+                    if(isset($_GET['check']) || isset($_GET['perf']))
                     {
-                    	if(isset($_GET['check'.$num]))
-                    	{
-                    		$name = $_GET['name'.$num];
-                    		// echo $name[$num];
+                    	$name = $_GET['name'];
+                        // $quarter = $_GET['quarter'];
+                    	// echo $name[$num];
 
-                            $query_info = "SELECT * FROM employee WHERE Name='$name'";
-                            $result_info = mysqli_query($connect, $query_info);
-                            $row_count_info = mysqli_num_rows($result_info);
-                            $row_info = mysqli_fetch_assoc($result_info);
+                        $query_info = "SELECT * FROM employee WHERE Name='$name'";
+                        $result_info = mysqli_query($connect, $query_info);
+                        $row_count_info = mysqli_num_rows($result_info);
+                        $row_info = mysqli_fetch_assoc($result_info);
 
-                            if($row_count_info == 1)
-                            {
-                                // echo "Found";
+                        $name = $row_info['Name'];
+                        $position = $row_info['Position'];
+                        $shift = $row_info['Shift'];
+                        $salary = $row_info['Salary'];
+                        $startDate = $row_info['startDate'];
 
-                                $name_info = $row_info['Name'];
-                                $position_info = $row_info['Position'];
-                                $shift_info = $row_info['Shift'];
-                                $salary_info = $row_info['Salary'];
+                        $query_salp = "SELECT * FROM salary_past WHERE Name='$name'";
+                        $result_salp = mysqli_query($connect, $query_info);
+                        $row_count_salp = mysqli_num_rows($result_info);
+                        $row_salp = mysqli_fetch_assoc($result_info);
 
-                                // echo $name_info." ".$position_info." ".$shift_info." ".$salary_info."<br>";
-
-                                array_push($arrayInfo, $name_info);
-                                array_push($arrayInfo, $position_info);
-                                array_push($arrayInfo, $shift_info);
-                                array_push($arrayInfo, $salary_info);
-                            }
-                    	}
                     }
+
+                    if(isset($_GET['perf']))
+                    {
+                        $name = $_GET['name'];
+                        $quarter = $_GET['quarter'];
+                        // echo $name." ".$quarter."<br>";
+
+                         // Employee Personal Data
+                        $query_info = "SELECT * FROM employee WHERE Name='$name'";
+                        $result_info = mysqli_query($connect, $query_info);
+                        $row_count_info = mysqli_num_rows($result_info);
+                        $row_info = mysqli_fetch_assoc($result_info);
+
+                        $name = $row_info['Name'];
+                        $position = $row_info['Position'];
+                        $shift = $row_info['Shift'];
+                        $salary = $row_info['Salary'];
+                        $startDate = $row_info['startDate'];
+
+                        $month = [];
+                        $initArray = [];
+                        $penaltiesArray = [];
+                        $bonusArray = [];
+
+                        $penaltiesH = [];
+                        $bonusH = [];
+
+                        $highest_bonus = 0;
+                        $highest_penalties = 0;
+
+                        //Checking Quarters
+                        if($quarter == "All")
+                        {
+                            // $query_salp = "SELECT * FROM salary_past WHERE Name='$name'";
+                            array_push($month, "Overall");
+                            $timeline = "Overall";
+
+                            // echo $month[0];
+
+                        }
+                        else
+                        {
+                            $iquarter = (int)$quarter;
+
+                            if($iquarter == 1)
+                            {
+                                $timeline = "First Quarter";
+                            }
+                            else if ($iquarter == 4)
+                            {
+                                $timeline = "Second Quarter";
+                            }
+                            else if ($iquarter == 7)
+                            {
+                                $timeline = "Third Quarter";
+                            }
+                            else if ($iquarter == 9)
+                            {
+                                $timeline = "Fourth Quarter";
+                            }
+                            else
+                            {
+                                $timeline = "Overall";
+                            }
+                            
+                            for($count = 0; $count < 3; $count++)
+                            {
+                                $query_salp = "SELECT * FROM salary_past WHERE Name='$name' AND month='$iquarter'";
+                                array_push($month, $month_name_array[$iquarter]);
+
+                                // echo $query_salp."<br>";
+
+                                $result_salp = mysqli_query($connect, $query_salp);
+                                $row_count_salp = mysqli_num_rows($result_salp);
+                                $row_salp = mysqli_fetch_assoc($result_salp);
+
+                                // Bar Chart Data
+                                if($row_count_salp == 1)
+                                {
+                                    $isalary = $row_salp['init_salary'];
+                                    $shiftp = $row_salp['shift_penalties'];
+                                    $latep = $row_salp['late_penalties'];
+                                    $bonus = $row_salp['bonus'];
+
+                                    // echo $shiftp." ".$latep."<br>";
+
+                                    array_push($initArray, $isalary);
+                                    array_push($penaltiesArray, ($shiftp+$latep));
+                                    array_push($bonusArray, $bonus);
+
+                                    if($bonus > $highest_bonus)
+                                    {
+
+                                        $highest_bonus = $bonus;
+                                    }
+
+                                    if($shiftp > $latep)
+                                    {
+                                        $highest_penalties = $shiftp;
+                                    }
+                                    else if ($latep > $shiftp)
+                                    {
+                                        $highest_penalties = $latep;
+                                    }
+
+
+                                }
+                                else
+                                {
+
+                                }
+
+                                // Line Chart Data
+                                $query_status = "SELECT clock_in.Name, time(clock_in.DateTime), clock_in.Shift, clock_in.DateTime as dateTimeIN, clock_out.Name, date(clock_out.DateTime), time(clock_out.DateTime), clock_out.Shift, clock_out.NightFix, clock_out.DateTime as dateTimeOUT from clock_in inner join clock_out on date(clock_in.DateTime) = date(clock_out.NightFix) and clock_in.Name = clock_out.Name where month(clock_in.DateTime) = '$iquarter' and clock_in.Name = '$name'";
+
+                                $result_status = mysqli_query($connect, $query_status);
+                                $row_count_status = mysqli_num_rows($result_status);
+
+                                while($row_status = mysqli_fetch_assoc($result_status))
+                                {  
+                                    // Late
+                                    $time_in = $row_status['time(clock_in.DateTime)'];
+
+                                    // Not on Shift & Bonus
+                                    $shift = $row_status['Shift'];
+                                    $dateTimeIN = $row_status['dateTimeIN'];
+                                    $dateTimeOUT = $row_status['dateTimeOUT'];
+
+
+                                }
+
+                                $iquarter++;
+                            }
+
+                            array_push($bonusH, $highest_bonus);
+                            array_push($penaltiesH, $highest_penalties);
+                            // echo $month[0]." ".$month[1]." ".$month[2];
+
+
+                        }
+
+                        $month_data = json_encode($month);
+                        $init_salary_data = json_encode($initArray);
+                        $penalties_data = json_encode($penaltiesArray);
+                        $bonus_data = json_encode($bonusArray);
+                    }
+               
+                    
                 ?>
                 <!--  -->
+                <div class="row title">
+                    <div class="col-6 pageTitle">
+                        <h2><?php echo $timeline; ?> Performance</h2>
+                    </div>
+                </div>
 
                 <div class="info_container">
                     <!-- First Row -->
-                    <div class="row">
+                    <div class="row" >
                         <div class="col-6">
                             <div class="row" >
                                 <div class="col-12">
                                     <table id="performance_info">
                                         <?php
 
-                                            $arrayLabel = array("Name","Position","Shift","Salary");
+                                            echo "<tr>
+                                                <th>Name</th>
+                                                <th>:</th>
+                                                <td>".$name."</td>
+                                            </tr>
 
-                                            for($b = 0; $b < sizeof($arrayInfo); $b++)
-                                            {
+                                            <tr>
+                                                <th>Position</th>
+                                                <th>:</th>
+                                                <td>".$position."</td>
+                                            </tr>
 
-                                                echo "<tr>
-                                                    <th>".$arrayLabel[$b]."</th>
-                                                    <th>:</th>
-                                                    <td>".$arrayInfo[$b]."</td>
-                                                </tr>";
-                                          
-                                            }
+                                            <tr>
+                                                <th>Shift</th>
+                                                <th>:</th>
+                                                <td>".$shift."</td>
+                                            </tr>
+
+                                            <tr>
+                                                <th>Salary</th>
+                                                <th>:</th>
+                                                <td>RM ".$salary."</td>
+                                            </tr>
+
+                                            <tr>
+                                                <th>Joined</th>
+                                                <th>:</th>
+                                                <td>".$startDate."</td>
+                                            </tr>";
+                                            
                                         ?>
                                     </table>
                                 </div>
@@ -152,58 +305,8 @@
                                     
                                 </div>
                                 <div class="col-4 penaltiesH">
-                                    <?php
-
-                                        $query_hp = "SELECT * FROM salary_past  WHERE Name='$arrayInfo[0]'";
-                                        $result_hp = mysqli_query($connect, $query_hp);
-                                        $row_count_hp = mysqli_num_rows($result_hp);
-
-                                        // echo $arrayInfo[0];
-                                        // echo $row_count_hp;
-
-                                        $penaltiesH = 0;
-                                        $bonusH = 0;
-
-                                        $arraySalary = ["October"];
-                                        $arrayMonthSalary  = ["2000"];
-                                        $month_name_array = ["NULL","January","February","March","April","May","June","July","August","September","October","November","December"];
-
-                                        while($row_hp = mysqli_fetch_assoc($result_hp))
-                                        {
-                                            $month_num = $row_hp['month'];
-                                            $shiftp = $row_hp['shift_penalties'];
-                                            $latep = $row_hp['late_penalties'];
-                                            $bonus = $row_hp['bonus'];
-                                            $salaryf = $row_hp['final_salary'];
-
-                                            if($shiftp > $latep)
-                                            {
-                                                $penaltiesH = $shiftp;
-                                            }
-                                            else
-                                            {
-                                                $penaltiesH = $latep;
-                                            }
-
-                                            if($bonus > $bonusH)
-                                            {
-                                                $bonusH = $bonus;
-                                            }
-
-                                            $month = $month_name_array[$month_num];
-
-                                            array_push($arraySalary, $salaryf);
-                                            array_push($arrayMonthSalary, $month);
-
-                                        }
-
-
-                                        $salary_data = json_encode($arraySalary);
-                                        $salary_month_data = json_encode($arrayMonthSalary);
-
-                                    ?>
                                     <p>Highest Penalties</p>
-                                    <span><?php echo $penaltiesH;?></span>
+                                    <span>RM <?php echo $penaltiesH[0]; ?></span>
                                 </div>
 
                                 <div class="col-1">
@@ -212,25 +315,40 @@
 
                                 <div class="col-4 bonusH">
                                     <p>Highest Bonus</p>
-                                    <span><?php echo $bonusH; ?></span>
-                                </div> 
+                                    <span>RM <?php echo $bonusH[0]; ?></span>
+                                </div>
                             </div>
                         </div>
 
                         <div class="col-5" style="margin-left:2%;">
-                           <canvas id="dougnutChart" width="500" height="230"></canvas>
+                            <?php
+                                $arrayQuarter = array("1","4","7","9","All");
+                                $arrayQuarterName = array("Q1","Q2","Q3","Q4","Overall");
+
+                                for($b = 0; $b < 5; $b++)
+                                {
+                                    echo "
+                                        <form style='float:left' action='performanceDashboard.php' method='GET'>
+                                            <input type='hidden' name='name' value='".$name."'>
+                                            <input type='hidden' name='quarter' value='".$arrayQuarter[$b]."'>
+                                            <input type='submit' value='".$arrayQuarterName[$b]."' name='perf'>
+                                        </form>";
+                                }
+
+                            ?>
+                           <canvas id="dougnutChart" width="500" height="240" style="margin-top:10%;"></canvas>
                         </div>
 
                     </div>
 
                     <!-- Second Row -->
-                    <div class='row' style="margin-top:4%;">
+                    <div class='row' style="margin-top:3%;">
                         <div class='col-6'>
-                           <canvas id="lineChart" width="600" height="290"></canvas>
+                           <canvas id="lineChart" width="500" height="250"></canvas>
                         </div>
 
-                        <div class='col-5' style="margin-left:2%;">
-                            <canvas id="barChart" width="450" height="290"></canvas>
+                        <div class='col-5' style="padding-left:4%; margin-left: 3%;">
+                            <canvas id="barChart" width="450" height="300"></canvas>
                         </div>
                     </div>
 
@@ -276,6 +394,9 @@
                         },
 
                 options: {
+                    legend: { 
+                        position: 'top',
+                    },
                     cutoutPercentage: 60,
                     responsive: false,
                     }
@@ -288,20 +409,33 @@
             var barChart = new Chart(bar, {
               type: 'bar',
               data: {
-                labels: <?php echo $salary_month_data; ?>,
-                datasets: [{
-                  label: 'Monthly Salary Report',
-                  data: <?php echo $salary_data; ?>,
-                  backgroundColor: [
-                    '#DA3530',
-                  ],
-                  borderWidth: 1
-                }]
-              },
+                labels: <?php echo $month_data?>,
+
+               datasets: [{
+                    label: 'Initial Salary',
+                    backgroundColor: "#066C81",
+                    borderColor: "#066C81",
+                    data: <?php echo $init_salary_data; ?>,
+                }, {
+                    label: 'Bonus',
+                    backgroundColor: "#FAB418",
+                    borderColor: "#FAB418",
+                    data: <?php echo $penalties_data; ?>,
+                }, {
+                    label: 'Penalties',
+                    backgroundColor: "#DA3530",
+                    borderColor: "#DA3530",
+                    data: <?php echo $bonus_data; ?>,
+                }],
+            },
               options: {
+                legend: { 
+                    position: 'top',
+                },
                 responsive: false,
                 scales: {
                     xAxes: [{
+                        stacked: true,
                         gridLines: {
                             drawOnChartArea: false,
                             color: '#DA3530',
@@ -334,30 +468,33 @@
 
             var dataFirst = {
                 label: "Late",
-                data: [0, 59, 45, 20, 20, 55],
+                data: [0, 59, 45],
                 lineTension: 0,
                 fill: false,
+                backgroundColor: '#D93630',
                 borderColor: '#D93630'
               };
 
-            var dataSecond = {
-                label: "Bonus",
-                data: [20, 15, 60, 60, 65, 30],
+            var dataThird = {
+                label: "Overtime",
+                data: [20, 15, 60],
                 lineTension: 0,
                 fill: false,
-              borderColor: '#006C81'
+                backgroundColor: '#006C81',
+                borderColor: '#006C81'
               };
 
-           var dataThird = {
-            label: "Shift",
-            data: [5, 10, 50, 30, 45, 50],
+           var dataSecond = {
+            label: "Not Full Shift",
+            data: [5, 10, 50],
             lineTension: 0,
             fill: false,
-            borderColor: '#FFB500',
+            backgroundColor: '#FFB500',
+            borderColor: '#FFB500'
           };
 
             var lineData = {
-              labels: ["0s", "10s", "20s", "30s", "40s", "50s"],
+              labels: <?php echo $month_data; ?>,
               datasets: [dataFirst, dataSecond, dataThird]
             };
 
@@ -365,6 +502,7 @@
               legend: {
                 display: true,
                 position: 'top',
+                margin:15,
                 labels: {
                   // boxWidth: 20,
                   fontColor: 'black'

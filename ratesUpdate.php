@@ -19,7 +19,7 @@
 
             //Insert History of Changing
             $query2 = "INSERT INTO history (no,dateTime, category, description) VALUES 
-                        (NULL,CURRENT_TIMESTAMP,'Rates','$username had changed the rates.Overtime = $bonus, Late Penalties = $late, Shift Penalties = $shift')";
+                        (NULL,CURRENT_TIMESTAMP,'Rates','Overtime = $bonus, Late Penalties = $late, Shift Penalties = $shift')";
             $result2 = mysqli_query($connect, $query2);
 
             $message = "<div class='rUpdate_success'><p>Update successfully. Click here to <a href='rates.php'>Refresh</a></p></div>";

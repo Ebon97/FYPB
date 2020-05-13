@@ -1531,7 +1531,7 @@ ul ul a {
 .info_container .row .penaltiesH span
 {
     color: red;
-    font-size: 1.7em;
+    font-size: 1.5em;
     font-weight: bold;
     display: block;
     margin: 1.5vh 0;
@@ -1554,7 +1554,7 @@ ul ul a {
 .info_container .row .bonusH span
 {
     color: green;
-    font-size: 1.7em;
+    font-size: 1.5em;
     font-weight: bold;
     display: block;
     margin: 1.5vh 0;
@@ -1568,7 +1568,7 @@ ul ul a {
 #performance_info tr th, td
 {
     font-size: 1.1em;
-    text-align: left; 
+    text-align: left !important; 
     color: #E35723 !important;
 }
 

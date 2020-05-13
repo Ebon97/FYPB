@@ -107,9 +107,9 @@
                          "<tr>
                             <td>".$id."</td>
                             <form action='performanceDashboard.php' method='GET'>
-                                <td><input type='text' value='".$emp_name."' name='name".$i."'></td>
+                                <td><input type='text' value='".$emp_name."' name='name'></td>
                                 <td>".$position."</td>
-                                <td><input type='submit' name='check".$i."' value='CHECK'></td>
+                                <td><input type='submit' name='check' value='CHECK'></td>
                             </form>
                          </tr>";
 
