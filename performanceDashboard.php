@@ -119,6 +119,7 @@
                         $salary = $row_info['Salary'];
                         $startDate = $row_info['startDate'];
 
+                        // Bar Chart
                         $month = [];
                         $initArray = [];
                         $penaltiesArray = [];
@@ -130,7 +131,21 @@
                         $highest_bonus = 0;
                         $highest_penalties = 0;
 
-                        //Checking Quarters
+                        //Line Chart
+                        $late_array = [];
+                        $overtime_array = [];
+                        $notonShift_array = [];
+
+                        $late_count = 0;
+                        $overtime_count = 0;
+                        $notonShift_count = 0;
+
+                        $morning_shift_late = strtotime('6:40:00');
+                        $afternoon_shift_late = strtotime('14:40:00');
+                        $night_shift_late = strtotime('22:40:00');
+
+
+                    //Checking Quarters
                         if($quarter == "All")
                         {
                             // $query_salp = "SELECT * FROM salary_past WHERE Name='$name'";
@@ -228,9 +243,70 @@
                                     $dateTimeIN = $row_status['dateTimeIN'];
                                     $dateTimeOUT = $row_status['dateTimeOUT'];
 
+                                    $interval = strtotime($dateTimeOUT) - strtotime($dateTimeIN);
+                                    $minutes = floor($interval/60);
+                                    $hours = floor($interval/3600);
+                                    $_remainder = $minutes % 60;
 
+
+                                    //Late Count
+                                    if($shift == "Morning")
+                                    {
+                                        // echo "HI<br>";
+                                        if(strtotime($time_in) > $morning_shift_late)
+                                        {
+                                            $late_count++;
+                                            $diff = strtotime($time_in) - $morning_shift_late;
+                                        }
+
+                                    }
+                                    
+                                    if ($shift == "Afternoon")
+                                    {
+                                        if(strtotime($time_in) > $afternoon_shift_late)
+                                        {
+                                            $late_count++;
+                                            $diff = strtotime($time_in) - $afternoon_shift_late;
+                                        }
+
+                                    }
+
+                                    if ($shift == "Night")
+                                    {
+                                        if(strtotime($time_in) > $night_shift_late)
+                                        {
+                                            $late_count++;
+                                            $diff = strtotime($time_in) - $night_shift_late;
+                                        }
+                                    }
+
+                                    //Overtime
+                                    if($hours > 8)
+                                    {
+                                        $overtime_count ++;
+                                    }
+                                    else if ($hours < 8)
+                                    {
+                                        $notonShift_count ++;
+                                    }
+
+
+
+                                    
                                 }
 
+
+                                // echo $month_name_array[$iquarter]." Late Count: ".$late_count."<br>";
+                                // echo $month_name_array[$iquarter]." Overtime Count: ".$overtime_count."<br>";
+                                // echo $month_name_array[$iquarter]." NotOnShift Count: ".$notonShift_count."<br>";
+
+                                array_push($late_array, $late_count);
+                                array_push($overtime_array, $overtime_count);
+                                array_push($notonShift_array, $notonShift_count);
+
+                                $late_count = 0;
+                                $overtime_count = 0;
+                                $notonShift_count = 0;
                                 $iquarter++;
                             }
 
@@ -241,10 +317,16 @@
 
                         }
 
+                        // Bar Chart
                         $month_data = json_encode($month);
                         $init_salary_data = json_encode($initArray);
                         $penalties_data = json_encode($penaltiesArray);
                         $bonus_data = json_encode($bonusArray);
+
+                        //Line Chart
+                        $late_data = json_encode($late_array);
+                        $overtime_data = json_encode($overtime_array);
+                        $notonShift_data = json_encode($notonShift_array);
                     }
                
                     
@@ -468,7 +550,7 @@
 
             var dataFirst = {
                 label: "Late",
-                data: [0, 59, 45],
+                data: <?php echo $late_data?>,
                 lineTension: 0,
                 fill: false,
                 backgroundColor: '#D93630',
@@ -477,7 +559,7 @@
 
             var dataThird = {
                 label: "Overtime",
-                data: [20, 15, 60],
+                data: <?php echo $overtime_data?>,
                 lineTension: 0,
                 fill: false,
                 backgroundColor: '#006C81',
@@ -486,7 +568,7 @@
 
            var dataSecond = {
             label: "Not Full Shift",
-            data: [5, 10, 50],
+            data: <?php echo $notonShift_data?>,
             lineTension: 0,
             fill: false,
             backgroundColor: '#FFB500',
