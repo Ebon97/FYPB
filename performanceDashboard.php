@@ -140,6 +140,11 @@
                         $overtime_count = 0;
                         $notonShift_count = 0;
 
+                        // Dounghut-
+                        $total_quarter_penalties = 0;
+                        $overall_array = [];
+                        $overall_colour_array = [];
+
                         $morning_shift_late = strtotime('6:40:00');
                         $afternoon_shift_late = strtotime('14:40:00');
                         $night_shift_late = strtotime('22:40:00');
@@ -289,16 +294,17 @@
                                     {
                                         $notonShift_count ++;
                                     }
-
-
-
                                     
                                 }
-
 
                                 // echo $month_name_array[$iquarter]." Late Count: ".$late_count."<br>";
                                 // echo $month_name_array[$iquarter]." Overtime Count: ".$overtime_count."<br>";
                                 // echo $month_name_array[$iquarter]." NotOnShift Count: ".$notonShift_count."<br>";
+
+                                $quarter_penalties = $late_count + $notonShift_count; 
+
+                                $total_quarter_penalties = $total_quarter_penalties + $quarter_penalties;
+
 
                                 array_push($late_array, $late_count);
                                 array_push($overtime_array, $overtime_count);
@@ -308,10 +314,32 @@
                                 $overtime_count = 0;
                                 $notonShift_count = 0;
                                 $iquarter++;
+
+
                             }
+
+                            // echo "Total: ".$total_quarter_penalties."<br>";
+                            $final_percentage = round($total_quarter_penalties/78 * 100, 2);
+
+                            if($final_percentage >= 80)
+                            {
+                                array_push($overall_colour_array, "green");
+                            }
+                            else if ($final_percentage >= 60 && $final_percentage < 80)
+                            {
+                                array_push($overall_colour_array, "orange");
+                            }
+                            else
+                            {
+                                array_push($overall_colour_array, "red");
+                            }
+
 
                             array_push($bonusH, $highest_bonus);
                             array_push($penaltiesH, $highest_penalties);
+                            
+                            array_push($overall_array, $final_percentage);
+                            array_push($overall_array, 100-$final_percentage);
                             // echo $month[0]." ".$month[1]." ".$month[2];
 
 
@@ -327,6 +355,13 @@
                         $late_data = json_encode($late_array);
                         $overtime_data = json_encode($overtime_array);
                         $notonShift_data = json_encode($notonShift_array);
+
+                        //Dougnut Chart
+                        $overall_data = json_encode($overall_array);
+                        $overall_colour_data = json_encode($overall_colour_array);
+
+                        echo $overall_data." ".$overall_colour_data;
+
                     }
                
                     
@@ -464,12 +499,12 @@
                             labels: ['Overall Performance'],
                             datasets: 
                             [{
-                                data: [87, 100-87],
+                                data: <?php echo $overall_data;?>,
                                 backgroundColor: [
-                                    'green',
+                                    <?php echo $overall_colour_data;?>,
                                 ],
                                 borderColor: [
-                                    'green',
+                                    <?php echo $overall_colour_data;?>,
                                 ],
                                 borderWidth: 1
                             }]
