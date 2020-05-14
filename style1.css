@@ -1327,7 +1327,7 @@ ul ul a {
     border: 1px solid #E35723;
     border-radius: 10px;
     color: #E35723;
-    width: 162%;
+    width: 150%;
 }
 
 #checkSalaryForm input[type="date"]
@@ -1347,7 +1347,7 @@ ul ul a {
     border: 1px solid #E35723;
     border-radius: 10px;
     color: #E35723;
-    width: 287%;
+    width: 277%;
     padding-bottom: 0.9vh;
     padding-top: 0.9vh;
     padding-left: 0.5vw;
@@ -1411,6 +1411,9 @@ ul ul a {
 #checkUpdateTable tr td
 {
     border-bottom: 1px solid #E35723;
+    text-align: center !important;
+    color: #E35723 !important;
+
 }
 
 #checkUpdateTable tr td:last-child
@@ -1651,4 +1654,29 @@ ul ul a {
     opacity: 0.7;
     cursor: pointer;
 }
+#quarterbutton 
+{
+    margin-right: 2.5%;
+    margin-left: 2.5%;    
+    text-align: center;
+}
+
+#quarterbutton input[type="submit"]
+{
+    display: block;
+    background-color: #E35723;
+    outline: none;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    padding: 0.6vh 1vw;
+}
+
+#quarterbutton input[type="submit"]:hover
+{
+    opacity: 0.7;
+    cursor: pointer;
+}
+
 

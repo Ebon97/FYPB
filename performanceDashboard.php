@@ -150,6 +150,7 @@
                         $total_quarter_penalties = 0;
                         $overall_array = [];
                         $overall_colour_array = [];
+                        $doughnutChart_name = [];
 
                         $morning_shift_late = strtotime('6:40:00');
                         $afternoon_shift_late = strtotime('14:40:00');
@@ -163,6 +164,7 @@
                             // $query_salp = "SELECT * FROM salary_past WHERE Name='$name'";
                             array_push($month, "Overall Salary");
                             $timeline = "Overall";
+                            array_push($doughnutChart_name, "Overall Performance");
 
                             $query_salp = "SELECT * FROM salary_past WHERE Name='$name'";
                             $result_salp = mysqli_query($connect, $query_salp);
@@ -321,19 +323,23 @@
 
                             if($iquarter == 1)
                             {
-                                $timeline = "First Quarter's";
+                                $timeline = "First Quarter";
+                                array_push($doughnutChart_name, "Q1's Performance");
                             }
                             else if ($iquarter == 4)
                             {
-                                $timeline = "Second Quarter's";
+                                $timeline = "Second Quarter";
+                                array_push($doughnutChart_name, "Q2's Performance");
                             }
                             else if ($iquarter == 7)
                             {
-                                $timeline = "Third Quarter's";
+                                $timeline = "Third Quarter";
+                                array_push($doughnutChart_name, "Q3's Performance");
                             }
                             else if ($iquarter == 9)
                             {
-                                $timeline = "Fourth Quarter's";
+                                $timeline = "Fourth Quarter";
+                                 array_push($doughnutChart_name, "Q4's Performance");
                             }
                             else
                             {
@@ -513,6 +519,7 @@
                         //Dougnut Chart
                         $overall_data = json_encode($overall_array);
                         $overall_colour_data = json_encode($overall_colour_array);
+                        $dougnutChart_label = json_encode($doughnutChart_name);
 
                         // echo $overall_data." ".$overall_colour_data;
 
@@ -599,7 +606,7 @@
                                 for($b = 0; $b < 5; $b++)
                                 {
                                     echo "
-                                        <form style='float:left' action='performanceDashboard.php' method='GET'>
+                                        <form style='float:left' action='performanceDashboard.php' method='GET' id='quarterbutton'>
                                             <input type='hidden' name='name' value='".$name."'>
                                             <input type='hidden' name='quarter' value='".$arrayQuarter[$b]."'>
                                             <input type='submit' value='".$arrayQuarterName[$b]."' name='perf'>
@@ -650,7 +657,7 @@
                 {
                     type: 'doughnut',
                     data: {
-                            labels: ['Overall Performance'],
+                            labels: <?php echo $dougnutChart_label;?>,
                             datasets: 
                             [{
                                 data: <?php echo $overall_data;?>,

@@ -126,6 +126,8 @@
                 </tr>
 
                 <?php
+                    echo "<form action='salaryCheckUpdate.php' method='GET'>";
+
                     $connect =  mysqli_connect("localhost", "root", "", "shellsbt") or die ("Connection Failed: ". mysqli_connect_error()); 
                    if(isset($_GET['check']))
                    {
@@ -209,7 +211,7 @@
 
                                if($time_in == null || $time_out == null)
                                {
-                                    $alert = $alert_icon = "<img src='image/alert_icon.png' class='alert_icon'>";
+                                    $alert = "<img src='image/alert_icon.png' class='alert_icon'>";
                                }
                                else
                                {
@@ -217,12 +219,12 @@
                                }
 
                                 echo "<tr>
-                                    <td><input type='text' value='".$name."' readonly ></td>
-                                    <td>".$shift."</td>
-                                    <td><input type='date' value='".$new_date."'></td>
-                                    <td><input type='time' value='".$time_in."'></td>
-                                    <td><input type='date' value='".$date_out."'></td>
-                                    <td><input type='time' value='".$time_out."'></td>
+                                    <td><input type='text' value='".$name."' name='name".$a."' readonly ></td>
+                                    <td><input style='width:100%;' type='text' value='".$shift."' name='shift".$a."' readonly ></td>
+                                    <td><input style='width:120%;' type='date' value='".$new_date."' name='new_date".$a."' readonly></td>
+                                    <td><input style='width:120%;' type='time' value='".$time_in."' name='time_in".$a."'></td>
+                                    <td><input style='width:120%;' type='date' value='".$date_out."' name='date_out".$a."' readonly></td>
+                                    <td><input style='width:120%;' type='time' value='".$time_out."' name='time_out".$a."'></td>
                                     <td>".$alert."</td>
                                 </tr>";
                             }
@@ -232,11 +234,100 @@
                                     <td></td>
                                     <td></td>
                                     <td></td>
-                                    <td></td>
+                                    <td><input type='hidden' value='".$a."' name='range'></td>
                                     <td><input type='submit' value='UPDATE' name='update'></td>
                                     <td></td>
-                                </tr>";
+                                </tr>
+                                </form>";
                         }
+                   }
+
+                   if(isset($_GET['update']))
+                   {
+                        $count = $_GET['range'];
+
+                        for($z = 0; $z < $count; $z++)
+                        {
+                            $_name = $_GET['name'.$z];
+                            $_shift = $_GET['shift'.$z];
+
+                            $_date_in = $_GET['new_date'.$z];
+                            $_time_in = $_GET['time_in'.$z];
+
+                            $_date_out = $_GET['date_out'.$z];
+                            $_time_out = $_GET['time_out'.$z];
+
+                            $dateTimeOUT = $_date_out." ".$_time_out;
+                            $dateTimeIN = $_date_in." ".$_time_in;
+
+                           
+
+                            // echo $_name." ".$_date_in." ".$_time_in." ".$_date_out." ".$_time_out."<br>";
+
+                            if(!empty($_date_in) && !empty($_time_in))
+                            {
+                                $query_in = "SELECT *, date(DateTime), time(DateTime) FROM clock_in WHERE Name='$_name' AND date(DateTime) = '$_date_in'";
+                                $result_in = mysqli_query($connect, $query_in);
+                                $row_num_in = mysqli_num_rows($result_in);
+                                $row_in = mysqli_fetch_assoc($result_in);
+
+                                if($row_num_in == 1)
+                                {
+                                    $query_update_in = "UPDATE clock_in SET DateTime = '$dateTimeIN' WHERE Name='$_name' AND date(DateTime) = '$_date_in'";
+                                }
+                                else
+                                {
+                                    $query_update_in = "INSERT INTO clock_in(No, Mchn, EnNo, Name, Mode, IOMd, DateTime, Shift) 
+                                                VALUES (NULL,'1','0','$_name','1','0','$dateTimeIN','$_shift')";
+                                }
+
+                                $result_update_in = mysqli_query($connect, $query_update_in);
+                            }
+
+                            if(!empty($_date_out) && !empty($_time_out))
+                            {
+                                $query_out = "SELECT *, date(DateTime), time(DateTime) FROM clock_out WHERE Name='$_name' AND date(DateTime) = '$_date_out'";
+                                $result_out = mysqli_query($connect, $query_out);
+                                $row_num_out = mysqli_num_rows($result_out);
+                                $row_out = mysqli_fetch_assoc($result_out);
+
+                                if($row_num_out == 1)
+                                {
+                                    $query_update_out = "UPDATE clock_out SET DateTime = '$dateTimeOUT' WHERE Name='$_name' AND date(DateTime) = '$_date_out'";
+                                }
+                                else
+                                {
+                                    $query_update_out = "INSERT INTO clock_in(No, Mchn, EnNo, Name, Mode, IOMd, DateTime, Shift) 
+                                                VALUES (NULL,'2','0','$_name','1','0','$dateTimeOUT','$_shift')";
+                                }
+
+                                 $result_update_out = mysqli_query($connect, $query_update_out);
+                            }
+
+                            if(empty($_time_in) || empty($_time_out))
+                            {
+                                $alert = "<img src='image/alert_icon.png' class='alert_icon'>";
+                            }
+                            else
+                            {
+                                 $alert = "";
+                            }
+
+                            $notification = "<div class='checkMessageSuccess'><span>Update Successfully</span></div>";
+
+                            echo "<tr>
+                                    <td>".$_name."</td>
+                                    <td>".$_shift."</td>
+                                    <td>".$_date_in."</td>
+                                    <td>".$_time_in."</td>
+                                    <td>".$_date_out."</td>
+                                    <td>".$_time_out."</td>
+                                    <td>".$alert."</td>
+                                </tr>
+                                <tr></tr>";
+
+                        }
+                         echo $notification;
                    }
                 ?>
             </table>
