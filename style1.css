@@ -673,7 +673,7 @@ ul ul a {
 #attendance_sheet table tr td
 {
     border-bottom: 1px solid #E35723;
-    text-align: center;
+    text-align: center !important;
     color: #E35723 !important;
 }
 
