@@ -52,7 +52,7 @@
         <!-- Sidebar Holder -->
         <nav id="sidebar">
             <div class="sidebar-header">
-                <img src="image/shell_logo2.png">
+                <a href="dashboard.php"><img src="image/shell_logo2.png"></a>
             </div>
 
            <ul class="list-unstyled components">

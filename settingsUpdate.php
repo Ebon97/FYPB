@@ -18,14 +18,11 @@
             // echo $query;
             $result = mysqli_query($connect, $query);
 
-            $message = "<div class='sUpdate_success'><p>Update successfully</p></div>";
+            $message = "<div class='checkMessageSuccess' style='margin-left: 30%;'><span>Update successfully</span></div>";
+
+            echo $message;
         }
 
-        echo "HI";
+        // echo "HI";
     }
-    else
-    {
-        echo "";
-    }
-
 ?>

@@ -233,6 +233,12 @@
     margin: 4% 0;
 }
 
+#update_setting input[type=submit]:hover
+{
+    opacity: 0.7;
+    cursor: pointer;
+}
+
 .sUpdate_warning, .sUpdate_success
 {
     width: 85%;
@@ -668,6 +674,7 @@ ul ul a {
 {
     border-bottom: 1px solid #E35723;
     text-align: center;
+    color: #E35723 !important;
 }
 
 #attendance_sheet table tr td:nth-child(3)
@@ -682,7 +689,7 @@ ul ul a {
     text-align: center;
     font-family: Futura;
     font-weight: bold;
-    color: #E35723;
+    color: #E35723 !important;
     font-size: 1em;
 }
 
@@ -728,6 +735,7 @@ ul ul a {
 {
     padding:1vh 0;
     text-align: center !important;
+    color: #E35723 !important;
 }
 
 #employeeList tr td:last-child
@@ -746,17 +754,17 @@ ul ul a {
     cursor:pointer;
 }
 
-#editEmployeeForm, 
+#editEmployeeForm
 {
     color:#E35723;
     font-family: Futura;
     width:70%;
-    padding-top: 3%;
+    padding-top: 1%;
 }
 
 #editEmployeeForm .row
 {
-    margin: 3vh auto;
+    margin: 4vh auto;
     width: 80%;
 }
 
@@ -1413,7 +1421,6 @@ ul ul a {
     border-bottom: 1px solid #E35723;
     text-align: center !important;
     color: #E35723 !important;
-
 }
 
 #checkUpdateTable tr td:last-child
@@ -1504,6 +1511,12 @@ ul ul a {
     display: fixed;
 }
 
+.checkMessageWarning span a 
+{
+    color: blue;
+    text-decoration: underline;
+}
+
 .info_container
 {
     margin-top: 2%;
@@ -1588,6 +1601,7 @@ ul ul a {
 {
     background-color: #E35723;
     color: white;
+    text-align: center !important;
 }
 
 #performanceList tr th:first-child
@@ -1604,6 +1618,7 @@ ul ul a {
 {
     border-bottom: 1px solid  #E35723;
     color: #E35723 !important;
+    text-align: center !important;
 }
 
 #performanceList tr td:last-child
@@ -1628,6 +1643,9 @@ ul ul a {
     font-family: Futura;
     font-weight: bold;
     padding: 0.2vh 1.4vw;
+    border-radius: 7px;
+    border: none;
+    outline: none;
 }
 
 #hidden_payroll

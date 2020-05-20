@@ -26,7 +26,7 @@
         <!-- Sidebar Holder -->
         <nav id="sidebar">
             <div class="sidebar-header">
-                <img src="image/shell_logo2.png">
+                <a href="dashboard.php"><img src="image/shell_logo2.png"></a>
             </div>
 
             
@@ -140,7 +140,7 @@
 
             for (i = 0; i < tr.length; i++) 
             {
-                td = tr[i].getElementsByTagName("td")[1];
+                td = tr[i].getElementsByTagName("td")[2];
 
                 if (td) 
                 {

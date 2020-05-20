@@ -26,7 +26,7 @@
         <!-- Sidebar Holder -->
         <nav id="sidebar">
             <div class="sidebar-header">
-                <img src="image/shell_logo2.png">
+                <a href="dashboard.php"><img src="image/shell_logo2.png"></a>
             </div>
 
             <ul class="list-unstyled components">
@@ -101,19 +101,17 @@
 
       
             <?php
-                $connect =  mysqli_connect("localhost", "root", "", "shellsbt") or die ("Connection Failed: ". mysqli_connect_error());  
+                $connect =  mysqli_connect("localhost", "root", "", "shellsbt") or die ("Connection Failed: ". mysqli_connect_error());
+
+                $message = "";  
 
                 $username = $_SESSION['username'];
                 $password = $_SESSION['password'];
                 $hashed_password = $_SESSION['hashed_password'];
 
-                // echo $username." ".$password." ".$hashed_password."<br>";
-
                 $query = "SELECT * FROM manager where username='$username' and password='$hashed_password'";
                 $result = mysqli_query($connect, $query);
                 $row = mysqli_num_rows($result);
-
-                // echo $row;
 
                 if($row == 1)
                 {
@@ -125,46 +123,52 @@
                         $db_password = $password;
                         $db_hashpassword = $row['password'];
 
-                        // echo $db_name." ".$db_email." ".$db_password." ".$db_hashpassword;
-            ?>
-                    <div id="update_setting">
-                        <form action="settings.php" method="GET">
-                           <div class='form-group row'>
-                                <label>Username</label>
-                                <label>:</label>
-                                <div>
-                                    <input type='text' class='form-control' value="<?php echo $db_name?>" name="sUsername">
+                ?>
+                        <div id="update_setting">
+                            <form action="settings.php" method="GET">
+                               <div class='form-group row'>
+                                    <label>Username</label>
+                                    <label>:</label>
+                                    <div>
+                                        <input type='text' class='form-control' value="<?php echo $db_name?>" name="sUsername">
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div class='form-group row'>
-                                <label>Password</label>
-                                <label>:</label>
-                                <div>
-                                    <input type='text' class='form-control' value="<?php echo $db_password?>" name="sPassword">
+                                <div class='form-group row'>
+                                    <label>Password</label>
+                                    <label>:</label>
+                                    <div>
+                                        <input type='text' class='form-control' value="<?php echo $db_password?>" name="sPassword">
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div class='form-group row'>
-                                <label>Email</label>
-                                <label>:</label>
-                                <div>
-                                    <input type='text' class='form-control' value="<?php echo $db_email?>" name="sEmail">
+                                <div class='form-group row'>
+                                    <label>Email</label>
+                                    <label>:</label>
+                                    <div>
+                                        <input type='text' class='form-control' value="<?php echo $db_email?>" name="sEmail">
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div id="update_button">
-                                <input type="submit" name="settings_update" value="UPDATE">
-                            </div>
-                        </form>
-                    <div>
-            <?php   
+                                <div id="update_button">
+                                    <input type="submit" name="settings_update" value="UPDATE">
+                                </div>
+                            </form>
+                        <div>
+                <?php   
 
-                    include("settingsUpdate.php");
-                }
-                else 
+                        include("settingsUpdate.php");
+                    }
+
+                if($username == null || $password == null || $hashed_password == null)
                 {
-                   $message = "Something's not wrong. Re-login is recommended";
+                    $username = "";
+                    $password = "";
+                    $hashed_password = "";
+                    $message = "Something's not wrong. Re-login is recommended. Click to go to <a href='login.php'>Login Page</a>";
+
+                    echo "<div class='checkMessageWarning'><span>".$message."</span></div>";
+
                 }
 
             ?>

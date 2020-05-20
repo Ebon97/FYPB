@@ -22,7 +22,7 @@
         <!-- Sidebar Holder -->
         <nav id="sidebar">
             <div class="sidebar-header">
-                <img src="image/shell_logo2.png">
+                <a href="dashboard.php"><img src="image/shell_logo2.png"></a>
             </div>
 
             <ul class="list-unstyled components">
@@ -106,8 +106,8 @@
                         echo 
                          "<tr>
                             <td>".$id."</td>
-                            <form action='performanceDashboard.php' method='GET'>
-                                <td><input type='text' value='".$emp_name."' name='name'></td>
+                            <form action='performanceDashboard.php' method'GET'>
+                                <td><input type='text' value=".$emp_name." name='name' readonly></td>
                                 <input type='hidden' value='0' name='quarter'>
                                 <td>".$position."</td>
                                 <td><input type='submit' name='check' value='CHECK'></td>
@@ -138,6 +138,34 @@
                 $(this).toggleClass('active');
             });
         });
+
+        function searchFunction() 
+        {
+            var input, filter, table, tr, td, i, txtValue;
+
+            input = document.getElementById("searchInput");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("performanceList");
+            tr = table.getElementsByTagName("tr");
+
+            for (i = 0; i < tr.length; i++) 
+            {
+                td = tr[i].getElementsByTagName("td")[1];
+
+                if (td) 
+                {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) 
+                    {
+                        tr[i].style.display = "";
+                    } 
+                    else 
+                    {
+                        tr[i].style.display = "none";
+                    }
+                }       
+            }
+        }
 
 
 
