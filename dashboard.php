@@ -190,56 +190,56 @@
         });
     </script>
 
-<style>
-.form-inline {  
-  display: flex;
-  flex-flow: row wrap;
-  align-items: center;
-  padding-left: 112px;
-  padding-right: 112px;
-  padding-top: 20px;
-  padding-bottom: 20px;
-}
+    <style>
+    .form-inline {  
+      display: flex;
+      flex-flow: row wrap;
+      align-items: center;
+      padding-left: 112px;
+      padding-right: 112px;
+      padding-top: 20px;
+      padding-bottom: 20px;
+    }
 
-.form-inline label {
-    font-family: Futura;
-    font-weight: bold;
-    color: #E35723;
-    margin: 5px 10px 5px 0;
-}
+    .form-inline label {
+        font-family: Futura;
+        font-weight: bold;
+        color: #E35723;
+        margin: 5px 10px 5px 0;
+    }
 
-.form-inline input {
-  vertical-align: middle;
-  margin: 5px 10px 5px 0;;
-  padding-left:6px;
-}
+    .form-inline input {
+      vertical-align: middle;
+      margin: 5px 10px 5px 0;;
+      padding-left:6px;
+    }
 
-.form-inline button {
-    color: white;
-    background-color: #E35723;
-    font-family: Futura;
-    font-weight: bold;
-    outline: none;
-    border:none;
-    border-radius: 7px;
-    padding:0.5vh 1vw;
-}
+    .form-inline button {
+        color: white;
+        background-color: #E35723;
+        font-family: Futura;
+        font-weight: bold;
+        outline: none;
+        border:none;
+        border-radius: 7px;
+        padding:0.5vh 1vw;
+    }
 
-.form-inline button:hover {
-    cursor: pointer;
-    opacity: 0.7;
-}
-  
-@media (max-width: 800px) {
-  .form-inline input {
-    margin: 10px 0;
-  }
-  
-  .form-inline {
-    flex-direction: column;
-    align-items: stretch;
-  }
-}
+    .form-inline button:hover {
+        cursor: pointer;
+        opacity: 0.7;
+    }
+      
+    @media (max-width: 800px) {
+      .form-inline input {
+        margin: 10px 0;
+      }
+      
+      .form-inline {
+        flex-direction: column;
+        align-items: stretch;
+      }
+    }
 </style>
 
     <script type="text/javascript">
@@ -255,18 +255,18 @@
             type: 'bar',
             data: {
                 labels: <?php echo $dates; ?>,                                                                                                                                                                                  
-                datasets: [{
-                    label: 'NotOnShift',
-                    backgroundColor: "#066C81",
-                    data: <?php echo $notOnShift_data; ?>,
-                }, {
-                    label: 'OverTime',
-                    backgroundColor: "#FAB418",
-                    data: <?php echo $overtime_data; ?>,
-                }, {
+                datasets: [
+                {
                     label: 'Late',
                     backgroundColor: "#DA3530",
+                    borderColor: "#DA3530",
                     data: <?php echo $late_data; ?>,
+                },
+                {
+                    label: 'Punctual',
+                    backgroundColor: "#228C22",
+                    borderColor: "#228C22",
+                    data: <?php echo $punctual_data; ?>,
                 }],
             },
         options: {
@@ -316,7 +316,10 @@
                 //     fontSize: '15',
                 //   },
                 ticks: {
-                  beginAtZero: true,
+                    beginAtZero: true,
+                    stepSize: 5,
+                    max: 25,
+                    fontFamily: "Futura",
                     fontColor: "#E35723",
                     fontFamily: "Futura",
                     fontStyle: 'bold',

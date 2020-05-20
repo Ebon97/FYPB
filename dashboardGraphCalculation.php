@@ -10,13 +10,19 @@
     $overtime_array = [];
     $notOnShift_array=[];
 
+    $punctual_array = [];
+
     $late_count = 0;
     $overtime_count = 0;
     $notOnShift_count = 0;
 
+    $punctual_count = 0;
+
     $total_late_count = 0;
     $total_ot_count = 0;
     $total_nos_count = 0;
+
+    $total_punctual_count = 0;
 
     if(isset($_GET['apply']))
     {
@@ -67,14 +73,25 @@
                 {
                     if(strtotime($time_in) > $morning_shift_late && strtotime($time_in) < strtotime('10:30:00'))
                     {
-                        $late_count = 1;
+                        $late_count ++;
                     }
+                    else
+                    {
+                        $late_count = 0;
+                        $punctual_count ++ ;
+                    }
+
                 }
                 else if($shift == "Afternoon")
                 {
                     if(strtotime($time_in) > $afternoon_shift_late && strtotime($time_in) < strtotime('15:30:00'))
                     {
-                        $late_count = 1;
+                        $late_count ++;
+                    }
+                    else
+                    {
+                        $late_count = 0;
+                        $punctual_count ++ ;
                     }
 
                 }
@@ -82,12 +99,18 @@
                 {
                     if(strtotime($time_in) > $night_shift_late && strtotime($time_in) < strtotime('23:30:00'))
                     {
-                        $late_count = 1;
+                        $late_count ++;
+                    }
+                    else
+                    {
+                        $late_count = 0;
+                        $punctual_count ++ ;
                     }
                 }
                 else
                 {
                     $late_count = 0;
+                    $punctual_count ++ ;
                 }
 
                 // OverTime
@@ -107,7 +130,10 @@
                     $notOnShift_count = 1;
                 }
 
+                // echo $punctual_count."<br>";
+
                 $total_late_count = $total_late_count + $late_count;
+                $total_punctual_count = $total_punctual_count + $punctual_count;
                 $total_ot_count = $total_ot_count + $overtime_count;
                 $total_nos_count = $total_ot_count + $notOnShift_count;
 
@@ -116,24 +142,33 @@
             
             }
 
-            array_push($late_array, $total_late_count);
-            array_push($overtime_array, $total_ot_count);
-            array_push($notOnShift_array, $total_nos_count);
+            array_push($late_array, $late_count);
+            array_push($punctual_array, $punctual_count);
 
-            $total_late_count = 0;
-            $total_ot_count = 0;
-            $total_nos_count = 0;
+            $late_count = 0;
+            $punctual_count = 0;
+
+            // array_push($late_array, $total_late_count);
+            // array_push($overtime_array, $total_ot_count);
+            // array_push($notOnShift_array, $total_nos_count);
+
+            // $total_late_count = 0;
+            // $total_ot_count = 0;
+            // $total_nos_count = 0;
             
 
         }
 
         $dates = json_encode($time_array);
         $late_data = json_encode($late_array);
-        $overtime_data = json_encode($overtime_array);
-        $notOnShift_data = json_encode($notOnShift_array);
+        $punctual_data = json_encode($punctual_array);
+        // $overtime_data = json_encode($overtime_array);
+        // $notOnShift_data = json_encode($notOnShift_array);
+
 
         // echo "<br>Dates Array: ", $dates;
         // echo "<br>Late Array: ", $late_data;
+        // echo "<br>Punctual Array: ", $punctual_data;
         // echo "<br>OverTime Array: ", $overtime_data;
         // echo "<br>NotOnShift Array: ", $notOnShift_data;
         
@@ -156,11 +191,15 @@
         }
         
         $late_array= [0,0,0,0,0,0,0];
+        $punctual_array= [0,0,0,0,0,0,0];
+
         $overtime_array = [0,0,0,0,0,0,0];
         $notOnShift_array=[0,0,0,0,0,0,0];
         
         $dates = json_encode($time_array);
         $late_data = json_encode($late_array);
+        $punctual_data = json_encode($punctual_array);
+        
         $overtime_data = json_encode($overtime_array);
         $notOnShift_data = json_encode($notOnShift_array);
     }

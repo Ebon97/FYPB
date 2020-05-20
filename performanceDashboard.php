@@ -202,7 +202,7 @@
                             array_push($bonusH, $highest_bonus);
                             array_push($penaltiesH, $highest_penalties);
 
-                            array_push($initArray, $total_init_salary/3);
+                            array_push($initArray, round($total_init_salary/3,2));
                             array_push($penaltiesArray, $total_latep + $total_shiftp/3);
                             array_push($bonusArray, $total_bonus/3);
 
@@ -696,14 +696,14 @@
                     label: 'Bonus',
                     backgroundColor: "#FAB418",
                     borderColor: "#FAB418",
-                    data: <?php echo $penalties_data; ?>,
+                    data: <?php echo $bonus_data; ?>,
                 };
 
             var bar_data3 = {
                     label: 'Penalties',
                     backgroundColor: "#DA3530",
                     borderColor: "#DA3530",
-                    data: <?php echo $bonus_data; ?>,
+                    data: <?php echo $penalties_data; ?>,
                 };
 
             var barChart = new Chart(bar, {
@@ -722,7 +722,7 @@
                     xAxes: [{
                         stacked: true,
                         gridLines: {
-                            drawOnChartArea: false,
+                            drawOnChartArea: false, 
                             color: '#DA3530',
                         },
                         ticks: {
@@ -733,6 +733,7 @@
                         },
                     }],
                     yAxes: [{
+                        stacked: true,
                         ticks: {
                             fontColor: "#E35723",
                             fontFamily: "Futura",
