@@ -94,7 +94,8 @@
                     // echo  CURRENT_TIMESTAMP();
                     date_default_timezone_set('UTC');
 
-                    $prefix_date = date("Y-m-d");
+                    $day = date('w');
+                    $prefix_date = date('Y-m-d', strtotime('-'.($day-1).' days'));
 
                     // echo $prefix_date;
 
