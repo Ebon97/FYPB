@@ -28,10 +28,14 @@
     {
         $startDate = $_GET['start_date'];
         $start = strtotime($startDate);
+
+        // echo $startDate."<br>";
+        // echo date("Y-m-d", $start)."<br>";
         
         // Add First date
         // array_push($time_array, $startDate.",".$day);
-        array_push($time_array, $startDate);
+
+        array_push($time_array, date("Y-m-d", $start));
 
         //86400 = 1 day
         for($i = 0; $i < 7; $i++)
@@ -42,8 +46,10 @@
             $new_date = date("Y-m-d", $start);
             $day = date("l", $start);
 
-            // array_push($time_array, $new_date.",".$day);
             array_push($time_array, $new_date);
+
+            // array_push($time_array, $new_date.",".$day);
+            
 
             $query = "SELECT clock_in.Name, date(clock_in.DateTime), time(clock_in.DateTime), clock_in.Shift, clock_in.DateTime as dateTimeIN, 
                         clock_out.Name, date(clock_out.DateTime), time(clock_out.DateTime), clock_out.Shift, clock_out.NightFix, clock_out.DateTime as dateTimeOUT 

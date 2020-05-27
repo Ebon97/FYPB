@@ -583,7 +583,7 @@ ul ul a {
     margin-left: 1%;
 }
 
-.datepicker input[type=date]
+.datepicker input[type=week]
 {
     margin-top: 7%;
     color: #E35723;
@@ -606,7 +606,7 @@ ul ul a {
     border-radius: 7px;
     padding: 0.5vh 1vw;
     font-family: Futura;
-    font-weight: bold;
+    font-weight: bold !important;
 }
 
 .datepicker input[type=submit]:hover
