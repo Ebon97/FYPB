@@ -105,7 +105,7 @@
 
                 <div class="col-4 datepicker" style="text-align: right;">
                     <form action="dashboard.php" method="GET">
-                        <input type="date" name="start_date" value="<?php echo $prefix_date?>">
+                        <input type="week" name="start_date" value="<?php echo $prefix_date?>">
                         <!-- <span class="tooltiptext">Tooltip text</span> -->
                         <input type="submit" name="apply" value="APPLY" class="apply">
                     </form>
