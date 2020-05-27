@@ -6,6 +6,7 @@
 		<meta charset="utf-8">
 
 		<link rel="stylesheet" type="text/css" href="style1.css">
+		<link rel="icon" href="image/favicon.png">
 	</head>
 
 	<body>

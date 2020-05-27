@@ -13,6 +13,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
     <!-- Our Custom CSS -->
     <link rel="stylesheet" href="style1.css">
+    <link rel="icon" href="image/favicon.png">
     <style>
       @import url('http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css');
 div[class^="col-"] {
