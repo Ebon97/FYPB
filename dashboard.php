@@ -191,6 +191,11 @@
     </script>
 
     <style>
+
+    #panel {
+        display:none;
+    }
+
     .form-inline {  
       display: flex;
       flex-flow: row wrap;
@@ -205,13 +210,11 @@
         font-family: Futura;
         font-weight: bold;
         color: #E35723;
-        margin: 5px 10px 5px 0;
+        margin: 5px 2px 5px 0;
     }
 
     .form-inline input {
       vertical-align: middle;
-      margin: 5px 10px 5px 0;;
-      padding-left:6px;
     }
 
     .form-inline button {
