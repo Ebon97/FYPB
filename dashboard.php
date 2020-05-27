@@ -94,10 +94,7 @@
                     // echo  CURRENT_TIMESTAMP();
                     date_default_timezone_set('UTC');
 
-                    $currentmonth = date("m");
-                    $currentyear = date("Y");
-
-                    $prefix_date = $currentyear."-".$currentmonth."-01";
+                    $prefix_date = date("Y-m-d");
 
                     // echo $prefix_date;
 

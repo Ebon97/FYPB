@@ -188,12 +188,8 @@
 
         for($a = 0; $a < 7; $a++)
         {
-            $currentday = $currentday + 1;
-
-            $prefix_date = $currentyear."-".$currentmonth."-0".$currentday;
-            // echo $prefix_date."<br>";
-
             array_push($time_array, $prefix_date);
+            $prefix_date = date('Y-m-d', strtotime("+1 days", strtotime($prefix_date)));
         }
         
         $late_array= [0,0,0,0,0,0,0];
